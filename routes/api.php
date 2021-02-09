@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\User\CaptchasController;
+use App\Http\Controllers\Api\User\UsersController;
 use App\Http\Controllers\Api\User\VerificationCodesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +31,10 @@ Route::prefix('v1')
             })->name('version');
             // 短信验证码
             Route::post('verificationCodes', [VerificationCodesController::class, 'store']) ->name('verificationCodes.store');
+            // 用户注册
+            Route::put('users', [UsersController::class, 'store']) ->name('users.store');
+            // 图片验证码
+            Route::post('captchas', [CaptchasController::class, 'store'])->name('captchas.store');
 //        });
 //        Route::middleware('throttle:' . config('api.rate_limits.access'))
 //            ->middleware('token.refresh')

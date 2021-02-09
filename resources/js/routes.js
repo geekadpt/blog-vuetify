@@ -22,12 +22,25 @@ Vue.use( VueRouter )
  */
 
 export default new VueRouter({
-
+  mode:'history',
+  srcollBehavior(to,from,savedPosition){
+    if(to.hash){
+      return {
+        selector:to.hash
+      }
+    }
+  },
   routes: [
     {
       path: '/',
-      name: 'Layout',
-      components: Vue.component( 'Layout', require( './pages/Layout' ) ),
+      name: '首页',
+      components: Vue.component( 'index', require( './views/Index' ) ),
     },
+    {
+      path: '*',
+      name: 'error',
+      components: Vue.component( 'error', require( './views/Error' ) )
+      ,
+    }
   ]
 });

@@ -167,6 +167,7 @@ return [
          * Package Service Providers...
          */
         App\Providers\EasySmsServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
 
         /*
          * Application Service Providers...

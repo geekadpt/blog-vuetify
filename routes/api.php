@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\User\VerificationCodesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,7 +28,7 @@ Route::prefix('v1')
                 return 'this is version v1';
             })->name('version');
             // 短信验证码
-            // Route::post('verificationCodes', [VerificationCodesController::class, 'store']) ->name('verificationCodes.store');
+            Route::post('verificationCodes', [VerificationCodesController::class, 'store']) ->name('verificationCodes.store');
 //        });
 //        Route::middleware('throttle:' . config('api.rate_limits.access'))
 //            ->middleware('token.refresh')

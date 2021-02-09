@@ -25,7 +25,7 @@ Route::prefix('v1')
     //中间件
     //->middleware('change-locale')
     ->group(function() {
-//        Route::middleware('throttle:' . config('api.rate_limits.sign'))->group(function () {
+        Route::middleware('throttle:' . config('api.rate_limits.access'))->group(function () {
             Route::get('version', function () {
                 return 'this is version v1';
             })->name('version');
@@ -35,10 +35,10 @@ Route::prefix('v1')
             Route::post('captchas', [CaptchasController::class, 'store'])->name('captchas.store');
             // 用户注册
             Route::put('users', [UsersController::class, 'store']) ->name('users.store');
-//        });
-//        Route::middleware('throttle:' . config('api.rate_limits.access'))
-//            ->middleware('token.refresh')
-//            ->group(function () {
-//
-//            });
+        });
+        Route::middleware('throttle:' . config('api.rate_limits.sign'))
+            ->middleware('token.refresh')
+            ->group(function () {
+
+            });
     });

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\User\AuthorizationsController;
 use App\Http\Controllers\Api\User\CaptchasController;
 use App\Http\Controllers\Api\User\UsersController;
 use App\Http\Controllers\Api\User\VerificationCodesController;
@@ -35,6 +36,8 @@ Route::prefix('v1')
             Route::post('captchas', [CaptchasController::class, 'store'])->name('captchas.store');
             // 用户注册
             Route::put('users', [UsersController::class, 'store']) ->name('users.store');
+            // 用户登录
+            Route::post('authorizations', [AuthorizationsController::class, 'store'])->name('authorizations.store');
         });
         Route::middleware('throttle:' . config('api.rate_limits.sign'))
             ->middleware('token.refresh')

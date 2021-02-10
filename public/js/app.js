@@ -2448,6 +2448,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "post": () => (/* binding */ post),
 /* harmony export */   "patch": () => (/* binding */ patch),
 /* harmony export */   "put": () => (/* binding */ put),
+/* harmony export */   "del": () => (/* binding */ del),
 /* harmony export */   "fileUpload": () => (/* binding */ fileUpload),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -2647,6 +2648,26 @@ function put(url) {
   });
 }
 /*
+ *  delete请求
+ *  url:请求地址
+ *  params:参数
+ * */
+
+function del(url) {
+  var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  return new Promise(function (resolve, reject) {
+    httpService({
+      url: url,
+      method: 'delete',
+      data: params
+    }).then(function (response) {
+      resolve(response);
+    })["catch"](function (error) {
+      reject(error);
+    });
+  });
+}
+/*
  *  文件上传
  *  url:请求地址
  *  params:参数
@@ -2746,22 +2767,29 @@ __webpack_require__.r(__webpack_exports__);
   },
 
   /**
-   * POST /api/v1/user
+   * POST /api/v1/users
    */
   getMyInfo: function getMyInfo() {
-    return (0,_axios__WEBPACK_IMPORTED_MODULE_0__.get)(_config_js__WEBPACK_IMPORTED_MODULE_1__.APP_CONFIG.API_URL + 'user');
+    return (0,_axios__WEBPACK_IMPORTED_MODULE_0__.get)(_config_js__WEBPACK_IMPORTED_MODULE_1__.APP_CONFIG.API_URL + 'users');
   },
 
   /**
-   * PATCH /api/v1/user
+   * PATCH /api/v1/users
    */
   updateProfile: function updateProfile(data) {
-    return (0,_axios__WEBPACK_IMPORTED_MODULE_0__.patch)(_config_js__WEBPACK_IMPORTED_MODULE_1__.APP_CONFIG.API_URL + 'user', {
+    return (0,_axios__WEBPACK_IMPORTED_MODULE_0__.patch)(_config_js__WEBPACK_IMPORTED_MODULE_1__.APP_CONFIG.API_URL + 'users', {
       username: data.username,
       password: data.password,
       password_origin: data.password_origin,
       introduction: data.introduction
     });
+  },
+
+  /**
+   * DELETE /api/v1/authorizations/current
+   */
+  logout: function logout() {
+    return (0,_axios__WEBPACK_IMPORTED_MODULE_0__.del)(_config_js__WEBPACK_IMPORTED_MODULE_1__.APP_CONFIG.API_URL + 'authorizations/current');
   }
 });
 
@@ -3504,7 +3532,9 @@ var users = {
     getMyInfoStatus: 0,
     myInfo: '',
     updateMyInfoStatus: 0,
-    updateMyInfoErrors: ''
+    updateMyInfoErrors: '',
+    logoutStatus: 0,
+    logoutErrors: ''
   },
 
   /**
@@ -3604,9 +3634,16 @@ var users = {
     },
     logout: function logout(_ref8) {
       var commit = _ref8.commit;
-      localStorage.removeItem('Authorization');
-      commit('setLoginToken', '');
-      commit('setMyInfo', '');
+      commit('setLogoutStatus', 1);
+      _api_users__WEBPACK_IMPORTED_MODULE_0__.default.logout().then(function (response) {
+        localStorage.removeItem('Authorization');
+        commit('setLoginToken', '');
+        commit('setMyInfo', '');
+        commit('setLogoutStatus', 2);
+      })["catch"](function (error) {
+        commit('setLogoutStatus', 3);
+        commit('setLogoutErrors', error.message);
+      });
     }
   },
 
@@ -3668,6 +3705,12 @@ var users = {
     },
     setUpdateMyInfoErrors: function setUpdateMyInfoErrors(state, errors) {
       state.updateMyInfoErrors = errors;
+    },
+    setLogoutStatus: function setLogoutStatus(state, status) {
+      state.logoutStatus = status;
+    },
+    setLogoutErrors: function setLogoutErrors(state, errors) {
+      state.logoutErrors = errors;
     }
   },
 
@@ -3742,6 +3785,14 @@ var users = {
     },
     getUpdateMyInfoErrors: function getUpdateMyInfoErrors(state) {
       return state.updateMyInfoErrors;
+    },
+    getLogoutStatus: function getLogoutStatus(state) {
+      return function () {
+        return state.logoutStatus;
+      };
+    },
+    getLogoutErrors: function getLogoutErrors(state) {
+      return state.logoutErrors;
     }
   }
 };

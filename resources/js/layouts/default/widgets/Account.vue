@@ -35,6 +35,7 @@
           v-else
           :key="`item-${i}`"
           to="/"
+          @click="func(i)"
         >
           <v-list-item-title v-text="p.title" />
         </v-list-item>
@@ -44,6 +45,8 @@
 </template>
 
 <script>
+  import {EventBus} from "../../../event-bus";
+
   export default {
     name: 'DefaultAccount',
 
@@ -54,6 +57,26 @@
         { divider: true },
         { title: 'Log out' },
       ],
-    }),
+    }),methods:{
+        func(i){
+            console.log(i);
+            switch (i) {
+                case 1:break;
+                case 2:break;
+                case 3:
+                    this.$store.dispatch('logout');
+                    this.$watch(this.$store.getters.getLogoutStatus, function () {
+                        if (this.$store.getters.getLogoutStatus() === 2) {
+                            this.$router.push({name:'Index'});
+                        }
+                        if (this.$store.getters.getLogoutStatus() === 3) {
+                            EventBus.$emit('open-message', {
+                                text: this.$store.getters.getLogoutErrors
+                            });
+                        }
+                    });
+            }
+        }
+      }
   }
 </script>

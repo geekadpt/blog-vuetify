@@ -31,6 +31,8 @@ export const users = {
     myInfo:'',
     updateMyInfoStatus:0,
     updateMyInfoErrors: '',
+    logoutStatus: 0,
+    logoutErrors: '',
 
   },
 
@@ -142,9 +144,18 @@ export const users = {
         });
     },
     logout( { commit }){
-      localStorage.removeItem('Authorization');
-      commit('setLoginToken', '');
-      commit('setMyInfo','');
+      commit( 'setLogoutStatus', 1 );
+      UserApi.logout()
+        .then( function( response ){
+          localStorage.removeItem('Authorization');
+          commit('setLoginToken', '');
+          commit('setMyInfo','');
+          commit( 'setLogoutStatus', 2 );
+        })
+        .catch( function(error){
+          commit( 'setLogoutStatus', 3 );
+          commit( 'setLogoutErrors',error.message);
+        });
     },
 
   },
@@ -207,7 +218,12 @@ export const users = {
     setUpdateMyInfoErrors( state, errors){
       state.updateMyInfoErrors = errors;
     },
-
+    setLogoutStatus( state, status){
+      state.logoutStatus = status;
+    },
+    setLogoutErrors( state, errors){
+      state.logoutErrors = errors;
+    },
 
   },
   /**
@@ -283,6 +299,14 @@ export const users = {
     },
     getUpdateMyInfoErrors( state){
       return state.updateMyInfoErrors ;
+    },
+    getLogoutStatus( state ){
+      return function () {
+        return state.logoutStatus ;
+      }
+    },
+    getLogoutErrors( state ){
+      return state.logoutErrors;
     },
   }
 };

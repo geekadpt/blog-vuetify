@@ -178,6 +178,24 @@ export function put(url, params = {}) {
     });
   });
 }
+/*
+ *  delete请求
+ *  url:请求地址
+ *  params:参数
+ * */
+export function del(url, params = {}) {
+  return new Promise((resolve, reject) => {
+    httpService({
+      url: url,
+      method: 'delete',
+      data: params
+    }).then(response => {
+      resolve(response);
+    }).catch(error => {
+      reject(error);
+    });
+  });
+}
 
 
 /*

@@ -1,5 +1,5 @@
 
-import { post,get,patch ,put } from './axios'
+import { post,get,patch ,put , del } from './axios'
 import { APP_CONFIG } from '../config.js';
 
 export default {
@@ -49,20 +49,26 @@ export default {
     });
   },
   /**
-   * POST /api/v1/user
+   * POST /api/v1/users
    */
   getMyInfo: function(){
-    return get( APP_CONFIG.API_URL + 'user');
+    return get( APP_CONFIG.API_URL + 'users');
   },
   /**
-   * PATCH /api/v1/user
+   * PATCH /api/v1/users
    */
   updateProfile: function(data){
-    return patch( APP_CONFIG.API_URL + 'user' , {
+    return patch( APP_CONFIG.API_URL + 'users' , {
       username:data.username,
       password:data.password,
       password_origin:data.password_origin,
       introduction: data.introduction
     });
+  },
+  /**
+   * DELETE /api/v1/authorizations/current
+   */
+  logout: function(){
+    return del( APP_CONFIG.API_URL + 'authorizations/current');
   },
 }

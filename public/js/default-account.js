@@ -11,6 +11,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _event_bus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../event-bus */ "./resources/js/event-bus.js");
 //
 //
 //
@@ -56,6 +57,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'DefaultAccount',
   data: function data() {
@@ -70,6 +73,35 @@ __webpack_require__.r(__webpack_exports__);
         title: 'Log out'
       }]
     };
+  },
+  methods: {
+    func: function func(i) {
+      console.log(i);
+
+      switch (i) {
+        case 1:
+          break;
+
+        case 2:
+          break;
+
+        case 3:
+          this.$store.dispatch('logout');
+          this.$watch(this.$store.getters.getLogoutStatus, function () {
+            if (this.$store.getters.getLogoutStatus() === 2) {
+              this.$router.push({
+                name: 'Index'
+              });
+            }
+
+            if (this.$store.getters.getLogoutStatus() === 3) {
+              _event_bus__WEBPACK_IMPORTED_MODULE_0__.EventBus.$emit('open-message', {
+                text: this.$store.getters.getLogoutErrors
+              });
+            }
+          });
+      }
+    }
   }
 });
 
@@ -218,7 +250,15 @@ var render = function() {
                   })
                 : _c(
                     "v-list-item",
-                    { key: "item-" + i, attrs: { to: "/" } },
+                    {
+                      key: "item-" + i,
+                      attrs: { to: "/" },
+                      on: {
+                        click: function($event) {
+                          return _vm.func(i)
+                        }
+                      }
+                    },
                     [
                       _c("v-list-item-title", {
                         domProps: { textContent: _vm._s(p.title) }

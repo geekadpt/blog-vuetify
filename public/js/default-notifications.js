@@ -225,7 +225,7 @@ var render = function() {
         { attrs: { flat: "", nav: "" } },
         _vm._l(_vm.notifications, function(n, i) {
           return _c(
-            "app-bar-item",
+            "v-list-item",
             { key: i, attrs: { link: "" } },
             [
               _c(

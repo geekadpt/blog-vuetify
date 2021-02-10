@@ -217,7 +217,7 @@ var render = function() {
                     staticClass: "mb-2 mt-2"
                   })
                 : _c(
-                    "app-bar-item",
+                    "v-list-item",
                     { key: "item-" + i, attrs: { to: "/" } },
                     [
                       _c("v-list-item-title", {

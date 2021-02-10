@@ -67,14 +67,15 @@ __webpack_require__.r(__webpack_exports__);
     DefaultSearch: function DefaultSearch() {
       return __webpack_require__.e(/*! import() | default-search */ "default-search").then(__webpack_require__.bind(__webpack_require__, /*! ./widgets/Search */ "./resources/js/layouts/default/widgets/Search.vue"));
     }
-  } // computed: {
-  //   ...sync('app', [
-  //     'drawer',
-  //     'mini',
-  //   ]),
-  //   name: get('route/name'),
-  // },
-
+  },
+  computed: {
+    drawer: function drawer() {
+      return this.$store.getters.getDrawer;
+    },
+    name: function name() {
+      return this.$route.name;
+    }
+  }
 });
 
 /***/ }),
@@ -187,7 +188,7 @@ var render = function() {
         staticClass: "hidden-md-and-up",
         on: {
           click: function($event) {
-            _vm.drawer = !_vm.drawer
+            _vm.drawer.drawer = !_vm.drawer.drawer
           }
         }
       }),

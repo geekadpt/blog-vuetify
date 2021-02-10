@@ -84,23 +84,15 @@ __webpack_require__.r(__webpack_exports__);
     DefaultList: function DefaultList() {
       return __webpack_require__.e(/*! import() | default-list */ "default-list").then(__webpack_require__.bind(__webpack_require__, /*! ./List */ "./resources/js/layouts/default/List.vue"));
     }
-  } // computed: {
-  //   ...get('user', [
-  //     'dark',
-  //     'gradient',
-  //     'image',
-  //   ]),
-  //   ...get('app', [
-  //     'items',
-  //     'version',
-  //   ]),
-  //   ...sync('app', [
-  //     'drawer',
-  //     'drawerImage',
-  //     'mini',
-  //   ]),
-  // },
-
+  },
+  computed: {
+    drawer: function drawer() {
+      return this.$store.getters.getDrawer;
+    },
+    personal: function personal() {
+      return this.$store.getters.getPersonal;
+    }
+  }
 });
 
 /***/ }),
@@ -267,25 +259,25 @@ var render = function() {
     {
       attrs: {
         id: "default-drawer",
-        dark: _vm.dark,
+        dark: _vm.personal.dark,
         right: _vm.$vuetify.rtl,
-        src: _vm.drawerImage ? _vm.image : "",
-        "mini-variant": _vm.mini,
+        src: _vm.drawer.drawerImage ? _vm.personal.images : "",
+        "mini-variant": _vm.drawer.mini,
         "mini-variant-width": "80",
         app: "",
         width: "260"
       },
       on: {
         "update:miniVariant": function($event) {
-          _vm.mini = $event
+          return _vm.$set(_vm.drawer, "mini", $event)
         },
         "update:mini-variant": function($event) {
-          _vm.mini = $event
+          return _vm.$set(_vm.drawer, "mini", $event)
         }
       },
       scopedSlots: _vm._u(
         [
-          _vm.drawerImage
+          _vm.drawer.drawerImage
             ? {
                 key: "img",
                 fn: function(props) {
@@ -293,7 +285,10 @@ var render = function() {
                     _c(
                       "v-img",
                       _vm._b(
-                        { key: _vm.image, attrs: { gradient: _vm.gradient } },
+                        {
+                          key: _vm.personal.images,
+                          attrs: { gradient: _vm.personal.gradient }
+                        },
                         "v-img",
                         props,
                         false
@@ -312,7 +307,7 @@ var render = function() {
                   { staticClass: "pa-4 text-center" },
                   [
                     _c(
-                      "app-btn",
+                      "v-btn",
                       {
                         staticClass: "text-none mb-4",
                         attrs: {
@@ -322,11 +317,11 @@ var render = function() {
                           text: ""
                         }
                       },
-                      [_vm._v("\n        Documentation\n      ")]
+                      [_vm._v("\n                Documentation\n            ")]
                     ),
                     _vm._v(" "),
                     _c(
-                      "app-btn",
+                      "v-btn",
                       {
                         staticClass: "text-none",
                         attrs: {
@@ -338,9 +333,13 @@ var render = function() {
                       },
                       [
                         _c("v-icon", { attrs: { left: "" } }, [
-                          _vm._v("\n          mdi-package-up\n        ")
+                          _vm._v(
+                            "\n                    mdi-package-up\n                "
+                          )
                         ]),
-                        _vm._v("\n\n        Upgrade to Pro\n      ")
+                        _vm._v(
+                          "\n\n                Upgrade to Pro\n            "
+                        )
                       ],
                       1
                     )
@@ -356,11 +355,11 @@ var render = function() {
         true
       ),
       model: {
-        value: _vm.drawer,
+        value: _vm.drawer.drawer,
         callback: function($$v) {
-          _vm.drawer = $$v
+          _vm.$set(_vm.drawer, "drawer", $$v)
         },
-        expression: "drawer"
+        expression: "drawer.drawer"
       }
     },
     [
@@ -373,7 +372,7 @@ var render = function() {
           _vm._v(" "),
           _c("v-divider", { staticClass: "mx-3 mb-2" }),
           _vm._v(" "),
-          _c("default-list", { attrs: { items: _vm.items } })
+          _c("default-list", { attrs: { items: _vm.drawer.items } })
         ],
         1
       ),

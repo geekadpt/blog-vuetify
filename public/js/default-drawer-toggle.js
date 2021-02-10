@@ -28,11 +28,17 @@ __webpack_require__.r(__webpack_exports__);
 // Utilities
 //import { sync } from 'vuex-pathify'
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'DefaultDrawerToggle' // computed: {
-  //
-  //   mini: sync('app/mini'),
-  // },
-
+  name: 'DefaultDrawerToggle',
+  computed: {
+    mini: function mini() {
+      return this.$store.getters.getDrawer.mini;
+    }
+  },
+  methods: {
+    toggle: function toggle() {
+      this.$store.dispatch("mini");
+    }
+  }
 });
 
 /***/ }),
@@ -132,7 +138,7 @@ var render = function() {
       attrs: { elevation: "1", fab: "", small: "" },
       on: {
         click: function($event) {
-          _vm.mini = !_vm.mini
+          return _vm.toggle()
         }
       }
     },

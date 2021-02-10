@@ -33,8 +33,17 @@ export default new VueRouter({
   routes: [
     {
       path: '/',
-      name: '首页',
-      components: Vue.component( 'index', require( './views/Index' ) ),
+      redirect: {name: '首页'},
+      name: 'Blog-Vuetify',
+      components: Vue.component( 'layout', require( './layouts/default/Layout' ) ),
+      //beforeEnter:requireConfigs,
+      children: [
+        {
+          path: 'index',
+          name: '首页',
+          components: Vue.component( 'index', require( './views/Index' ) ),
+        },
+      ]
     },
     {
       path: '*',

@@ -70,17 +70,18 @@ __webpack_require__.r(__webpack_exports__);
       }
     }
   },
-  // computed: {
-  //   gradient: get('user/drawer@gradient'),
-  //   group () {
-  //     return this.genGroup(this.item.items)
-  //   },
-  //   title () {
-  //     const matches = this.item.title.match(/\b(\w)/g)
-  //
-  //     return matches.join('')
-  //   },
-  // },
+  computed: {
+    gradient: function gradient() {
+      return this.$store.getters.getPersonal.gradients;
+    },
+    group: function group() {
+      return this.genGroup(this.item.items);
+    },
+    title: function title() {
+      var matches = this.item.title.match(/\b(\w)/g);
+      return matches.join('');
+    }
+  },
   methods: {
     genGroup: function genGroup(items) {
       var _this = this;

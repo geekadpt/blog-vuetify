@@ -11,7 +11,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../config */ "./resources/js/config.js");
 //
 //
 //
@@ -32,25 +32,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 // Utilities
 //import { get } from 'vuex-pathify'
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'DefaultDrawerHeader' //computed: { version: get('app/version') },
-
+  name: 'DefaultDrawerHeader',
+  data: function data() {
+    return {
+      src: _config__WEBPACK_IMPORTED_MODULE_0__.APP_CONFIG.CDN_URL + 'images/vmd.svg'
+    };
+  },
+  computed: {
+    drawer: function drawer() {
+      return this.$store.getters.getVersion;
+    },
+    app: function app() {
+      return this.$store.getters.getApp;
+    }
+  }
 });
-
-/***/ }),
-
-/***/ "./resources/js/assets/vmd.svg":
-/*!*************************************!*\
-  !*** ./resources/js/assets/vmd.svg ***!
-  \*************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/vmd.svg?bcc12227535fc1ab1d0c56da329c5c5f");
 
 /***/ }),
 
@@ -146,19 +144,15 @@ var render = function() {
     "v-list-item",
     { staticClass: "mb-0 justify-space-between pl-3" },
     [
-      _c(
-        "v-list-item-avatar",
-        [_c("v-img", { attrs: { src: __webpack_require__(/*! ../../../assets/vmd.svg */ "./resources/js/assets/vmd.svg") } })],
-        1
-      ),
+      _c("v-list-item-avatar", [_c("v-img", { attrs: { src: _vm.src } })], 1),
       _vm._v(" "),
       _c(
         "v-list-item-content",
-        { staticClass: "pl-2" },
+        { staticClass: "pl-3" },
         [
-          _c("v-list-item-title", { staticClass: "text-h3" }, [
+          _c("v-list-item-title", { staticClass: "text-h6" }, [
             _c("strong", { staticClass: "mr-1 font-weight-black" }, [
-              _vm._v("VMD")
+              _vm._v(_vm._s(_vm.app.title))
             ]),
             _vm._v(" "),
             _c("span", { staticClass: "primary--text" }, [_vm._v("FREE")])

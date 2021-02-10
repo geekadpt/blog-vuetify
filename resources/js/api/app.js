@@ -12,4 +12,10 @@ export default {
         version : data.version
     });
   },
+  drawer: function (data) {
+    return post(APP_CONFIG.API_URL+'drawer');
+  },
+  app: function (data) {
+    return post(APP_CONFIG.API_URL+'app');
+  },
 }

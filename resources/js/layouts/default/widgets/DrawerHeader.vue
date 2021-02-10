@@ -24,7 +24,8 @@
     name: 'DefaultDrawerHeader',
       data () {
           return {
-              src: APP_CONFIG.CDN_URL + 'images/vmd.svg'
+              //src: APP_CONFIG.CDN_URL + 'images/vmd.svg'
+              src:APP_CONFIG.CDN_URL + require('../../../assets/vmd.svg').default
           }
       },
     computed: {
@@ -35,5 +36,8 @@
             return this.$store.getters.getApp;
         }
     },
+      created() {
+        console.log(require('../../../assets/vmd.svg').default);
+      }
   }
 </script>

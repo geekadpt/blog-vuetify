@@ -37,7 +37,8 @@ __webpack_require__.r(__webpack_exports__);
   name: 'DefaultDrawerHeader',
   data: function data() {
     return {
-      src: _config__WEBPACK_IMPORTED_MODULE_0__.APP_CONFIG.CDN_URL + 'images/vmd.svg'
+      //src: APP_CONFIG.CDN_URL + 'images/vmd.svg'
+      src: _config__WEBPACK_IMPORTED_MODULE_0__.APP_CONFIG.CDN_URL + __webpack_require__(/*! ../../../assets/vmd.svg */ "./resources/js/assets/vmd.svg").default
     };
   },
   computed: {
@@ -47,8 +48,26 @@ __webpack_require__.r(__webpack_exports__);
     app: function app() {
       return this.$store.getters.getApp;
     }
+  },
+  created: function created() {
+    console.log(__webpack_require__(/*! ../../../assets/vmd.svg */ "./resources/js/assets/vmd.svg").default);
   }
 });
+
+/***/ }),
+
+/***/ "./resources/js/assets/vmd.svg":
+/*!*************************************!*\
+  !*** ./resources/js/assets/vmd.svg ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/vmd.svg?bcc12227535fc1ab1d0c56da329c5c5f");
 
 /***/ }),
 

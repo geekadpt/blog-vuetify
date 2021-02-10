@@ -1,15 +1,15 @@
 {
-    "/js/app.js": "/js/app.js",
-    "/js/default-app-bar.js": "/js/default-app-bar.js",
-    "/js/default-drawer.js": "/js/default-drawer.js",
-    "/js/default-footer.js": "/js/default-footer.js",
-    "/js/default-view.js": "/js/default-view.js",
-    "/js/default-account.js": "/js/default-account.js",
-    "/js/default-drawer-toggle.js": "/js/default-drawer-toggle.js",
-    "/js/default-go-home.js": "/js/default-go-home.js",
-    "/js/default-notifications.js": "/js/default-notifications.js",
-    "/js/default-search.js": "/js/default-search.js",
-    "/js/default-drawer-header.js": "/js/default-drawer-header.js",
-    "/js/default-list.js": "/js/default-list.js",
-    "/css/app.css": "/css/app.css"
+    "/js/app.js": "/js/app.js?id=a3e2f5e447f3ab865d55",
+    "/js/default-app-bar.js": "/js/default-app-bar.js?id=5d009430a5abe69e27f6",
+    "/js/default-drawer.js": "/js/default-drawer.js?id=a54db001bac6cee6b900",
+    "/js/default-footer.js": "/js/default-footer.js?id=2474412f8441835422c9",
+    "/js/default-view.js": "/js/default-view.js?id=f49c45f6d075d9c825df",
+    "/js/default-account.js": "/js/default-account.js?id=1b6bfca168e58b85e0c3",
+    "/js/default-drawer-toggle.js": "/js/default-drawer-toggle.js?id=96ed166dc025c2077964",
+    "/js/default-go-home.js": "/js/default-go-home.js?id=cf683d78a6edbb9a6af5",
+    "/js/default-notifications.js": "/js/default-notifications.js?id=3fbc0010cf3ae676aaee",
+    "/js/default-search.js": "/js/default-search.js?id=fbb2b5f1db4a2b222218",
+    "/js/default-drawer-header.js": "/js/default-drawer-header.js?id=179db5100d5907a5f71f",
+    "/js/default-list.js": "/js/default-list.js?id=a46b30ae13304f28eb6b",
+    "/css/app.css": "/css/app.css?id=68b329da9893e34099c7"
 }

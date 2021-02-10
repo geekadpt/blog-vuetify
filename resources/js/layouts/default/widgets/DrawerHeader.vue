@@ -2,7 +2,7 @@
   <v-list-item class="mb-0 justify-space-between pl-3">
     <v-list-item-avatar>
       <v-img
-        :src=src
+        :src="src"
       />
     </v-list-item-avatar>
 

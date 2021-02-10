@@ -2245,13 +2245,13 @@ switch ("development") {
   case 'development':
     api_url = 'http://blog.locyin.com/api/v1/';
     app_url = 'http://blog.locyin.com/';
-    cdn_url = 'http://blog.locyin.com';
+    cdn_url = 'http://blog.locyin.com/';
     break;
 
   case 'production':
     api_url = 'http://blog.locyin.com/api/v1/';
     app_url = 'http://blog.locyin.com/';
-    cdn_url = 'https://locyin.oss-cn-beijing.aliyuncs.com';
+    cdn_url = 'https://locyin.oss-cn-beijing.aliyuncs.com/';
     break;
 }
 

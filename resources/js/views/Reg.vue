@@ -97,8 +97,18 @@
                             <v-divider></v-divider>
 
                             <v-card-actions>
+                                <router-link :to="{ name:'Login' }">
+                                    <v-btn
+                                        v-show = "step === 1"
+                                        color="primary"
+                                        depressed
+                                    >
+                                        {{$t('m.register.login')}}
+                                    </v-btn>
+                                </router-link>
                                 <v-btn
                                     :disabled="step !== 2"
+                                    v-show = "step !== 1"
                                     text
                                     @click="--step"
                                 >

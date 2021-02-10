@@ -1995,60 +1995,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _event_bus_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../event-bus.js */ "./resources/js/event-bus.js");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var _components_Notification__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Notification */ "./resources/js/components/Notification.vue");
 //
 //
 //
@@ -2125,7 +2072,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    Notification: _components_Notification__WEBPACK_IMPORTED_MODULE_1__.default
+  },
   data: function data() {
     return {
       loginForm: {
@@ -2183,6 +2134,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _event_bus_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../event-bus.js */ "./resources/js/event-bus.js");
 /* harmony import */ var _components_Notification__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Notification */ "./resources/js/components/Notification.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2877,15 +2838,16 @@ var m = {
     login: '登陆'
   },
   login: {
-    weibo: '微博',
-    oauth: '第三方登陆',
-    credential: '或者使用用户名密码登陆',
-    phone: '手机号',
+    title: '登录',
+    username: '用户名',
     password: '密码',
     remember: '记住我',
     login: '登陆',
     forgot: '忘记密码？',
-    register: '注册一个账户'
+    register: '注册一个账户',
+    weibo: '微博',
+    oauth: '第三方登陆',
+    credential: '或者使用用户名密码登陆'
   },
   layout: {
     oauth: {
@@ -5394,51 +5356,6 @@ return Promise$1;
 
 //# sourceMappingURL=es6-promise.map
 
-
-/***/ }),
-
-/***/ "./resources/js/assets/github.svg":
-/*!****************************************!*\
-  !*** ./resources/js/assets/github.svg ***!
-  \****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/github.svg?f7165d3e2844ef758a22c6829f494e71");
-
-/***/ }),
-
-/***/ "./resources/js/assets/register_bg_2.png":
-/*!***********************************************!*\
-  !*** ./resources/js/assets/register_bg_2.png ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/register_bg_2.png?4f2cb0ac523768c8c77be108a380cb0a");
-
-/***/ }),
-
-/***/ "./resources/js/assets/weibo.png":
-/*!***************************************!*\
-  !*** ./resources/js/assets/weibo.png ***!
-  \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/weibo.png?1d605c7ae3482898dd965dca6c0e5e5e");
 
 /***/ }),
 
@@ -26224,341 +26141,181 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
-    {
-      style: {
-        "background-image":
-          "url(" + __webpack_require__(/*! ../assets/register_bg_2.png */ "./resources/js/assets/register_bg_2.png") + ")"
-      }
-    },
+    "v-app",
     [
-      _c("main", [
-        _c("section", { staticClass: "absolute w-full h-full" }, [
-          _c("div", {
-            staticClass: "absolute top-0 w-full h-full bg-gray-900",
-            staticStyle: {
-              "background-size": "100%",
-              "background-repeat": "no-repeat"
-            },
-            style: {
-              "background-image":
-                "url(" + __webpack_require__(/*! ../assets/register_bg_2.png */ "./resources/js/assets/register_bg_2.png") + ")"
-            }
-          }),
-          _vm._v(" "),
-          _c("div", { staticClass: "container mx-auto px-4 h-full" }, [
-            _c(
-              "div",
-              {
-                staticClass:
-                  "flex content-center items-center justify-center h-full"
-              },
-              [
-                _c("div", { staticClass: "w-full lg:w-4/12 px-4" }, [
-                  _c(
-                    "div",
-                    {
-                      staticClass:
-                        "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-300 border-0"
-                    },
-                    [
-                      _c("div", { staticClass: "rounded-t mb-0 px-6 py-6" }, [
-                        _c("div", { staticClass: "text-center mb-3" }, [
-                          _c(
-                            "h6",
-                            { staticClass: "text-gray-600 text-sm font-bold" },
-                            [
-                              _vm._v(
-                                "\n                                        " +
-                                  _vm._s(_vm.$t("m.login.oauth")) +
-                                  "\n                                    "
-                              )
-                            ]
-                          )
-                        ]),
+      _c(
+        "v-main",
+        [
+          _c(
+            "v-container",
+            { staticClass: "fill-height", attrs: { fluid: "" } },
+            [
+              _c(
+                "v-row",
+                { attrs: { align: "center", justify: "center" } },
+                [
+                  [
+                    _c(
+                      "v-card",
+                      {
+                        staticClass: "col-md-4 col-12",
+                        attrs: { "max-width": "500" }
+                      },
+                      [
+                        _c(
+                          "v-card-title",
+                          {
+                            staticClass:
+                              "title font-weight-regular justify-space-between"
+                          },
+                          [
+                            _c("span", [
+                              _vm._v(_vm._s(_vm.$t("m.login.title")))
+                            ]),
+                            _vm._v(" "),
+                            _c("v-avatar", {
+                              staticClass: "subheading white--text",
+                              attrs: { color: "primary lighten-2", size: "24" }
+                            })
+                          ],
+                          1
+                        ),
                         _vm._v(" "),
-                        _c("div", { staticClass: "btn-wrapper text-center" }, [
-                          _vm._m(0),
-                          _vm._v(" "),
-                          _c("a", { attrs: { href: "/auth/weibo" } }, [
+                        _c(
+                          "v-window",
+                          [
                             _c(
-                              "button",
+                              "v-window-item",
+                              { attrs: { value: 1 } },
+                              [
+                                _c(
+                                  "v-card-text",
+                                  [
+                                    _c("v-text-field", {
+                                      attrs: {
+                                        label: _vm.$t("m.login.username"),
+                                        type: "text"
+                                      },
+                                      model: {
+                                        value: _vm.loginForm.username,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.loginForm,
+                                            "username",
+                                            $$v
+                                          )
+                                        },
+                                        expression: "loginForm.username"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("v-text-field", {
+                                      attrs: {
+                                        label: _vm.$t("m.register.password"),
+                                        type: "password"
+                                      },
+                                      model: {
+                                        value: _vm.loginForm.password,
+                                        callback: function($$v) {
+                                          _vm.$set(
+                                            _vm.loginForm,
+                                            "password",
+                                            $$v
+                                          )
+                                        },
+                                        expression: "loginForm.password"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      {
+                                        staticClass:
+                                          "caption grey--text text--darken-1"
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n            " +
+                                            _vm._s(_vm.$t("m.login.forgot")) +
+                                            "\n          "
+                                        )
+                                      ]
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("v-divider"),
+                        _vm._v(" "),
+                        _c(
+                          "v-card-actions",
+                          [
+                            _c(
+                              "router-link",
+                              { attrs: { to: { name: "Reg" } } },
+                              [
+                                _c(
+                                  "v-btn",
+                                  {
+                                    attrs: { color: "primary", depressed: "" }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                    " +
+                                        _vm._s(_vm.$t("m.login.register")) +
+                                        "\n                                "
+                                    )
+                                  ]
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("v-spacer"),
+                            _vm._v(" "),
+                            _c(
+                              "v-btn",
                               {
-                                staticClass:
-                                  "bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs",
-                                staticStyle: {
-                                  transition: "all 0.15s ease 0s"
-                                },
-                                attrs: { type: "button" }
+                                attrs: { color: "primary", depressed: "" },
+                                on: { click: _vm.login }
                               },
                               [
-                                _c("img", {
-                                  staticClass: "w-5 mr-1",
-                                  attrs: {
-                                    alt: "...",
-                                    src: __webpack_require__(/*! ../assets/weibo.png */ "./resources/js/assets/weibo.png")
-                                  }
-                                }),
                                 _vm._v(
-                                  _vm._s(_vm.$t("m.login.weibo")) +
-                                    "\n                                        "
+                                  "\n                                " +
+                                    _vm._s(_vm.$t("m.login.login")) +
+                                    "\n                            "
                                 )
                               ]
                             )
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("hr", {
-                          staticClass: "mt-6 border-b-1 border-gray-400"
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "flex-auto px-4 lg:px-10 py-10 pt-0" },
-                        [
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "text-gray-500 text-center mb-3 font-bold"
-                            },
-                            [
-                              _c("small", [
-                                _vm._v(_vm._s(_vm.$t("m.login.credential")))
-                              ])
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("form", [
-                            _c("div", { staticClass: "relative w-full mb-3" }, [
-                              _c(
-                                "label",
-                                {
-                                  staticClass:
-                                    "block uppercase text-gray-700 text-xs font-bold mb-2",
-                                  attrs: { for: "grid-password" }
-                                },
-                                [_vm._v(_vm._s(_vm.$t("m.login.phone")))]
-                              ),
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.loginForm.username,
-                                    expression: "loginForm.username"
-                                  }
-                                ],
-                                staticClass:
-                                  "px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full",
-                                staticStyle: {
-                                  transition: "all 0.15s ease 0s"
-                                },
-                                attrs: {
-                                  type: "text",
-                                  placeholder: _vm.$t("m.login.phone")
-                                },
-                                domProps: { value: _vm.loginForm.username },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.$set(
-                                      _vm.loginForm,
-                                      "username",
-                                      $event.target.value
-                                    )
-                                  }
-                                }
-                              })
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "relative w-full mb-3" }, [
-                              _c(
-                                "label",
-                                {
-                                  staticClass:
-                                    "block uppercase text-gray-700 text-xs font-bold mb-2",
-                                  attrs: { for: "grid-password" }
-                                },
-                                [_vm._v(_vm._s(_vm.$t("m.login.password")))]
-                              ),
-                              _c("input", {
-                                directives: [
-                                  {
-                                    name: "model",
-                                    rawName: "v-model",
-                                    value: _vm.loginForm.password,
-                                    expression: "loginForm.password"
-                                  }
-                                ],
-                                staticClass:
-                                  "px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full",
-                                staticStyle: {
-                                  transition: "all 0.15s ease 0s"
-                                },
-                                attrs: {
-                                  type: "password",
-                                  placeholder: _vm.$t("m.login.password")
-                                },
-                                domProps: { value: _vm.loginForm.password },
-                                on: {
-                                  input: function($event) {
-                                    if ($event.target.composing) {
-                                      return
-                                    }
-                                    _vm.$set(
-                                      _vm.loginForm,
-                                      "password",
-                                      $event.target.value
-                                    )
-                                  }
-                                }
-                              })
-                            ]),
-                            _vm._v(" "),
-                            _c("div", [
-                              _c(
-                                "label",
-                                {
-                                  staticClass:
-                                    "inline-flex items-center cursor-pointer"
-                                },
-                                [
-                                  _c("input", {
-                                    staticClass:
-                                      "form-checkbox text-gray-800 ml-1 w-5 h-5",
-                                    staticStyle: {
-                                      transition: "all 0.15s ease 0s"
-                                    },
-                                    attrs: {
-                                      id: "customCheckLogin",
-                                      type: "checkbox"
-                                    }
-                                  }),
-                                  _c(
-                                    "span",
-                                    {
-                                      staticClass:
-                                        "ml-2 text-sm font-semibold text-gray-700"
-                                    },
-                                    [_vm._v(_vm._s(_vm.$t("m.login.remember")))]
-                                  )
-                                ]
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "text-center mt-6" }, [
-                              _c(
-                                "button",
-                                {
-                                  staticClass:
-                                    "bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full",
-                                  staticStyle: {
-                                    transition: "all 0.15s ease 0s"
-                                  },
-                                  attrs: { type: "button" },
-                                  on: { click: _vm.login }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                            " +
-                                      _vm._s(_vm.$t("m.login.login")) +
-                                      "\n                                        "
-                                  )
-                                ]
-                              )
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "flex flex-wrap mt-6" },
-                            [
-                              _c("div", { staticClass: "w-1/2" }, [
-                                _c(
-                                  "a",
-                                  {
-                                    staticClass: "text-gray-300",
-                                    attrs: { href: "#pablo" }
-                                  },
-                                  [
-                                    _c("small", [
-                                      _vm._v(_vm._s(_vm.$t("m.login.forgot")))
-                                    ])
-                                  ]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "router-link",
-                                {
-                                  staticClass: "w-1/2 text-right",
-                                  attrs: {
-                                    to: { name: "Register" },
-                                    tag: "span"
-                                  }
-                                },
-                                [
-                                  _c(
-                                    "a",
-                                    {
-                                      staticClass: "text-gray-300",
-                                      attrs: { href: "#pablo" }
-                                    },
-                                    [
-                                      _c("small", [
-                                        _vm._v(
-                                          _vm._s(_vm.$t("m.login.register"))
-                                        )
-                                      ])
-                                    ]
-                                  )
-                                ]
-                              )
-                            ],
-                            1
-                          )
-                        ]
-                      )
-                    ]
-                  )
-                ])
-              ]
-            )
-          ])
-        ])
-      ])
-    ]
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ]
+                ],
+                2
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("notification")
+    ],
+    1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { attrs: { href: "/auth/github" } }, [
-      _c(
-        "button",
-        {
-          staticClass:
-            "bg-white active:bg-gray-100 text-gray-800 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs",
-          staticStyle: { transition: "all 0.15s ease 0s" },
-          attrs: { type: "button" }
-        },
-        [
-          _c("img", {
-            staticClass: "w-5 mr-1",
-            attrs: { alt: "...", src: __webpack_require__(/*! ../assets/github.svg */ "./resources/js/assets/github.svg") }
-          }),
-          _vm._v("Github")
-        ]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -26893,8 +26650,45 @@ var render = function() {
                           "v-card-actions",
                           [
                             _c(
+                              "router-link",
+                              { attrs: { to: { name: "Login" } } },
+                              [
+                                _c(
+                                  "v-btn",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "show",
+                                        rawName: "v-show",
+                                        value: _vm.step === 1,
+                                        expression: "step === 1"
+                                      }
+                                    ],
+                                    attrs: { color: "primary", depressed: "" }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                    " +
+                                        _vm._s(_vm.$t("m.register.login")) +
+                                        "\n                                "
+                                    )
+                                  ]
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
                               "v-btn",
                               {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.step !== 1,
+                                    expression: "step !== 1"
+                                  }
+                                ],
                                 attrs: { disabled: _vm.step !== 2, text: "" },
                                 on: {
                                   click: function($event) {

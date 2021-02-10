@@ -1,7 +1,7 @@
 // 引入axios
 import axios from 'axios';
 import {APP_CONFIG} from "../config";
-
+import i18n from  '../plugins/vue-i18n'
 // 创建axios实例
 const httpService = axios.create({
   // url前缀-'https://some-domain.com/api/'
@@ -14,9 +14,11 @@ const httpService = axios.create({
 httpService.interceptors.request.use(
   config => {
     // 根据条件加入token-安全携带
+    //console.log(i18n.locale);
     if (localStorage.getItem('Authorization')) {
       config.headers.Authorization = localStorage.getItem('Authorization');
     }
+    config.headers.AcceptLanguage = i18n.locale;
     return config;
   },
   error => {
@@ -30,20 +32,29 @@ httpService.interceptors.response.use(
   response => {
     // 统一处理状态
     const res = response.data;
-    //console.log(response.status);
-    if (response.status !== 200) { // 需自定义
-      // 返回异常
-      return Promise.reject({
-        status: res.statuscode,
-        message: res.message
-      });
-    } else {
-      return response.data;
-    }
+    console.log(response.status);
+    // if (response.status !== 200) { // 需自定义
+    //   // 返回异常
+    //   return Promise.reject({
+    //     status: response.status,
+    //     message: res.message
+    //   });
+    // } else {
+    //   return res;
+    // }
+    return res;
   },
   // 处理处理
   error => {
-    if (error && error.response) {
+
+    if(error && error.response && typeof error.response.data.errors === "undefined" && typeof error.response.data.message !== "undefined"){
+      error.message = error.response.data.message;
+      return Promise.reject(error);
+    }else if(error && error.response && typeof error.response.data.errors !== "undefined" && typeof error.response.data.message !== "undefined"){
+      error.message = error.response.data.errors[Object.keys(error.response.data.errors)[0]].toString();
+      return Promise.reject(error);
+    }
+    else if(error && error.response && typeof error.response.data.errors === "undefined" && typeof error.response.data.message === "undefined") {
       switch (error.response.status) {
         case 400:
           error.message = '错误请求';
@@ -132,6 +143,44 @@ export function post(url, params = {}) {
 }
 
 /*
+ *  patch请求
+ *  url:请求地址
+ *  params:参数
+ * */
+export function patch(url, params = {}) {
+  return new Promise((resolve, reject) => {
+    httpService({
+      url: url,
+      method: 'patch',
+      data: params
+    }).then(response => {
+      resolve(response);
+    }).catch(error => {
+      reject(error);
+    });
+  });
+}
+/*
+ *  patch请求
+ *  url:请求地址
+ *  params:参数
+ * */
+export function put(url, params = {}) {
+  return new Promise((resolve, reject) => {
+    httpService({
+      url: url,
+      method: 'put',
+      data: params
+    }).then(response => {
+      resolve(response);
+    }).catch(error => {
+      reject(error);
+    });
+  });
+}
+
+
+/*
  *  文件上传
  *  url:请求地址
  *  params:参数
@@ -154,5 +203,7 @@ export function fileUpload(url, params = {}) {
 export default {
   get,
   post,
+  put,
+  patch,
   fileUpload
 }

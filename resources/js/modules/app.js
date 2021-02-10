@@ -66,7 +66,7 @@ export const app = {
       gradients:
         'rgba(0, 0, 0, .7), rgba(0, 0, 0, .7)',
       images:
-        'https://demos.creative-tim.com/material-dashboard-pro/assets/img/sidebar-1.jpg',
+        'https://demos.creative-tim.com/material-dashboard-pro/assets/img/sidebar-3.jpg',
       notifications: [],
       rtl: false,
     }

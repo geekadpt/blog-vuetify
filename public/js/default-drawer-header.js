@@ -172,9 +172,7 @@ var render = function() {
           _c("v-list-item-title", { staticClass: "text-h6" }, [
             _c("strong", { staticClass: "mr-1 font-weight-black" }, [
               _vm._v(_vm._s(_vm.app.title))
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "primary--text" }, [_vm._v("FREE")])
+            ])
           ])
         ],
         1

@@ -16,7 +16,7 @@ require('es6-promise').polyfill();
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {app} from "./modules/app";
-
+import {users} from "./modules/users";
 /**
  * Initializes Vuex on Vue.
  */
@@ -27,6 +27,7 @@ Vue.use( Vuex );
  */
 export default new Vuex.Store({
   modules: {
-    app
+    app,
+    users
   }
 });

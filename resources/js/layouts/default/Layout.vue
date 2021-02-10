@@ -9,6 +9,8 @@
     <default-footer />
 
 <!--    <default-settings />-->
+
+    <default-notification />
   </v-app>
 </template>
 
@@ -36,6 +38,10 @@
       DefaultView: () => import(
         /* webpackChunkName: "default-view" */
         './View'
+      ),
+      DefaultNotification: () => import(
+          /* webpackChunkName: "default-view" */
+        '../../components/Notification'
       ),
     },
   }

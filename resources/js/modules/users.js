@@ -1,325 +1,288 @@
 /*
-|-------------------------------------------------------------------------------
-| VUEX modules/users.js
-|-------------------------------------------------------------------------------
-| The Vuex data store for the Users
-*/
-
-import UserAPI from '../api/users';
-
-/**
- status = 0 -> 数据尚未加载
- status = 1 -> 数据开始加载
- status = 2 -> 数据加载成功
- status = 3 -> 数据加载失败
+ |-------------------------------------------------------------------------------
+ | VUEX modules/users.js
+ |-------------------------------------------------------------------------------
+ | The Vuex data store for the users
  */
+
+import UserApi from '../api/users';
+
 export const users = {
+  /**
+   * Defines the state being monitored for the module.
+   */
   state: {
-    //图形验证码
-    captchas:[],
-    //图形验证码加载状态
-    captchaLoadStatus:0,
-    //短信验证码
-    captchaError:'',
-    verificationCodes:[],
-    //短信验证码加载状态
-    verificationCodeLoadStatus:0,
-    verificationCodeError:'',
-    //手机号注册
-    registerByPhoneStatus:0,
-    registerByPhoneError:'',
-    //登录状态
-    loginStatus:0,
-    loginErrors:'',
+    captcha:'',
+    captchasSendStatus: 0,
+    captchaKey:'',
+    captchasSendErrors:'',
+    verificationCodesSendStatus: 0,
+    verificationKey:'',
+    verificationCodesSendErrors:'',
+    registerStatus: 0,
+    registerErrors: '',
+    loginStatus: 0,
+    loginErrors: '',
     // 存储token
     Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : '',
-    user: {
-      data:{
-        id:11,
-        name:'Mozilan',
-        email:null,
-        avatar:'',
-        bound_phone:false,
-        bound_oauth:'github',
-        created_at:'2019-10-15 20:26:11',
-        updated_at:'2019-10-15 20:26:11',
-        introduction:'',
-      }
-    },
-    userLoadStatus:0,
-    logoutStatus:0,
-    userProfileUpdateStatus:'',
-    userProfileUpdateMessages:'',
-    other:'',
-    otherLoadStatus:'',
+    oauthStatus:'',
+    oauthErrors:'',
+    getMyInfoStatus: 0,
+    myInfo:'',
+    updateMyInfoStatus:0,
+    updateMyInfoErrors: '',
+
   },
+
+  /**
+   * Defines the actions used to retrieve the data.
+   */
   actions: {
-    loadCaptchas({commit},data){
-      commit('setCaptchaLoadStatus', 1);
-      UserAPI.getCaptchas(data.phone)
-        .then(function (response) {
-          commit('setCaptchas', response.data);
-          commit('setCaptchaLoadStatus', 2);
+    sendCaptchas( { commit },data ){
+      commit( 'setCaptchasSendStatus', 1 );
+      UserApi.sendCaptchas(data)
+        .then( function( response ){
+          console.log(response);
+          commit( 'setCaptchasSendStatus', 2 );
+          commit( 'setCaptcha' ,response.captcha_image_content);
+          commit( 'setCaptchaKey' ,response.captcha_key);
         })
-        .catch(function (error){
-          commit('setCaptchas', []);
-          commit('setCaptchasError', error.response.data.errors[Object.keys(error.response.data.errors)[0]].toString());
-          commit('setCaptchaLoadStatus', 3);
+        .catch( function(error){
+          console.log(error.message);
+          commit( 'setCaptchasSendStatus', 3 );
+          commit( 'setCaptchasSendErrors',error.message);
         });
     },
-    loadVerificationCodes({commit}, data) {
-      commit('setVerificationCodeLoadStatus', 1);
-      UserAPI.getVerificationCodes(data.captcha_key, data.captcha_code, data.phone)
-        .then(function (response) {
-          commit('setVerificationCodes',response.data.key);
-          commit('setVerificationCodeLoadStatus', 2);
-        })
-        .catch(function (error) {
-          commit('setVerificationCodes', []);
-          if(error.response.status == 422){
-            commit('setVerificationCodeError', '图形验证码已失效');
-          }else{
-            commit('setVerificationCodeError', error.response.data.message);
-          }
-          commit('setVerificationCodeLoadStatus', 3);
-        });
-    },
-    registerByPhone( {commit , dispatch},data){
-      commit( 'setRegisterByPhoneStatus', 1);
-      UserAPI.postSignIn( data.verification_key,data.verification_code, data.name,data.password)
-        .then(function ( response ) {
-          commit('setRegisterByPhoneStatus' , 2);
-          commit('setLoginToken','Bearer ' + response.data.meta.access_token);
-          dispatch('loadUser');
-        })
-        .catch(function (error){
-          commit('setRegisterByPhoneError', error.response.data.errors[Object.keys(error.response.data.errors)[0]].toString());
-          commit('setRegisterByPhoneStatus',3);
-        })
-    },
-    login({commit},data){
-      commit('setLoginStatus',1);
-      UserAPI.postSignUp( data.username,data.password)
-        .then(function ( response ) {
-          commit('setUser' , response.data.data);
-          commit('setUserLoadStatus',2);
-          commit('setLoginToken','Bearer ' + response.data.meta.access_token);
-          commit('setLoginStatus' , 2);
-        })
-        .catch(function (error) {
-          commit('setUser' ,'');
-          commit('setUserLoadStatus',3);
-          commit('setLoginStatus',3);
-          commit('setLoginErrors',error.response.data.message !== '' ? error.response.data.message: '未知错误');
-        })
-    },
-    loginByOauth({commit},data){
-      commit('setLoginStatus',1);
-      UserAPI.postSignInByOauth( data.code,data.social_type)
-        .then(function ( response ) {
-          commit('setLoginToken','Bearer ' + response.data.meta.access_token);
-          commit('setUser' , response.data.data);
-          commit('setUserLoadStatus',2);
-          commit('setLoginStatus' , 2);
-        })
-        .catch(function (error) {
-          localStorage.removeItem('Authorization');
-          commit('setLoginToken','');
-          commit('setUser' ,'');
-          commit('setLoginStatus',3);
-          commit('setUserLoadStatus',3);
-          commit('setLoginErrors',error.response.data.message !== '' ? error.response.data.message: '未知错误');
-        });
-    },
-    loadUser({commit}){
-      commit('setUserLoadStatus',1);
-      UserAPI.getLoadUser()
-        .then(function (response) {
-          commit('setUserLoadStatus',2);
-          commit('setUser' , response.data.data);
-        })
-        .catch(function (error) {
+    sendVerificationCodes( { commit },data ){
+      commit( 'setSendVerificationCodesStatus', 1 );
 
-          localStorage.removeItem('Authorization');
-          commit('setLoginToken','');
+      UserApi.sendVerificationCodes(data)
+        .then( function( response ){
+          console.log(response);
+          commit( 'setSendVerificationCodesStatus', 2 );
+          commit( 'setVerificationKey' ,response.key);
+        })
+        .catch( function(error){
+          console.log(error.message);
+          commit( 'setSendVerificationCodesStatus', 3 );
+          commit( 'setVerificationCodesSendErrors',error.message);
+        });
+    },
+    register( { commit },data ){
+      commit( 'setRegisterStatus', 1 );
 
-          commit('setUser' ,'');
-          commit('setUserLoadStatus',3);
+      UserApi.register(data)
+        .then( function( response ){
+          commit( 'setRegisterStatus', 2 );
+        })
+        .catch( function(error){
+          commit( 'setRegisterStatus', 3 );
+          commit( 'setVerificationCodesSendErrors',error.message);
         });
     },
-    loadOther({commit},data){
-      commit('setOtherLoadStatus',1);
-      UserAPI.getLoadOther(data)
-        .then(function (response) {
-          if(response.data.data !== ''){
-            commit('setOtherLoadStatus',2);
-            commit('setOther' , response.data.data);
-          }
-          else{
-            commit('setOtherLoadStatus',3);
-          }
+    login( { commit },data ){
+      commit( 'setLoginStatus', 1 );
+
+      UserApi.login(data)
+        .then( function( response ){
+          commit( 'setLoginStatus', 2 );
+          commit('setLoginToken','Bearer ' + response.access_token);
         })
-        .catch(function (error){
-          commit('setOther' ,'');
-          commit('setOtherLoadStatus',3);
+        .catch( function(error){
+          commit( 'setLoginStatus', 3 );
+          commit('setLoginToken','');
+          commit( 'setVerificationCodesSendErrors',error.message);
         });
     },
-    logout({commit,dispatch}){
-      commit('setLogoutStatus',1);
-      try {
-        localStorage.removeItem('Authorization');
-        commit('setLoginToken', '');
-        dispatch('loadUser');
-        commit('setLogoutStatus', 2);
-        commit('setLoginStatus',0);
-      }catch (e) {
-        commit('setLogoutStatus', 3);
-      }
-    },
-    updateUserProfile({commit,dispatch},data) {
-      commit( 'setUserProfileUpdateStatus', 1);
-      UserAPI.patchUpdateUserProfile( data)
-        .then(function ( response ) {
-          commit('setUserProfileUpdateStatus' , 2);
-          dispatch('loadUser');
+    oauth( { commit , dispatch },data ){
+      commit( 'setOauthStatus', 1 );
+
+      UserApi.oauth(data)
+        .then( function( response ){
+          commit('setLoginToken','Bearer ' + response.access_token);
+          dispatch('getMyInfo');
+          commit( 'setLoginStatus', 2 );
+          commit( 'setOauthStatus', 2 );
         })
-        .catch(function (error){
-          commit('setUserProfileUpdateMessages', error.response.data.errors[Object.keys(error.response.data.errors)[0]].toString());
-          commit('setUserProfileUpdateStatus',3);
-        })
+        .catch( function(error){
+          commit( 'setOauthStatus', 3 );
+          commit( 'setLoginStatus', 3 );
+          commit('setLoginToken','');
+          commit( 'setVerificationCodesSendErrors',error.message);
+        });
     },
-    refreshToken({commit},data){
-      commit('setLoginToken', data.token);
-    }
+    getMyInfo( { commit }){
+      commit( 'setGetMyInfoStatus', 1 );
+
+      UserApi.getMyInfo()
+        .then( function( response ){
+          commit( 'setLoginStatus', 2 );
+          commit( 'setGetMyInfoStatus', 2 );
+          //console.log(response.data);
+          commit('setMyInfo',response);
+        })
+        .catch( function(error){
+          commit( 'setLoginStatus', 3 );
+          localStorage.removeItem('Authorization');
+          commit('setLoginToken', '');
+          commit('setMyInfo','');
+          commit( 'setGetMyInfoStatus', 3 );
+        });
+    },
+    updateMyInfo( { commit },data){
+      commit( 'setUpdateMyInfoStatus', 1 );
+
+      UserApi.updateProfile(data)
+        .then( function( response ){
+          commit( 'setUpdateMyInfoStatus', 2 );
+        })
+        .catch( function(error){
+          commit( 'setUpdateMyInfoStatus', 3 );
+          commit( 'setVerificationCodesSendErrors',error.message);
+        });
+    },
+    logout( { commit }){
+      localStorage.removeItem('Authorization');
+      commit('setLoginToken', '');
+      commit('setMyInfo','');
+    },
+
   },
-  mutations:{
-    setCaptchaLoadStatus(state,status){
-      state.captchaLoadStatus = status;
+  /**
+   * Defines the mutations used
+   */
+  mutations: {
+    setCaptchasSendStatus( state, status ){
+      state.captchasSendStatus = status;
     },
-    setCaptchas(state,capchas){
-      state.captchas = capchas;
+    setCaptchaKey( state, data){
+      state.captchaKey = data;
     },
-    setCaptchasError(state,error){
-      state.captchaError = error;
+    setCaptcha( state, data){
+      state.captcha = data;
     },
-    setVerificationCodeLoadStatus(state,status){
-      state.verificationCodeLoadStatus = status;
+    setCaptchasSendErrors( state, error){
+      state.captchasSendErrors = error;
     },
-    setVerificationCodes(state,verificationCodes){
-      state.verificationCodes = verificationCodes;
+    setSendVerificationCodesStatus( state, status ){
+      state.verificationCodesSendStatus = status;
     },
-    setVerificationCodeError( state , error ){
-      state.verificationCodeError = error;
+    setVerificationKey( state, data){
+      state.verificationKey = data;
     },
-    setRegisterByPhoneStatus(state , status){
-      state.registerByPhoneStatus = status;
+    setVerificationCodesSendErrors( state, error){
+      state.verificationCodesSendErrors = error;
     },
-    setRegisterByPhoneError(state , error ){
-      state.registerByPhoneError = error;
+    setRegisterStatus( state, status){
+      state.registerStatus = status;
     },
-    setLoginStatus(state , status){
+    setRegisterErrors( state, errors){
+      state.registerErrors = errors;
+    },
+    setLoginStatus( state, status){
       state.loginStatus = status;
     },
-    setLogoutStatus(state , status){
-      state.logoutStatus = status;
+    setLoginErrors( state, errors){
+      state.loginErrors = errors;
     },
-    setLoginErrors(state , status){
-      state.loginErrors = status;
-    },
-    // 修改token，并将token存入localStorage
-    setLoginToken (state, access_token) {
+    setLoginToken( state, access_token){
       state.Authorization = access_token;
       localStorage.setItem('Authorization', access_token);
     },
-    setUser (state, data) {
-      state.user = data;
+    setOauthStatus( state, status){
+      state.loginStatus = status;
     },
-    setUserLoadStatus(state,status){
-      state.userLoadStatus = status;
+    setOauthErrors( state, errors){
+      state.loginErrors = errors;
     },
-    setOther (state, data) {
-      state.other = data;
+    setGetMyInfoStatus( state, status){
+      state.getMyInfoStatus = status;
     },
-    setOtherLoadStatus(state,status){
-      state.otherLoadStatus = status;
+    setMyInfo( state, myInfo){
+      state.myInfo = myInfo;
     },
-    setUserProfileUpdateStatus(state,status){
-      state.userProfileUpdateStatus = status;
-    } ,
-    setUserProfileUpdateMessages(state,error){
-      state.userProfileUpdateMessages = error;
+    setUpdateMyInfoStatus( state, status){
+      state.updateMyInfoStatus = status;
     },
+    setUpdateMyInfoErrors( state, errors){
+      state.updateMyInfoErrors = errors;
+    },
+
+
   },
-  getters:{
-    getCaptchaLoadStatus( state ){
-      return function () {
-        return state.captchaLoadStatus;
+  /**
+   * Defines the getters used by the module
+   */
+  getters: {
+    getCaptchasSendStatus( state ){
+      return function(){
+        return state.captchasSendStatus;
       }
     },
-    getCaptchas( state ){
-      return state.captchas;
+    getCaptchaKey( state ){
+      return state.captchaKey;
     },
-    getCaptchaError( state ){
-      return state.captchaError;
+    getCaptcha( state ){
+      return state.captcha;
     },
-    getVerificationCodeLoadStatus( state ){
+    getCaptchasSendErrors( state){
+      return state.captchasSendErrors;
+    },
+
+    getVerificationCodesSendStatus( state ){
+      return function(){
+        return state.verificationCodesSendStatus;
+      }
+
+    },
+    getVerificationKey( state ){
+      return state.verificationKey;
+    },
+    getVerificationCodesSendErrors( state){
+      return state.verificationCodesSendErrors;
+    },
+    getRegisterStatus( state ){
       return function () {
-        return state.verificationCodeLoadStatus;
+        return state.registerStatus;
       }
     },
-    getVerificationCodes( state ){
-      return state.verificationCodes;
-    },
-    getVerificationCodeError( state ){
-      return state.verificationCodeError;
+    getRegisterErrors( state ){
+      return state.registerErrors;
     },
     getLoginStatus( state ){
       return function () {
-        return state.loginStatus;
+        return state.loginStatus ;
       }
     },
-    getLoginErrors(state ){
-      return function () {
-        return state.loginErrors;
-      }
+    getLoginErrors( state ){
+      return state.loginErrors;
     },
     getLoginToken( state ){
       return state.Authorization;
     },
-    getRegisterByPhoneStatus (state){
+    getOauthStatus( state ){
       return function () {
-        return state.registerByPhoneStatus;
+        return state.loginStatus ;
       }
     },
-    getRegisterByPhoneError( state ){
-      return state.registerByPhoneError;
+    getOauthErrors( state ){
+      return state.loginErrors;
     },
-    getUser(state){
-      return state.user;
+    getMyInfoStatus( state){
+      return function () {
+        return state.getMyInfoStatus;
+      }
     },
-    getUserLoadStatus(state){
+    getMyInfo( state){
+      return state.myInfo;
+    },
+    getUpdateMyInfoStatus( state){
       return function(){
-        return state.userLoadStatus;
+        return state.updateMyInfoStatus;
       }
     },
-    getOther(state){
-      return state.other;
+    getUpdateMyInfoErrors( state){
+      return state.updateMyInfoErrors ;
     },
-    getOtherLoadStatus(state){
-      return state.otherLoadStatus;
-    },
-    getUserProfileUpdateStatus(state){
-      return function() {
-        return state.userProfileUpdateStatus;
-      }
-    } ,
-    getUserProfileUpdateMessages(state){
-      return function() {
-        return state.userProfileUpdateMessages;
-      }
-    },
-    getLogoutStatus(state){
-      return state.logoutStatus;
-    }
   }
 };

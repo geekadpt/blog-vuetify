@@ -10,7 +10,7 @@
       <v-list-item-title class="text-h6">
         <strong class="mr-1 font-weight-black">{{app.title}}</strong>
 
-        <span class="primary--text">FREE</span>
+<!--        <span class="primary&#45;&#45;text">FREE</span>-->
       </v-list-item-title>
     </v-list-item-content>
   </v-list-item>

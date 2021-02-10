@@ -96,7 +96,7 @@
                         this.$store.dispatch('getMyInfo');
                         this.$watch(this.$store.getters.getMyInfoStatus, function () {
                             if (this.$store.getters.getMyInfoStatus() === 2) {
-                                this.$router.push({name:'Desktop'});
+                                this.$router.push({name:'Index'});
                             }
                             if (this.$store.getters.getMyInfoStatus() === 3) {
                                 EventBus.$emit('open-message', {

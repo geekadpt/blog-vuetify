@@ -42,6 +42,11 @@ Route::prefix('v1')
         Route::middleware('throttle:' . config('api.rate_limits.sign'))
             ->middleware('token.refresh')
             ->group(function () {
-
+                // 刷新token
+                Route::put('authorizations/current', [AuthorizationsController::class, 'update'])->name('authorizations.update');
+                // 删除token
+                Route::delete('authorizations/current', [AuthorizationsController::class, 'destroy'])->name('authorizations.destroy');
+                // 获取登录用户的信息
+                Route::get('users', [UsersController::class, 'me']) ->name('user.me');
             });
     });

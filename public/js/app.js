@@ -2097,7 +2097,7 @@ __webpack_require__.r(__webpack_exports__);
           this.$watch(this.$store.getters.getMyInfoStatus, function () {
             if (this.$store.getters.getMyInfoStatus() === 2) {
               this.$router.push({
-                name: 'Desktop'
+                name: 'Index'
               });
             }
 

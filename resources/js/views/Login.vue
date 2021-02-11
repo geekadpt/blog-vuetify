@@ -48,7 +48,7 @@
 
                             <v-card-actions>
 
-                                <router-link :to="{ name:'Reg' }">
+                                <router-link :to="{ name:'注册' }">
                                     <v-btn
                                         color="primary"
                                         depressed
@@ -96,7 +96,7 @@
                         this.$store.dispatch('getMyInfo');
                         this.$watch(this.$store.getters.getMyInfoStatus, function () {
                             if (this.$store.getters.getMyInfoStatus() === 2) {
-                                this.$router.push({name:'首页'});
+                                this.$router.push({path:this.$store.getters.getBeforeLoginRoute});
                             }
                             if (this.$store.getters.getMyInfoStatus() === 3) {
                                 EventBus.$emit('open-message', {

@@ -7,7 +7,7 @@ export const m ={
         password: '密码',
         captcha: '图形码',
         explainPage1: '这是您将用于帐户登录的电话',
-        titlePage1: '用户注册',
+        titlePage1: '注册',
         explainPage2: '请填写验证码',
         code: '验证码',
         explainPage3: '请完善您的个人资料',

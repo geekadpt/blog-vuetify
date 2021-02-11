@@ -97,7 +97,7 @@
                             <v-divider></v-divider>
 
                             <v-card-actions>
-                                <router-link :to="{ name:'Login' }">
+                                <router-link :to="{ name:'登录' }">
                                     <v-btn
                                         v-show = "step === 1"
                                         color="primary"

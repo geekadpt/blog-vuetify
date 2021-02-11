@@ -69,7 +69,8 @@ export const app = {
         'https://demos.creative-tim.com/material-dashboard-pro/assets/img/sidebar-3.jpg',
       notifications: [],
       rtl: false,
-    }
+    },
+    beforeLoginRoute:null,
   },
 
   /**
@@ -123,6 +124,10 @@ export const app = {
         console.log(error);
       });
     },
+    beforeLoginRoute( { commit },data ){
+      commit("setBeforeLoginRoute",data.path);
+    },
+
   },
   /**
    * Defines the mutations used
@@ -155,6 +160,9 @@ export const app = {
     setMini( state ){
       state.drawer.mini = !state.drawer.mini;
     },
+    setBeforeLoginRoute(state , data){
+      state.beforeLoginRoute = data;
+    }
   },
   /**
    * Defines the getters used by the module
@@ -192,5 +200,8 @@ export const app = {
         return state.appStatus;
       }
     },
+    getBeforeLoginRoute(state){
+      return state.beforeLoginRoute;
+    }
   }
 };

@@ -50,6 +50,9 @@ class User extends Authenticatable implements MustVerifyEmailContract, JWTSubjec
      * @var array
      */
     protected $hidden = [
+        'provider',
+        'provider_id',
+        'email_verified_at',
         'password',
         'remember_token',
     ];
@@ -62,4 +65,17 @@ class User extends Authenticatable implements MustVerifyEmailContract, JWTSubjec
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function articles()
+    {
+        return $this->hasMany(Article::class, 'user_id', 'id');
+    }
+    public function category()
+    {
+        return $this->hasMany(Category::class);
+    }
+    public function tag()
+    {
+        return $this->hasMany(Tag::class);
+    }
 }

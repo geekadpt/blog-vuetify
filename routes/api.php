@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Article\ArticlesController;
 use App\Http\Controllers\Api\User\AuthorizationsController;
 use App\Http\Controllers\Api\User\CaptchasController;
 use App\Http\Controllers\Api\User\UsersController;
@@ -38,6 +39,9 @@ Route::prefix('v1')
             Route::put('users', [UsersController::class, 'store']) ->name('users.store');
             // 用户登录
             Route::post('authorizations', [AuthorizationsController::class, 'store'])->name('authorizations.store');
+            //获取所有文章
+            // 用户登录
+            Route::get('articles', [ArticlesController::class, 'index']) ->name('api.articles.index');
         });
         Route::middleware('throttle:' . config('api.rate_limits.sign'))
             ->middleware('token.refresh')

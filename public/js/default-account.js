@@ -58,6 +58,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'DefaultAccount',
@@ -74,6 +111,12 @@ __webpack_require__.r(__webpack_exports__);
       }]
     };
   },
+  computed: {
+    user: function user() {
+      console.log(this.$store.getters.getMyInfo);
+      return this.$store.getters.getMyInfo;
+    }
+  },
   methods: {
     func: function func(i) {
       console.log(i);
@@ -86,15 +129,15 @@ __webpack_require__.r(__webpack_exports__);
           break;
 
         case 3:
+          console.log('sss');
           this.$store.dispatch('logout');
           this.$watch(this.$store.getters.getLogoutStatus, function () {
             if (this.$store.getters.getLogoutStatus() === 2) {
-              this.$router.push({
-                name: 'Index'
-              });
+              this.$store.dispatch('clearLoginStatus'); // this.$router.push({name:'首页'});
             }
 
             if (this.$store.getters.getLogoutStatus() === 3) {
+              this.$store.dispatch('clearLoginStatus');
               _event_bus__WEBPACK_IMPORTED_MODULE_0__.EventBus.$emit('open-message', {
                 text: this.$store.getters.getLogoutErrors
               });
@@ -196,81 +239,166 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-menu",
-    {
-      attrs: {
-        bottom: "",
-        left: "",
-        "min-width": "200",
-        "offset-y": "",
-        origin: "top right",
-        transition: "scale-transition"
-      },
-      scopedSlots: _vm._u([
-        {
-          key: "activator",
-          fn: function(ref) {
-            var attrs = ref.attrs
-            var on = ref.on
-            return [
+    "div",
+    { staticClass: "px-2" },
+    [
+      _vm.user
+        ? _c(
+            "v-menu",
+            {
+              attrs: {
+                bottom: "",
+                left: "",
+                "min-width": "200",
+                "offset-y": "",
+                origin: "top right",
+                transition: "scale-transition"
+              },
+              scopedSlots: _vm._u(
+                [
+                  {
+                    key: "activator",
+                    fn: function(ref) {
+                      var attrs = ref.attrs
+                      var on = ref.on
+                      return [
+                        !_vm.user.avatar
+                          ? _c(
+                              "v-btn",
+                              _vm._g(
+                                _vm._b(
+                                  {
+                                    staticClass: "ml-2",
+                                    attrs: { "min-width": "0", text: "" }
+                                  },
+                                  "v-btn",
+                                  attrs,
+                                  false
+                                ),
+                                on
+                              ),
+                              [
+                                _c(
+                                  "span",
+                                  { staticClass: "text--darken-1 headline " },
+                                  [
+                                    _vm._v(
+                                      _vm._s(_vm.user.nickname.substr(0, 1))
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.user.avatar
+                          ? _c(
+                              "v-btn",
+                              {
+                                staticClass: "mx-2",
+                                attrs: {
+                                  fab: "",
+                                  dark: "",
+                                  small: "",
+                                  color: "dark"
+                                }
+                              },
+                              [
+                                _c(
+                                  "v-avatar",
+                                  _vm._g(
+                                    _vm._b(
+                                      { attrs: { text: "", size: "34px" } },
+                                      "v-avatar",
+                                      attrs,
+                                      false
+                                    ),
+                                    on
+                                  ),
+                                  [
+                                    _c("img", {
+                                      attrs: {
+                                        src: _vm.user.avatar,
+                                        alt: _vm.user.nickname.substr(0, 1)
+                                      }
+                                    })
+                                  ]
+                                )
+                              ],
+                              1
+                            )
+                          : _vm._e()
+                      ]
+                    }
+                  }
+                ],
+                null,
+                false,
+                98694392
+              )
+            },
+            [
+              _vm._v(" "),
+              _c(
+                "v-list",
+                { attrs: { tile: false, flat: "", nav: "" } },
+                [
+                  _vm._l(_vm.profile, function(p, i) {
+                    return [
+                      p.divider
+                        ? _c("v-divider", {
+                            key: "divider-" + i,
+                            staticClass: "mb-2 mt-2"
+                          })
+                        : _c(
+                            "v-list-item",
+                            {
+                              key: "item-" + i,
+                              attrs: { to: "/" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.func(i)
+                                }
+                              }
+                            },
+                            [
+                              _c("v-list-item-title", {
+                                domProps: { textContent: _vm._s(p.title) }
+                              })
+                            ],
+                            1
+                          )
+                    ]
+                  })
+                ],
+                2
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.user
+        ? _c(
+            "router-link",
+            { attrs: { to: { name: "登录" } } },
+            [
               _c(
                 "v-btn",
-                _vm._g(
-                  _vm._b(
-                    {
-                      staticClass: "ml-2",
-                      attrs: { "min-width": "0", text: "" }
-                    },
-                    "v-btn",
-                    attrs,
-                    false
-                  ),
-                  on
-                ),
-                [_c("v-icon", [_vm._v("mdi-account")])],
+                { staticClass: "ml-2", attrs: { "min-width": "0", text: "" } },
+                [
+                  _c("v-icon", { attrs: { dark: "" } }, [
+                    _vm._v(
+                      "\n                    mdi-account\n                "
+                    )
+                  ])
+                ],
                 1
               )
-            ]
-          }
-        }
-      ])
-    },
-    [
-      _vm._v(" "),
-      _c(
-        "v-list",
-        { attrs: { tile: false, flat: "", nav: "" } },
-        [
-          _vm._l(_vm.profile, function(p, i) {
-            return [
-              p.divider
-                ? _c("v-divider", {
-                    key: "divider-" + i,
-                    staticClass: "mb-2 mt-2"
-                  })
-                : _c(
-                    "v-list-item",
-                    {
-                      key: "item-" + i,
-                      attrs: { to: "/" },
-                      on: {
-                        click: function($event) {
-                          return _vm.func(i)
-                        }
-                      }
-                    },
-                    [
-                      _c("v-list-item-title", {
-                        domProps: { textContent: _vm._s(p.title) }
-                      })
-                    ],
-                    1
-                  )
-            ]
-          })
-        ],
-        2
-      )
+            ],
+            1
+          )
+        : _vm._e()
     ],
     1
   )

@@ -55,8 +55,6 @@ class Handler extends ExceptionHandler
             if($exception->getStatusCode()==404){
                 return response()->view('app');
             }
-            return response()->json(['message' => '出错了'], $exception->getStatusCode());
-
         }
         return parent::render($request, $exception);
     }

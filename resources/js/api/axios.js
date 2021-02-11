@@ -2,6 +2,7 @@
 import axios from 'axios';
 import {APP_CONFIG} from "../config";
 import i18n from  '../plugins/vue-i18n'
+import store from '../store.js'
 // 创建axios实例
 const httpService = axios.create({
   // url前缀-'https://some-domain.com/api/'
@@ -33,6 +34,13 @@ httpService.interceptors.response.use(
     // 统一处理状态
     const res = response.data;
     console.log(response.status);
+    //获取响应头中的 authorization
+    var token = response.headers.authorization;
+    //如果存在 authorization 说明服务器端判定 token 过期了并返回了新的 token
+    if (token) {
+      //Vue 需要做的就是把新的token更新保存到cookie中，调用 Vuex users.js 模块中的 refreshToken 方法
+      localStorage.setItem('Authorization', 'Bearer ' + res.access_token);
+    }
     // if (response.status !== 200) { // 需自定义
     //   // 返回异常
     //   return Promise.reject({
@@ -46,7 +54,9 @@ httpService.interceptors.response.use(
   },
   // 处理处理
   error => {
-
+    if(error.response.status === 401){
+        store.dispatch('clearLoginStatus');
+    }
     if(error && error.response && typeof error.response.data.errors === "undefined" && typeof error.response.data.message !== "undefined"){
       error.message = error.response.data.message;
       return Promise.reject(error);

@@ -96,7 +96,7 @@
                         this.$store.dispatch('getMyInfo');
                         this.$watch(this.$store.getters.getMyInfoStatus, function () {
                             if (this.$store.getters.getMyInfoStatus() === 2) {
-                                this.$router.push({name:'Index'});
+                                this.$router.push({name:'首页'});
                             }
                             if (this.$store.getters.getMyInfoStatus() === 3) {
                                 EventBus.$emit('open-message', {

@@ -124,7 +124,7 @@
                                 >
                                     {{$t('m.register.next')}}
                                 </v-btn>
-                                <router-link :to="{ name:'Login' }">
+                                <router-link :to="{ name:'登录' }">
                                     <v-btn
                                         v-show = "step === 4"
                                         color="primary"

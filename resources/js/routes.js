@@ -33,31 +33,31 @@ export default new VueRouter({
   routes: [
     {
       path: '/login',
-      name: 'Login',
+      name: '登录',
       components: Vue.component( 'login', require( './views/Login' ) )
     },
     {
       path: '/reg',
-      name: 'Reg',
+      name: '注册',
       components: Vue.component( 'reg', require( './views/Reg' ) )
     },
     {
       path: '/',
-      redirect: {name: 'Index'},
+      redirect: {name: '首页'},
       name: 'Blog-Vuetify',
       components: Vue.component( 'layout', require( './layouts/default/Layout' ) ),
       //beforeEnter:requireConfigs,
       children: [
         {
           path: 'index',
-          name: 'Index',
+          name: '首页',
           components: Vue.component( 'index', require( './views/Index' ) ),
         },
       ]
     },
     {
       path: '*',
-      name: 'Error',
+      name: '错误',
       components: Vue.component( 'error', require( './views/Error' ) )
     },
 

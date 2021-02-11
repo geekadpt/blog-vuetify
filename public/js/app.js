@@ -1933,6 +1933,12 @@ __webpack_require__.r(__webpack_exports__);
     DefaultNotification: function DefaultNotification() {
       return __webpack_require__.e(/*! import() | default-view */ "default-view").then(__webpack_require__.bind(__webpack_require__, /*! ../../components/Notification */ "./resources/js/components/Notification.vue"));
     }
+  },
+  created: function created() {
+    //console.log(localStorage.getItem('Authorization'));
+    if (this.$store.getters.getMyInfoStatus() === 0 && localStorage.getItem('Authorization')) {
+      this.$store.dispatch('getMyInfo');
+    }
   }
 });
 
@@ -2097,7 +2103,7 @@ __webpack_require__.r(__webpack_exports__);
           this.$watch(this.$store.getters.getMyInfoStatus, function () {
             if (this.$store.getters.getMyInfoStatus() === 2) {
               this.$router.push({
-                name: 'Index'
+                name: '首页'
               });
             }
 
@@ -2456,7 +2462,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config */ "./resources/js/config.js");
 /* harmony import */ var _plugins_vue_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../plugins/vue-i18n */ "./resources/js/plugins/vue-i18n.js");
+/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../store.js */ "./resources/js/store.js");
 // 引入axios
+
 
 
  // 创建axios实例
@@ -2487,7 +2495,14 @@ httpService.interceptors.request.use(function (config) {
 httpService.interceptors.response.use(function (response) {
   // 统一处理状态
   var res = response.data;
-  console.log(response.status); // if (response.status !== 200) { // 需自定义
+  console.log(response.status); //获取响应头中的 authorization
+
+  var token = response.headers.authorization; //如果存在 authorization 说明服务器端判定 token 过期了并返回了新的 token
+
+  if (token) {
+    //Vue 需要做的就是把新的token更新保存到cookie中，调用 Vuex users.js 模块中的 refreshToken 方法
+    localStorage.setItem('Authorization', 'Bearer ' + res.access_token);
+  } // if (response.status !== 200) { // 需自定义
   //   // 返回异常
   //   return Promise.reject({
   //     status: response.status,
@@ -2497,9 +2512,14 @@ httpService.interceptors.response.use(function (response) {
   //   return res;
   // }
 
+
   return res;
 }, // 处理处理
 function (error) {
+  if (error.response.status === 401) {
+    _store_js__WEBPACK_IMPORTED_MODULE_3__.default.dispatch('clearLoginStatus');
+  }
+
   if (error && error.response && typeof error.response.data.errors === "undefined" && typeof error.response.data.message !== "undefined") {
     error.message = error.response.data.message;
     return Promise.reject(error);
@@ -2851,9 +2871,9 @@ var m = {
     phone: '手机号',
     nickname: '昵称',
     password: '密码',
-    captcha: '验证码',
+    captcha: '图形码',
     explainPage1: '这是您将用于帐户登录的电话',
-    titlePage1: '手机号',
+    titlePage1: '用户注册',
     explainPage2: '请填写验证码',
     code: '验证码',
     explainPage3: '请完善您的个人资料',
@@ -3525,8 +3545,6 @@ var users = {
     registerErrors: '',
     loginStatus: 0,
     loginErrors: '',
-    // 存储token
-    Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : '',
     oauthStatus: '',
     oauthErrors: '',
     getMyInfoStatus: 0,
@@ -3582,12 +3600,11 @@ var users = {
       var commit = _ref4.commit;
       commit('setLoginStatus', 1);
       _api_users__WEBPACK_IMPORTED_MODULE_0__.default.login(data).then(function (response) {
+        localStorage.setItem('Authorization', 'Bearer ' + response.access_token);
         commit('setLoginStatus', 2);
-        commit('setLoginToken', 'Bearer ' + response.access_token);
       })["catch"](function (error) {
         commit('setLoginStatus', 3);
-        commit('setLoginToken', '');
-        commit('setVerificationCodesSendErrors', error.message);
+        commit('setLoginErrors', error.message);
       });
     },
     oauth: function oauth(_ref5, data) {
@@ -3595,14 +3612,12 @@ var users = {
           dispatch = _ref5.dispatch;
       commit('setOauthStatus', 1);
       _api_users__WEBPACK_IMPORTED_MODULE_0__.default.oauth(data).then(function (response) {
-        commit('setLoginToken', 'Bearer ' + response.access_token);
         dispatch('getMyInfo');
         commit('setLoginStatus', 2);
         commit('setOauthStatus', 2);
       })["catch"](function (error) {
         commit('setOauthStatus', 3);
         commit('setLoginStatus', 3);
-        commit('setLoginToken', '');
         commit('setVerificationCodesSendErrors', error.message);
       });
     },
@@ -3617,7 +3632,6 @@ var users = {
       })["catch"](function (error) {
         commit('setLoginStatus', 3);
         localStorage.removeItem('Authorization');
-        commit('setLoginToken', '');
         commit('setMyInfo', '');
         commit('setGetMyInfoStatus', 3);
       });
@@ -3636,14 +3650,17 @@ var users = {
       var commit = _ref8.commit;
       commit('setLogoutStatus', 1);
       _api_users__WEBPACK_IMPORTED_MODULE_0__.default.logout().then(function (response) {
-        localStorage.removeItem('Authorization');
-        commit('setLoginToken', '');
-        commit('setMyInfo', '');
         commit('setLogoutStatus', 2);
       })["catch"](function (error) {
         commit('setLogoutStatus', 3);
         commit('setLogoutErrors', error.message);
       });
+    },
+    clearLoginStatus: function clearLoginStatus(_ref9) {
+      var commit = _ref9.commit;
+      localStorage.removeItem('Authorization');
+      commit('setLoginStatus', 0);
+      commit('setMyInfo', '');
     }
   },
 
@@ -3683,10 +3700,6 @@ var users = {
     },
     setLoginErrors: function setLoginErrors(state, errors) {
       state.loginErrors = errors;
-    },
-    setLoginToken: function setLoginToken(state, access_token) {
-      state.Authorization = access_token;
-      localStorage.setItem('Authorization', access_token);
     },
     setOauthStatus: function setOauthStatus(state, status) {
       state.loginStatus = status;
@@ -3758,9 +3771,6 @@ var users = {
     },
     getLoginErrors: function getLoginErrors(state) {
       return state.loginErrors;
-    },
-    getLoginToken: function getLoginToken(state) {
-      return state.Authorization;
     },
     getOauthStatus: function getOauthStatus(state) {
       return function () {
@@ -3875,28 +3885,28 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
   },
   routes: [{
     path: '/login',
-    name: 'Login',
+    name: '登录',
     components: vue__WEBPACK_IMPORTED_MODULE_0__.default.component('login', __webpack_require__(/*! ./views/Login */ "./resources/js/views/Login.vue"))
   }, {
     path: '/reg',
-    name: 'Reg',
+    name: '注册',
     components: vue__WEBPACK_IMPORTED_MODULE_0__.default.component('reg', __webpack_require__(/*! ./views/Reg */ "./resources/js/views/Reg.vue"))
   }, {
     path: '/',
     redirect: {
-      name: 'Index'
+      name: '首页'
     },
     name: 'Blog-Vuetify',
     components: vue__WEBPACK_IMPORTED_MODULE_0__.default.component('layout', __webpack_require__(/*! ./layouts/default/Layout */ "./resources/js/layouts/default/Layout.vue")),
     //beforeEnter:requireConfigs,
     children: [{
       path: 'index',
-      name: 'Index',
+      name: '首页',
       components: vue__WEBPACK_IMPORTED_MODULE_0__.default.component('index', __webpack_require__(/*! ./views/Index */ "./resources/js/views/Index.vue"))
     }]
   }, {
     path: '*',
-    name: 'Error',
+    name: '错误',
     components: vue__WEBPACK_IMPORTED_MODULE_0__.default.component('error', __webpack_require__(/*! ./views/Error */ "./resources/js/views/Error.vue"))
   }]
 }));
@@ -26787,7 +26797,7 @@ var render = function() {
                             _vm._v(" "),
                             _c(
                               "router-link",
-                              { attrs: { to: { name: "Login" } } },
+                              { attrs: { to: { name: "登录" } } },
                               [
                                 _c(
                                   "v-btn",

@@ -44,5 +44,11 @@
         '../../components/Notification'
       ),
     },
+      created() {
+            //console.log(localStorage.getItem('Authorization'));
+            if (this.$store.getters.getMyInfoStatus() === 0 && localStorage.getItem('Authorization')){
+                this.$store.dispatch('getMyInfo');
+            }
+      }
   }
 </script>

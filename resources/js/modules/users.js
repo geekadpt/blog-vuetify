@@ -23,8 +23,6 @@ export const users = {
     registerErrors: '',
     loginStatus: 0,
     loginErrors: '',
-    // 存储token
-    Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : '',
     oauthStatus:'',
     oauthErrors:'',
     getMyInfoStatus: 0,
@@ -84,16 +82,14 @@ export const users = {
     },
     login( { commit },data ){
       commit( 'setLoginStatus', 1 );
-
       UserApi.login(data)
         .then( function( response ){
+          localStorage.setItem('Authorization', 'Bearer ' + response.access_token);
           commit( 'setLoginStatus', 2 );
-          commit('setLoginToken','Bearer ' + response.access_token);
         })
         .catch( function(error){
           commit( 'setLoginStatus', 3 );
-          commit('setLoginToken','');
-          commit( 'setVerificationCodesSendErrors',error.message);
+          commit( 'setLoginErrors',error.message);
         });
     },
     oauth( { commit , dispatch },data ){
@@ -101,7 +97,6 @@ export const users = {
 
       UserApi.oauth(data)
         .then( function( response ){
-          commit('setLoginToken','Bearer ' + response.access_token);
           dispatch('getMyInfo');
           commit( 'setLoginStatus', 2 );
           commit( 'setOauthStatus', 2 );
@@ -109,7 +104,6 @@ export const users = {
         .catch( function(error){
           commit( 'setOauthStatus', 3 );
           commit( 'setLoginStatus', 3 );
-          commit('setLoginToken','');
           commit( 'setVerificationCodesSendErrors',error.message);
         });
     },
@@ -126,7 +120,6 @@ export const users = {
         .catch( function(error){
           commit( 'setLoginStatus', 3 );
           localStorage.removeItem('Authorization');
-          commit('setLoginToken', '');
           commit('setMyInfo','');
           commit( 'setGetMyInfoStatus', 3 );
         });
@@ -147,9 +140,6 @@ export const users = {
       commit( 'setLogoutStatus', 1 );
       UserApi.logout()
         .then( function( response ){
-          localStorage.removeItem('Authorization');
-          commit('setLoginToken', '');
-          commit('setMyInfo','');
           commit( 'setLogoutStatus', 2 );
         })
         .catch( function(error){
@@ -157,7 +147,11 @@ export const users = {
           commit( 'setLogoutErrors',error.message);
         });
     },
-
+    clearLoginStatus({commit}){
+      localStorage.removeItem('Authorization');
+      commit( 'setLoginStatus', 0 );
+      commit('setMyInfo','');
+    }
   },
   /**
    * Defines the mutations used
@@ -195,10 +189,6 @@ export const users = {
     },
     setLoginErrors( state, errors){
       state.loginErrors = errors;
-    },
-    setLoginToken( state, access_token){
-      state.Authorization = access_token;
-      localStorage.setItem('Authorization', access_token);
     },
     setOauthStatus( state, status){
       state.loginStatus = status;
@@ -272,9 +262,6 @@ export const users = {
     },
     getLoginErrors( state ){
       return state.loginErrors;
-    },
-    getLoginToken( state ){
-      return state.Authorization;
     },
     getOauthStatus( state ){
       return function () {

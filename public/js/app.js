@@ -2138,21 +2138,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'Index',
   data: function data() {
     return {
-      items: [{
-        color: '#1F7087',
-        src: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-        title: 'Supermodel',
-        artist: 'Foster the People'
-      }, {
-        color: '#952175',
-        src: 'https://cdn.vuetifyjs.com/images/cards/halcyon.png',
-        title: 'Halcyon Days',
-        artist: 'Ellie Goulding'
-      }]
+      scroll: {},
+      loading: false,
+      infinite_box: {
+        maxHeight: '',
+        overflow: 'auto'
+      },
+      infinite_side: {
+        maxHeight: '',
+        overflow: 'auto'
+      }
     };
+  },
+  computed: {
+    articles: function articles() {
+      return this.$store.getters.getArticles;
+    }
+  },
+  created: function created() {
+    this.$store.dispatch('loadArticles', {
+      order: 'hot',
+      page: 1
+    });
   }
 });
 
@@ -2271,9 +2287,17 @@ __webpack_require__.r(__webpack_exports__);
           this.$store.dispatch('getMyInfo');
           this.$watch(this.$store.getters.getMyInfoStatus, function () {
             if (this.$store.getters.getMyInfoStatus() === 2) {
-              this.$router.push({
-                path: this.$store.getters.getBeforeLoginRoute
-              });
+              console.log(this.$route);
+
+              if (this.$route.path == '/login') {
+                this.$router.push({
+                  path: '/'
+                });
+              } else {
+                this.$router.push({
+                  path: this.$store.getters.getBeforeLoginRoute
+                });
+              }
             }
 
             if (this.$store.getters.getMyInfoStatus() === 3) {
@@ -2605,6 +2629,84 @@ __webpack_require__.r(__webpack_exports__);
   },
   app: function app(data) {
     return (0,_axios__WEBPACK_IMPORTED_MODULE_0__.post)(_config_js__WEBPACK_IMPORTED_MODULE_1__.APP_CONFIG.API_URL + 'app');
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/api/articles.js":
+/*!**************************************!*\
+  !*** ./resources/js/api/articles.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../config.js */ "./resources/js/config.js");
+/* harmony import */ var _axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./axios */ "./resources/js/api/axios.js");
+/**
+ * Imports the LvBlog API URL from the config.
+ */
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  getArticles: function getArticles(data) {
+    return (0,_axios__WEBPACK_IMPORTED_MODULE_1__.get)(_config_js__WEBPACK_IMPORTED_MODULE_0__.APP_CONFIG.API_URL + 'articles' + '?page=' + data.page + '&order=' + data.order);
+  },
+  getUserArticles: function getUserArticles(user, page) {
+    return (0,_axios__WEBPACK_IMPORTED_MODULE_1__.get)(_config_js__WEBPACK_IMPORTED_MODULE_0__.APP_CONFIG.API_URL + '/users/' + user + '/articles' + '?include=user,category&page=' + page, {});
+  },
+  getUserTagArticles: function getUserTagArticles(tag, page) {
+    return (0,_axios__WEBPACK_IMPORTED_MODULE_1__.get)(_config_js__WEBPACK_IMPORTED_MODULE_0__.APP_CONFIG.API_URL + '/tags/' + tag + '/articles' + '?include=user,category&page=' + page, {});
+  },
+  getDraftArticles: function getDraftArticles(data) {
+    return (0,_axios__WEBPACK_IMPORTED_MODULE_1__.get)(_config_js__WEBPACK_IMPORTED_MODULE_0__.APP_CONFIG.API_URL + '/drafts/articles' + '?include=user,category&page=' + data.page);
+  },
+  getPrivateArticles: function getPrivateArticles(data) {
+    return (0,_axios__WEBPACK_IMPORTED_MODULE_1__.get)(_config_js__WEBPACK_IMPORTED_MODULE_0__.APP_CONFIG.API_URL + '/privates/articles' + '?include=user,category&page=' + data.page);
+  },
+  getUserCategoryArticles: function getUserCategoryArticles(data) {
+    return (0,_axios__WEBPACK_IMPORTED_MODULE_1__.get)(_config_js__WEBPACK_IMPORTED_MODULE_0__.APP_CONFIG.API_URL + '/categories/' + data.category + '/articles' + '?include=user,category&page=' + data.page, {});
+  },
+  getArticle: function getArticle(art_id) {
+    return (0,_axios__WEBPACK_IMPORTED_MODULE_1__.get)(_config_js__WEBPACK_IMPORTED_MODULE_0__.APP_CONFIG.API_URL + '/articles/' + art_id + '?include=user', {});
+  },
+  postArticle: function postArticle(title, body, tags, category_id, excerpt, target) {
+    return (0,_axios__WEBPACK_IMPORTED_MODULE_1__.post)(_config_js__WEBPACK_IMPORTED_MODULE_0__.APP_CONFIG.API_URL + '/articles', {
+      title: title,
+      body: body,
+      tags: tags,
+      category_id: category_id,
+      excerpt: excerpt,
+      target: target
+    });
+  },
+  patchArticle: function patchArticle(data) {
+    return (0,_axios__WEBPACK_IMPORTED_MODULE_1__.patch)(_config_js__WEBPACK_IMPORTED_MODULE_0__.APP_CONFIG.API_URL + '/articles/' + data.id, {
+      title: data.title,
+      body: data.body,
+      tags: data.tags,
+      category_id: data.category_id,
+      excerpt: data.excerpt,
+      target: data.target
+    });
+  },
+  deleteArticle: function deleteArticle(data) {
+    return delete (_config_js__WEBPACK_IMPORTED_MODULE_0__.APP_CONFIG.API_URL + '/articles/' + data.id);
+  },
+  patchArticleViewCount: function patchArticleViewCount(data) {
+    return (0,_axios__WEBPACK_IMPORTED_MODULE_1__.patch)(_config_js__WEBPACK_IMPORTED_MODULE_0__.APP_CONFIG.API_URL + '/articles/view/' + data.art_id);
+  },
+  getRecommendArticles: function getRecommendArticles() {
+    return (0,_axios__WEBPACK_IMPORTED_MODULE_1__.get)(_config_js__WEBPACK_IMPORTED_MODULE_0__.APP_CONFIG.API_URL + '/recommend/articles');
+  },
+  searchArticles: function searchArticles(data) {
+    return (0,_axios__WEBPACK_IMPORTED_MODULE_1__.post)(_config_js__WEBPACK_IMPORTED_MODULE_0__.APP_CONFIG.API_URL + '/search/articles' + '?include=user,category&page=' + data.page, {
+      search: data.search
+    });
   }
 });
 
@@ -3690,6 +3792,364 @@ var app = {
 
 /***/ }),
 
+/***/ "./resources/js/modules/articles.js":
+/*!******************************************!*\
+  !*** ./resources/js/modules/articles.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "articles": () => (/* binding */ articles)
+/* harmony export */ });
+/* harmony import */ var _api_articles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/articles */ "./resources/js/api/articles.js");
+/*
+|-------------------------------------------------------------------------------
+| VUEX modules/users.js
+|-------------------------------------------------------------------------------
+| The Vuex data store for the Articles
+*/
+
+/**
+ status = 0 -> 数据尚未加载
+ status = 1 -> 数据开始加载
+ status = 2 -> 数据加载成功
+ status = 3 -> 数据加载失败
+ */
+
+var articles = {
+  state: {
+    //分类
+    articles: '',
+    articlesLoadStatus: 0,
+    essays: '',
+    essaysLoadStatus: 0,
+    article: '',
+    articleLoadStatus: 0,
+    articleAddStatus: 0,
+    articleAddErrors: '',
+    articleUpdateStatus: 0,
+    articleUpdateErrors: '',
+    articleDeleteStatus: 0,
+    articleDeleteErrors: '',
+    updateViewCountStatus: 0,
+    updateViewCountErrors: '',
+    recommendArticles: {
+      id: '',
+      article_id: '',
+      article_title: '',
+      article_description: '',
+      article_thumb: ''
+    },
+    recommendArticlesLoadStatus: 0,
+    articleSearchStatus: 0,
+    articleSearchErrors: ''
+  },
+  actions: {
+    loadArticles: function loadArticles(_ref, data) {
+      var commit = _ref.commit,
+          state = _ref.state;
+      commit('setArticlesLoadStatus', 1);
+      _api_articles__WEBPACK_IMPORTED_MODULE_0__.default.getArticles(data).then(function (response) {
+        if (state.articles) {
+          var merge_articles = state.articles.concat(response.data);
+          commit('setArticles', merge_articles);
+        }
+
+        commit('setArticles', response.data);
+        commit('setArticlesLoadStatus', 2);
+      })["catch"](function (error) {
+        commit('setArticlesLoadStatus', 3);
+      });
+    },
+    loadEssays: function loadEssays(_ref2, data) {
+      var commit = _ref2.commit,
+          state = _ref2.state;
+      commit('setEssaysLoadStatus', 1);
+      _api_articles__WEBPACK_IMPORTED_MODULE_0__.default.getArticles(data).then(function (response) {
+        if (state.essays !== undefined) {
+          var merge_essays = state.essays.concat(response);
+          commit('setEssays', merge_essays);
+        }
+
+        commit('setEssays', response);
+        commit('setEssaysLoadStatus', 2);
+      })["catch"](function (error) {
+        commit('setEssaysLoadStatus', 3);
+      });
+    },
+    loadUserTagArticles: function loadUserTagArticles(_ref3, data) {
+      var commit = _ref3.commit,
+          state = _ref3.state;
+      commit('setArticleLoadStatus', 1);
+      _api_articles__WEBPACK_IMPORTED_MODULE_0__.default.getUserTagArticles(data.tag, data.page).then(function (response) {
+        if (state.articles.data !== undefined) {
+          var merge_data = state.articles.data.concat(response.data.data);
+          response.data.data = merge_data;
+        }
+
+        commit('setArticles', response.data);
+        commit('setArticlesLoadStatus', 2);
+      })["catch"](function (error) {
+        commit('setArticleLoadStatus', 3);
+      });
+    },
+    loadDraftArticles: function loadDraftArticles(_ref4, data) {
+      var commit = _ref4.commit,
+          state = _ref4.state;
+      commit('setArticleLoadStatus', 1);
+      _api_articles__WEBPACK_IMPORTED_MODULE_0__.default.getDraftArticles(data).then(function (response) {
+        if (state.articles.data !== undefined) {
+          var merge_data = state.articles.data.concat(response.data.data);
+          response.data.data = merge_data;
+          commit('setArticles', response.data);
+        }
+
+        commit('setArticles', response.data);
+        commit('setArticlesLoadStatus', 2);
+      })["catch"](function (error) {
+        commit('setArticleLoadStatus', 3);
+      });
+    },
+    loadPrivateArticles: function loadPrivateArticles(_ref5, data) {
+      var commit = _ref5.commit,
+          state = _ref5.state;
+      commit('setArticleLoadStatus', 1);
+      _api_articles__WEBPACK_IMPORTED_MODULE_0__.default.getPrivateArticles(data).then(function (response) {
+        if (state.articles.data !== undefined) {
+          var merge_data = state.articles.data.concat(response.data.data);
+          response.data.data = merge_data;
+          commit('setArticles', response.data);
+        }
+
+        commit('setArticles', response.data);
+        commit('setArticlesLoadStatus', 2);
+      })["catch"](function (error) {
+        commit('setArticleLoadStatus', 3);
+      });
+    },
+    loadUserCategoryArticles: function loadUserCategoryArticles(_ref6, data) {
+      var commit = _ref6.commit,
+          state = _ref6.state;
+      commit('setArticleLoadStatus', 1);
+      _api_articles__WEBPACK_IMPORTED_MODULE_0__.default.getUserCategoryArticles(data).then(function (response) {
+        if (state.articles.data != undefined) {
+          var merge_data = state.articles.data.concat(response.data.data);
+          response.data.data = merge_data;
+        }
+
+        commit('setArticles', response.data);
+        commit('setArticlesLoadStatus', 2);
+      })["catch"](function (error) {
+        commit('setArticleLoadStatus', 3);
+      });
+    },
+    addArticle: function addArticle(_ref7, data) {
+      var commit = _ref7.commit,
+          dispatch = _ref7.dispatch;
+      commit('setArticleAddStatus', 1);
+      _api_articles__WEBPACK_IMPORTED_MODULE_0__.default.postArticle(data.title, data.body, data.tags, data.category_id, data.excerpt, data.target).then(function (response) {
+        commit('setArticleAddStatus', 2);
+      })["catch"](function (error) {
+        commit('setArticleAddStatus', 3);
+        console.log(error.response.data.errors[Object.keys(error.response.data.errors)[0]].toString());
+        commit('setArticleAddResponseMessages', error.response.data.errors[Object.keys(error.response.data.errors)[0]].toString() === '' ? "发布失败，可能是因为登陆超时造成的." : error.response.data.errors[Object.keys(error.response.data.errors)[0]].toString());
+      });
+    },
+    updateArticle: function updateArticle(_ref8, data) {
+      var commit = _ref8.commit;
+      commit('setArticleUpdateStatus', 1);
+      _api_articles__WEBPACK_IMPORTED_MODULE_0__.default.patchArticle(data).then(function (response) {
+        commit('setArticleUpdateStatus', 2);
+      })["catch"](function (error) {
+        commit('setArticleUpdateStatus', 3);
+        console.log(error.response.data.errors[Object.keys(error.response.data.errors)[0]].toString());
+        commit('setArticleUpdateResponseMessages', error.response.data.errors[Object.keys(error.response.data.errors)[0]].toString() === '' ? "发布失败，可能是因为登陆超时造成的." : error.response.data.errors[Object.keys(error.response.data.errors)[0]].toString());
+      });
+    },
+    deleteArticle: function deleteArticle(_ref9, data) {
+      var commit = _ref9.commit,
+          dispatch = _ref9.dispatch;
+      commit('setArticleDeleteStatus', 1);
+      _api_articles__WEBPACK_IMPORTED_MODULE_0__.default.deleteArticle(data).then(function (response) {
+        commit('setArticleDeleteStatus', 2);
+      })["catch"](function (error) {
+        commit('setArticleDeleteStatus', 3);
+      });
+    },
+    initArticleAddStatus: function initArticleAddStatus(_ref10) {
+      var commit = _ref10.commit;
+      commit('setArticleAddStatus', 0);
+      commit('setArticleAddResponseMessages', '');
+    },
+    initArticleUpdateStatus: function initArticleUpdateStatus(_ref11) {
+      var commit = _ref11.commit;
+      commit('setArticleUpdateStatus', 0);
+      commit('setArticleUpdateResponseMessages', '');
+    },
+    loadArticle: function loadArticle(_ref12, data) {
+      var commit = _ref12.commit;
+      commit('setArticleLoadStatus', 1);
+      _api_articles__WEBPACK_IMPORTED_MODULE_0__.default.getArticle(data.art_id).then(function (response) {
+        commit('setArticle', response.data);
+        commit('setArticleLoadStatus', 2);
+      })["catch"](function (error) {
+        commit('setArticleLoadStatus', 3);
+      });
+    },
+    clearArticles: function clearArticles(_ref13) {
+      var commit = _ref13.commit;
+      commit('setArticles', '');
+      commit('setArticlesLoadStatus', 0);
+    },
+    patchUpdateViewCount: function patchUpdateViewCount(_ref14, data) {
+      var commit = _ref14.commit;
+      commit('setUpdateViewCountStatus', 1);
+      _api_articles__WEBPACK_IMPORTED_MODULE_0__.default.patchArticleViewCount(data).then(function (response) {
+        commit('setUpdateViewCountStatus', 2);
+      })["catch"](function (error) {
+        commit('setUpdateViewCountStatus', 3);
+      });
+    },
+    getRecommendArticles: function getRecommendArticles(_ref15) {
+      var commit = _ref15.commit;
+      commit('setRecommendArticlesLoadStatus', 1);
+      _api_articles__WEBPACK_IMPORTED_MODULE_0__.default.getRecommendArticles().then(function (response) {
+        commit('setRecommendArticles', response.data);
+        commit('setRecommendArticlesLoadStatus', 2);
+      })["catch"](function (error) {
+        commit('setRecommendArticlesLoadStatus', 3);
+      });
+    },
+    searchArticles: function searchArticles(_ref16, data) {
+      var commit = _ref16.commit,
+          state = _ref16.state;
+      commit('setArticlesSearchStatus', 1);
+      _api_articles__WEBPACK_IMPORTED_MODULE_0__.default.searchArticles(data).then(function (response) {
+        if (state.articles.data !== undefined) {
+          var merge_data = state.articles.data.concat(response.data.data);
+          response.data.data = merge_data;
+          commit('setArticles', response.data);
+        }
+
+        commit('setArticles', response.data);
+        commit('setArticlesSearchStatus', 2);
+      })["catch"](function (error) {
+        commit('setArticlesSearchStatus', 3);
+      });
+    }
+  },
+  mutations: {
+    setArticlesLoadStatus: function setArticlesLoadStatus(state, status) {
+      state.articlesLoadStatus = status;
+    },
+    setArticles: function setArticles(state, data) {
+      state.articles = data;
+    },
+    setEssaysLoadStatus: function setEssaysLoadStatus(state, status) {
+      state.essaysLoadStatus = status;
+    },
+    setEssays: function setEssays(state, data) {
+      state.essays = data;
+    },
+    setArticleLoadStatus: function setArticleLoadStatus(state, status) {
+      state.articleLoadStatus = status;
+    },
+    setArticle: function setArticle(state, article) {
+      state.article = article;
+    },
+    setArticleAddStatus: function setArticleAddStatus(state, status) {
+      state.articleAddStatus = status;
+    },
+    setArticleAddResponseMessages: function setArticleAddResponseMessages(state, messages) {
+      state.articlesAddResponseMessages = messages;
+    },
+    setArticleUpdateStatus: function setArticleUpdateStatus(state, status) {
+      state.articleUpdateStatus = status;
+    },
+    setArticleDeleteStatus: function setArticleDeleteStatus(state, status) {
+      state.articleDeleteStatus = status;
+    },
+    setArticleUpdateResponseMessages: function setArticleUpdateResponseMessages(state, messages) {
+      state.articlesUpdateResponseMessages = messages;
+    },
+    setUpdateViewCountStatus: function setUpdateViewCountStatus(state, status) {
+      state.updateViewCountStatus = status;
+    },
+    setRecommendArticles: function setRecommendArticles(state, articles) {
+      state.recommendArticles = articles;
+    },
+    setRecommendArticlesLoadStatus: function setRecommendArticlesLoadStatus(state, status) {
+      state.recommendArticlesLoadStatus = status;
+    },
+    setArticlesSearchStatus: function setArticlesSearchStatus(state, status) {
+      state.articleSearchStatus = status;
+    }
+  },
+  getters: {
+    getArticles: function getArticles(state) {
+      return state.articles;
+    },
+    getArticlesLoadStatus: function getArticlesLoadStatus(state) {
+      return function () {
+        return state.articlesLoadStatus;
+      };
+    },
+    getArticle: function getArticle(state) {
+      return state.article;
+    },
+    getArticleLoadStatus: function getArticleLoadStatus(state) {
+      return function () {
+        return state.articleLoadStatus;
+      };
+    },
+    getArticleAddStatus: function getArticleAddStatus(state) {
+      return function () {
+        return state.articleAddStatus;
+      };
+    },
+    getArticleAddResponseMessages: function getArticleAddResponseMessages(state) {
+      return function () {
+        return state.articlesAddResponseMessages;
+      };
+    },
+    getArticleUpdateStatus: function getArticleUpdateStatus(state) {
+      return function () {
+        return state.articleUpdateStatus;
+      };
+    },
+    getArticleDeleteStatus: function getArticleDeleteStatus(state) {
+      return function () {
+        return state.articleDeleteStatus;
+      };
+    },
+    getArticleUpdateResponseMessages: function getArticleUpdateResponseMessages(state) {
+      return function () {
+        return state.articlesUpdateResponseMessages;
+      };
+    },
+    getUpdateViewCountStatus: function getUpdateViewCountStatus(state) {
+      return state.updateViewCountStatus = status;
+    },
+    getRecommendArticles: function getRecommendArticles(state) {
+      return state.recommendArticles;
+    },
+    getRecommendArticlesLoadStatus: function getRecommendArticlesLoadStatus(state) {
+      return function () {
+        return state.recommendArticlesLoadStatus;
+      };
+    },
+    getArticlesSearchStatus: function getArticlesSearchStatus(state) {
+      return function () {
+        return state.articleSearchStatus;
+      };
+    }
+  }
+};
+
+/***/ }),
+
 /***/ "./resources/js/modules/users.js":
 /*!***************************************!*\
   !*** ./resources/js/modules/users.js ***!
@@ -4147,10 +4607,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _modules_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/app */ "./resources/js/modules/app.js");
 /* harmony import */ var _modules_users__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/users */ "./resources/js/modules/users.js");
+/* harmony import */ var _modules_articles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/articles */ "./resources/js/modules/articles.js");
 /*
  |-------------------------------------------------------------------------------
  | VUEX store.js
@@ -4171,19 +4632,21 @@ __webpack_require__(/*! es6-promise */ "./node_modules/es6-promise/dist/es6-prom
 
 
 
+
 /**
  * Initializes Vuex on Vue.
  */
 
-vue__WEBPACK_IMPORTED_MODULE_2__.default.use(vuex__WEBPACK_IMPORTED_MODULE_3__.default);
+vue__WEBPACK_IMPORTED_MODULE_3__.default.use(vuex__WEBPACK_IMPORTED_MODULE_4__.default);
 /**
  * Export our data store.
  */
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vuex__WEBPACK_IMPORTED_MODULE_3__.default.Store({
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vuex__WEBPACK_IMPORTED_MODULE_4__.default.Store({
   modules: {
     app: _modules_app__WEBPACK_IMPORTED_MODULE_0__.app,
-    users: _modules_users__WEBPACK_IMPORTED_MODULE_1__.users
+    users: _modules_users__WEBPACK_IMPORTED_MODULE_1__.users,
+    articles: _modules_articles__WEBPACK_IMPORTED_MODULE_2__.articles
   }
 }));
 
@@ -26558,200 +27021,238 @@ var render = function() {
         "v-col",
         { attrs: { cols: "12", md: "9" } },
         [
-          [
-            _c(
-              "v-card",
+          _vm._l(_vm.articles, function(item, i) {
+            return _c(
+              "div",
+              { key: i },
               [
                 _c(
-                  "v-row",
-                  { attrs: { dense: "" } },
+                  "v-card",
+                  { staticClass: "my-4" },
                   [
                     _c(
-                      "v-col",
-                      {
-                        staticClass: "hidden-md-only col-md-4 ma-0 pa-0",
-                        attrs: { cols: "12" }
-                      },
+                      "v-row",
+                      { attrs: { dense: "" } },
                       [
                         _c(
-                          "v-img",
+                          "v-col",
                           {
-                            staticClass: "grey lighten-2 align-end white--text",
-                            attrs: {
-                              src: "https://picsum.photos/500/300?image=15",
-                              "lazy-src": "https://picsum.photos/10/6?image=20",
-                              "aspect-ratio": "1",
-                              "max-height": "250"
-                            },
-                            scopedSlots: _vm._u([
-                              {
-                                key: "placeholder",
-                                fn: function() {
-                                  return [
-                                    _c(
-                                      "v-row",
-                                      {
-                                        staticClass: "fill-height ma-0",
-                                        attrs: {
-                                          align: "center",
-                                          justify: "center"
-                                        }
-                                      },
-                                      [
-                                        _c("v-progress-circular", {
-                                          attrs: {
-                                            indeterminate: "",
-                                            color: "grey lighten-5"
-                                          }
-                                        })
-                                      ],
-                                      1
-                                    )
-                                  ]
-                                },
-                                proxy: true
-                              }
-                            ])
+                            staticClass: "hidden-md-only col-md-4 ma-0 pa-0",
+                            attrs: { cols: "12" }
                           },
                           [
                             _c(
-                              "v-card-title",
-                              { staticClass: "hidden-md-and-up" },
-                              [
-                                _c("div", { staticClass: "text-one-line" }, [
-                                  _vm._v(
-                                    "\n                                                    Top 10 Australian beaches\n                                                "
-                                  )
-                                ])
-                              ]
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-col",
-                      { staticClass: "col-md-8", attrs: { cols: "12" } },
-                      [
-                        _c(
-                          "v-card-title",
-                          [
-                            _c("v-icon", { attrs: { large: "", left: "" } }, [
-                              _vm._v(
-                                "\n                                                mdi-twitter\n                                            "
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "span",
+                              "v-img",
                               {
                                 staticClass:
-                                  "title font-weight-light text-one-line"
+                                  "grey lighten-2 align-end white--text",
+                                attrs: {
+                                  src: item.thumb + item.id,
+                                  "lazy-src":
+                                    "https://picsum.photos/10/6?image=20",
+                                  "aspect-ratio": "1",
+                                  "max-height": "250"
+                                },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "placeholder",
+                                      fn: function() {
+                                        return [
+                                          _c(
+                                            "v-row",
+                                            {
+                                              staticClass: "fill-height ma-0",
+                                              attrs: {
+                                                align: "center",
+                                                justify: "center"
+                                              }
+                                            },
+                                            [
+                                              _c("v-progress-circular", {
+                                                attrs: {
+                                                  indeterminate: "",
+                                                  color: "grey lighten-5"
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          )
+                                        ]
+                                      },
+                                      proxy: true
+                                    }
+                                  ],
+                                  null,
+                                  true
+                                )
                               },
-                              [_vm._v("Article Tittle")]
+                              [
+                                _c(
+                                  "v-card-title",
+                                  { staticClass: "hidden-md-and-up" },
+                                  [
+                                    _c(
+                                      "div",
+                                      { staticClass: "text-one-line" },
+                                      [
+                                        _vm._v(
+                                          "\n                                                    " +
+                                            _vm._s(item.title) +
+                                            "\n                                                "
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ],
+                              1
                             )
                           ],
                           1
                         ),
                         _vm._v(" "),
-                        _c("v-card-text", [
-                          _c(
-                            "div",
-                            [
-                              _c("v-icon", [_vm._v(" mdi-folder ")]),
-                              _vm._v(" "),
-                              _c(
-                                "v-chip",
-                                { staticClass: "ma-1", attrs: { small: "" } },
-                                [
-                                  _vm._v(
-                                    "\n                                                    small chip\n                                                "
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c("span", { staticClass: "mr-1" }, [
-                                _vm._v("·")
-                              ]),
-                              _vm._v(" "),
-                              _c("v-icon", [_vm._v(" mdi-tag-multiple ")]),
-                              _vm._v(" "),
-                              _c(
-                                "v-chip",
-                                { staticClass: "ma-1", attrs: { small: "" } },
-                                [
-                                  _vm._v(
-                                    "\n                                                    small chip\n                                                "
-                                  )
-                                ]
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "text-justify text-two-line mt-2" },
-                            [
-                              _vm._v(
-                                '\n                                                "Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well.Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well.Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well."\n                                            '
-                              )
-                            ]
-                          )
-                        ]),
-                        _vm._v(" "),
                         _c(
-                          "v-card-actions",
+                          "v-col",
+                          { staticClass: "col-md-8", attrs: { cols: "12" } },
                           [
                             _c(
-                              "v-list-item",
-                              { staticClass: "grow" },
+                              "v-card-title",
                               [
                                 _c(
-                                  "v-list-item-avatar",
-                                  { attrs: { color: "grey darken-3" } },
+                                  "v-icon",
+                                  { attrs: { large: "", left: "" } },
                                   [
-                                    _c("v-img", {
-                                      staticClass: "elevation-6",
-                                      attrs: {
-                                        alt: "",
-                                        src:
-                                          "https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
-                                      }
-                                    })
-                                  ],
-                                  1
+                                    _vm._v(
+                                      "\n                                                mdi-twitter\n                                            "
+                                    )
+                                  ]
                                 ),
                                 _vm._v(" "),
                                 _c(
-                                  "v-list-item-content",
-                                  [
-                                    _c("v-list-item-title", [
-                                      _vm._v("Evan You")
-                                    ])
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-row",
+                                  "span",
                                   {
-                                    attrs: { align: "center", justify: "end" }
+                                    staticClass:
+                                      "title font-weight-light text-one-line"
                                   },
-                                  [
-                                    _c("v-icon", { staticClass: "mr-1" }, [
+                                  [_vm._v(_vm._s(item.title))]
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("v-card-text", [
+                              _c(
+                                "div",
+                                [
+                                  _c("v-icon", [_vm._v(" mdi-folder ")]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-chip",
+                                    {
+                                      staticClass: "ma-1",
+                                      attrs: { small: "" }
+                                    },
+                                    [
                                       _vm._v(
-                                        "\n                                                        mdi-clock\n                                                    "
+                                        "\n                                                    " +
+                                          _vm._s(item.category.name) +
+                                          "\n                                                    "
                                       )
-                                    ]),
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("span", { staticClass: "mr-1" }, [
+                                    _vm._v("·")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-icon", [_vm._v(" mdi-tag-multiple ")]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-chip",
+                                    {
+                                      staticClass: "ma-1",
+                                      attrs: { small: "" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                                    small chip\n                                                "
+                                      )
+                                    ]
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "text-justify text-two-line mt-2"
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                                " +
+                                      _vm._s(item.excerpt) +
+                                      "\n                                            "
+                                  )
+                                ]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "v-card-actions",
+                              [
+                                _c(
+                                  "v-list-item",
+                                  { staticClass: "grow" },
+                                  [
+                                    _c(
+                                      "v-list-item-avatar",
+                                      { attrs: { color: "grey darken-3" } },
+                                      [
+                                        _c("v-img", {
+                                          staticClass: "elevation-6",
+                                          attrs: {
+                                            alt: "",
+                                            src: item.user.avatar
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    ),
                                     _vm._v(" "),
                                     _c(
-                                      "span",
-                                      { staticClass: "subheading mr-2" },
-                                      [_vm._v("2021-2-11")]
+                                      "v-list-item-content",
+                                      [
+                                        _c("v-list-item-title", [
+                                          _vm._v(_vm._s(item.user.nickname))
+                                        ])
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-row",
+                                      {
+                                        attrs: {
+                                          align: "center",
+                                          justify: "end"
+                                        }
+                                      },
+                                      [
+                                        _c("v-icon", { staticClass: "mr-1" }, [
+                                          _vm._v(
+                                            "\n                                                        mdi-clock\n                                                    "
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "span",
+                                          { staticClass: "subheading mr-2" },
+                                          [_vm._v(_vm._s(item.created_at))]
+                                        )
+                                      ],
+                                      1
                                     )
                                   ],
                                   1
@@ -26771,7 +27272,7 @@ var render = function() {
               ],
               1
             )
-          ]
+          })
         ],
         2
       ),
@@ -26782,8 +27283,12 @@ var render = function() {
         [
           _c(
             "v-card",
-            { staticClass: "pa-2", attrs: { outlined: "", tile: "" } },
-            [_vm._v("\n                    .col-6 .col-md-4\n                ")]
+            { staticClass: "my-4", attrs: { outlined: "", tile: "" } },
+            [
+              _vm._v(
+                "\n                    .col-12 .col-md-3\n                "
+              )
+            ]
           )
         ],
         1

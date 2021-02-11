@@ -1,0 +1,73 @@
+/**
+ * Imports the LvBlog API URL from the config.
+ */
+import { APP_CONFIG } from '../config.js';
+import { post,get,patch ,put , del } from './axios'
+
+export default {
+    getArticles: function(data){
+        return get(APP_CONFIG.API_URL + 'articles'+'?page='+data.page+'&order='+data.order);
+    },
+    getUserArticles: function(user,page){
+
+        return get(APP_CONFIG.API_URL + '/users/'+user+'/articles'+'?include=user,category&page='+page ,{
+
+        });
+    },
+    getUserTagArticles: function(tag,page){
+        return get(APP_CONFIG.API_URL + '/tags/'+tag+'/articles'+'?include=user,category&page='+page ,{
+
+        });
+    },
+    getDraftArticles: function(data){
+        return get(APP_CONFIG.API_URL + '/drafts/articles'+'?include=user,category&page='+data.page );
+    },
+    getPrivateArticles: function(data){
+        return get(APP_CONFIG.API_URL + '/privates/articles'+'?include=user,category&page='+data.page );
+    },
+    getUserCategoryArticles: function(data){
+
+        return get(APP_CONFIG.API_URL + '/categories/'+data.category+'/articles'+'?include=user,category&page='+data.page ,{
+
+        });
+    },
+    getArticle: function(art_id){
+        return get(APP_CONFIG.API_URL + '/articles/'+art_id+'?include=user',{
+
+        });
+    },
+    postArticle: function(title,body,tags,category_id,excerpt,target){
+        return post(APP_CONFIG.API_URL + '/articles',{
+            title:title,
+            body:body,
+            tags:tags,
+            category_id:category_id,
+            excerpt:excerpt,
+            target:target,
+        });
+    },
+    patchArticle: function(data){
+        return patch(APP_CONFIG.API_URL + '/articles/'+data.id,{
+            title:data.title,
+            body:data.body,
+            tags:data.tags,
+            category_id:data.category_id,
+            excerpt:data.excerpt,
+            target:data.target,
+        });
+    },
+    deleteArticle: function(data){
+        return delete(APP_CONFIG.API_URL + '/articles/'+data.id);
+    },
+    patchArticleViewCount: function (data) {
+        return patch(APP_CONFIG.API_URL + '/articles/view/' + data.art_id);
+    },
+    getRecommendArticles: function () {
+        return get(APP_CONFIG.API_URL + '/recommend/articles')
+    },
+    searchArticles :function(data){
+        return post(APP_CONFIG.API_URL + '/search/articles' +'?include=user,category&page='+data.page,{
+            search:data.search,
+        })
+    }
+}

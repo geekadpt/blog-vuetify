@@ -7,14 +7,17 @@
                 md="9"
             >
                 <template>
-                    <v-card>
+                    <div v-for="(item, i) in articles"
+                         :key="i"
+                    >
+                    <v-card  class="my-4">
                             <v-row dense>
                                     <v-col
                                         cols="12"
                                         class="hidden-md-only col-md-4 ma-0 pa-0"
                                     >
                                         <v-img
-                                            src="https://picsum.photos/500/300?image=15"
+                                            :src="item.thumb+item.id"
                                             lazy-src="https://picsum.photos/10/6?image=20"
                                             aspect-ratio="1"
                                             class="grey lighten-2 align-end white--text"
@@ -22,7 +25,7 @@
                                         >
                                             <v-card-title class="hidden-md-and-up">
                                                 <div class="text-one-line">
-                                                    Top 10 Australian beaches
+                                                    {{item.title}}
                                                 </div>
                                             </v-card-title>
                                             <template v-slot:placeholder>
@@ -61,17 +64,18 @@
                                             >
                                                 mdi-twitter
                                             </v-icon>
-                                            <span class="title font-weight-light text-one-line">Article Tittle</span>
+                                            <span class="title font-weight-light text-one-line">{{item.title}}</span>
                                         </v-card-title>
                                         <v-card-text>
-                                            <div>
+                                            <div
+                                            >
                                                 <v-icon> mdi-folder </v-icon>
-                                                <v-chip
-                                                    class="ma-1"
-                                                    small
-                                                >
-                                                    small chip
-                                                </v-chip>
+                                                    <v-chip
+                                                        class="ma-1"
+                                                        small
+                                                    >
+                                                    {{item.category.name}}
+                                                    </v-chip>
                                                 <span class="mr-1">·</span>
                                                 <v-icon> mdi-tag-multiple </v-icon>
                                                 <v-chip
@@ -82,7 +86,7 @@
                                                 </v-chip>
                                             </div>
                                             <div class="text-justify text-two-line mt-2" >
-                                                "Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well.Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well.Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well."
+                                                {{item.excerpt}}
                                             </div>
                                         </v-card-text>
 
@@ -92,12 +96,12 @@
                                                     <v-img
                                                         class="elevation-6"
                                                         alt=""
-                                                        src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
+                                                        :src="item.user.avatar"
                                                     ></v-img>
                                                 </v-list-item-avatar>
 
                                                 <v-list-item-content>
-                                                    <v-list-item-title>Evan You</v-list-item-title>
+                                                    <v-list-item-title>{{item.user.nickname}}</v-list-item-title>
                                                 </v-list-item-content>
 
                                                 <v-row
@@ -107,7 +111,7 @@
                                                     <v-icon class="mr-1">
                                                         mdi-clock
                                                     </v-icon>
-                                                    <span class="subheading mr-2">2021-2-11</span>
+                                                    <span class="subheading mr-2">{{item.created_at}}</span>
 <!--                                                    <span class="mr-1">·</span>-->
 <!--                                                    <v-icon class="mr-1">-->
 <!--                                                        mdi-share-variant-->
@@ -119,6 +123,7 @@
                                     </v-col>
                             </v-row>
                     </v-card>
+                    </div>
                 </template>
             </v-col>
 
@@ -127,32 +132,42 @@
                 md="3"
             >
                 <v-card
-                    class="pa-2"
+                    class="my-4"
                     outlined
                     tile
                 >
-                    .col-6 .col-md-4
+                    .col-12 .col-md-3
                 </v-card>
             </v-col>
         </v-row>
 </template>
 <script>
     export default {
-        data: () => ({
-            items: [
-                {
-                    color: '#1F7087',
-                    src: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
-                    title: 'Supermodel',
-                    artist: 'Foster the People',
+        name:'Index',
+        data () {
+            return {
+                scroll:{},
+                loading: false,
+                infinite_box:{
+                    maxHeight:'',
+                    overflow: 'auto',
                 },
-                {
-                    color: '#952175',
-                    src: 'https://cdn.vuetifyjs.com/images/cards/halcyon.png',
-                    title: 'Halcyon Days',
-                    artist: 'Ellie Goulding',
+                infinite_side:{
+                    maxHeight:'',
+                    overflow: 'auto',
                 },
-            ],
-        }),
+            }
+        },
+        computed:{
+            articles(){
+                return this.$store.getters.getArticles;
+            },
+        },
+        created() {
+            this.$store.dispatch('loadArticles',{
+                order:'hot',
+                page:1
+            });
+        }
     }
 </script>

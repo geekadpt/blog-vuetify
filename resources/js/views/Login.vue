@@ -96,7 +96,12 @@
                         this.$store.dispatch('getMyInfo');
                         this.$watch(this.$store.getters.getMyInfoStatus, function () {
                             if (this.$store.getters.getMyInfoStatus() === 2) {
-                                this.$router.push({path:this.$store.getters.getBeforeLoginRoute});
+                                console.log(this.$route);
+                                if(this.$route.path == '/login'){
+                                    this.$router.push({path:'/'});
+                                }else{
+                                    this.$router.push({path:this.$store.getters.getBeforeLoginRoute});
+                                }
                             }
                             if (this.$store.getters.getMyInfoStatus() === 3) {
                                 EventBus.$emit('open-message', {

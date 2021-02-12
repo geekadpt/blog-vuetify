@@ -101,19 +101,18 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       profile: [{
-        title: 'Profile'
+        title: '个人资料'
       }, {
-        title: 'Settings'
+        title: '发布文章'
       }, {
         divider: true
       }, {
-        title: 'Log out'
+        title: '退出登录'
       }]
     };
   },
   computed: {
     user: function user() {
-      console.log(this.$store.getters.getMyInfo);
       return this.$store.getters.getMyInfo;
     }
   },
@@ -122,10 +121,16 @@ __webpack_require__.r(__webpack_exports__);
       console.log(i);
 
       switch (i) {
-        case 1:
+        case 0:
+          this.$router.push({
+            path: '/profile'
+          });
           break;
 
-        case 2:
+        case 1:
+          this.$router.push({
+            path: '/publish'
+          });
           break;
 
         case 3:
@@ -143,6 +148,10 @@ __webpack_require__.r(__webpack_exports__);
               });
             }
           });
+          break;
+
+        default:
+          break;
       }
     }
   }

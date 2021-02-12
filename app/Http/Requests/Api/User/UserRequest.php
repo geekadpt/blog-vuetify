@@ -6,20 +6,34 @@ class UserRequest extends FormRequest
 {
     public function rules()
     {
-        return [
-            'nickname' => 'required|string|max:20',
-            'password' => 'required|alpha_dash|min:6',
-            'verification_key' => 'required|string',
-            'verification_code' => 'required|string',
-        ];
+        switch($this->method()) {
+            case 'PUT':
+                return [
+                    'username' => 'required|between:6,10|regex:/^[A-Za-z0-9\-\_]+$/',
+                    'password' => 'required|alpha_dash|min:6',
+                    'verification_key' => 'required|string',
+                    'verification_code' => 'required|string',
+                ];
+                break;
+            case 'PATCH':
+                return [
+                    'username' => 'required|between:6,10|regex:/^[A-Za-z0-9\-\_]+$/',
+                    'nickname' => 'required|string|max:10',
+                    'introduction' => 'required|string|max:40',
+                    'avatar' => 'nullable|string',
+                ];
+                break;
+        }
+
     }
 
     public function attributes()
     {
         return [
+            'username' => '用户名',
             'nickname' => '昵称',
-            'verification_key' => '短信验证码 key',
-            'verification_code' => '短信验证码',
+            'introduction' => '自我介绍',
+            'avatar' => '头像',
         ];
     }
 }

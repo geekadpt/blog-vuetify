@@ -89,14 +89,13 @@
 
     data: () => ({
       profile: [
-        { title: 'Profile' },
-        { title: 'Settings' },
+        { title: '个人资料' },
+        { title: '发布文章' },
         { divider: true },
-        { title: 'Log out' },
+        { title: '退出登录' },
       ],
     }),computed:{
         user(){
-            console.log(this.$store.getters.getMyInfo);
             return this.$store.getters.getMyInfo;
         }
       }
@@ -104,8 +103,12 @@
         func(i){
             console.log(i);
             switch (i) {
-                case 1:break;
-                case 2:break;
+                case 0:
+                    this.$router.push({path:'/profile'});
+                    break;
+                case 1:
+                    this.$router.push({path:'/publish'});
+                    break;
                 case 3:
                     console.log('sss');
                     this.$store.dispatch('logout');
@@ -121,6 +124,8 @@
                             });
                         }
                     });
+                    break;
+                default:break;
             }
         }
       }

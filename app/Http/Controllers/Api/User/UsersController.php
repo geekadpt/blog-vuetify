@@ -24,7 +24,8 @@ class UsersController extends Controller
         }
 
         $user = User::create([
-            'nickname' => $request->nickname,
+            'username' => $request->username,
+            'nickname' => $request->username,
             'phone' => $verifyData['phone'],
             'password' => bcrypt($request->password),
         ]);
@@ -37,5 +38,17 @@ class UsersController extends Controller
     public function me(Request $request)
     {
         return (new UserResource($request->user()))->showSensitiveFields();
+    }
+
+    public function update(UserRequest $request)
+    {
+        $user = $request->user();
+        $attributes = $request->only(['username', 'nickname', 'introduction']);
+
+        if ($request->avatar) {
+            $attributes['avatar'] = $request->avatar;
+        }
+        $user->update($attributes);
+
     }
 }

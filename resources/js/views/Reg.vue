@@ -63,9 +63,9 @@
                                             v-model="registerForm.verificationCode"
                                         ></v-text-field>
                                         <v-text-field
-                                            :label="$t('m.register.nickname')"
+                                            :label="$t('m.register.username')"
                                             type="text"
-                                            v-model="registerForm.nickname"
+                                            v-model="registerForm.username"
                                         ></v-text-field>
                                         <v-text-field
                                             :label="$t('m.register.password')"
@@ -155,7 +155,7 @@
                 phone: '',
                 captcha:'',
                 verificationCode: '',
-                nickname:'',
+                username:'',
                 password:''
             }
         }),
@@ -219,7 +219,7 @@
                         break;
                     case 3:
                         this.$store.dispatch('register',{
-                            nickname:this.registerForm.nickname,
+                            username:this.registerForm.username,
                             password:this.registerForm.password,
                             verification_key: this.$store.getters.getVerificationKey,
                             verification_code:this.registerForm.verificationCode,

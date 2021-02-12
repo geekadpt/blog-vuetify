@@ -77,7 +77,7 @@ export const users = {
         })
         .catch( function(error){
           commit( 'setRegisterStatus', 3 );
-          commit( 'setVerificationCodesSendErrors',error.message);
+          commit( 'setRegisterErrors',error.message);
         });
     },
     login( { commit },data ){

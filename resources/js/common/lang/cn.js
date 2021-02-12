@@ -3,7 +3,7 @@ export const m ={
         previous: '上一步',
         next: '下一步',
         phone: '手机号',
-        nickname: '昵称',
+        username: '用户名',
         password: '密码',
         captcha: '图形码',
         explainPage1: '这是您将用于帐户登录的电话',
@@ -80,7 +80,8 @@ export const m ={
         },
     },
     profile:{
-        name_label:'昵称',
+        username_label:'用户名',
+        nickname_label:'昵称',
         introduction_label:'简介',
         origin_pwd_label:'原密码',
         new_pwd_label:'新密码',

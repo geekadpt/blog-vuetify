@@ -50,8 +50,10 @@ Route::prefix('v1')
                 // 删除token
                 Route::delete('authorizations/current', [AuthorizationsController::class, 'destroy'])->name('authorizations.destroy');
                 // 获取登录用户的信息
-                Route::get('users', [UsersController::class, 'me']) ->name('user.me');
+                Route::get('users', [UsersController::class, 'me']) ->name('users.me');
                 //获取所有文章
                 Route::put('articles', [ArticlesController::class, 'store']) ->name('api.articles.store');
+                // 更新登录用户的信息
+                Route::patch('users', [UsersController::class, 'update']) ->name('users.update');
             });
     });

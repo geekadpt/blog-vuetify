@@ -4,7 +4,7 @@ export const m = {
         next: 'next',
         phone: 'phone',
         code: 'code',
-        nickname: 'nickname',
+        username: '用户名',
         password: 'password',
         explainPage1: 'This is the phone you will use to login to your HyperCell account',
         titlePage1: 'Phone',
@@ -83,7 +83,8 @@ export const m = {
         },
     },
     profile:{
-        name_label:'Name',
+        username_label:'Username',
+        nickname_label:'Nickname',
         introduction_label:'Introduction',
         origin_pwd_label:'Old password',
         new_pwd_label:'New password',

@@ -323,8 +323,33 @@
                 });
             },
             save () {
-                this.loading_save = true;
-                setTimeout(() => (this.loading_save = false), 3000)
+                this.loading_publish = true;
+                this.$store.dispatch('publishArticles',{
+                    title:this.title,
+                    body:this.body,
+                    tags:this.tags,
+                    category:this.category,
+                    excerpt:this.excerpt,
+                    target: 1
+                });
+                this.$watch(this.$store.getters.getArticlesPublishStatus, function () {
+                    if (this.$store.getters.getArticlesPublishStatus()  === 2) {
+                        this.loading_publish = false
+                        EventBus.$emit('open-message', {
+                            text: ' 保存成功!',
+                            type: 'success'
+                        });
+                        this.$store.dispatch('initArticlesPublishStatus');
+                        this.$router.push('/index');
+                    }
+                    if (this.$store.getters.getArticlesPublishStatus()  === 3) {
+                        this.loading_publish = false
+                        EventBus.$emit('open-message', {
+                            text: this.$store.getters.getArticlesPublishErrors,
+                            type: 'error'
+                        });
+                    }
+                });
             },
         },
         watch: {

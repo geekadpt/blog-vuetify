@@ -89,6 +89,11 @@ export default new VueRouter({
           components: Vue.component( 'index', require( './views/Index' ) ),
         },
         {
+          path: 'blog',
+          name: '博客',
+          components: Vue.component( 'index', require( './views/Blog' ) ),
+        },
+        {
           path: 'detail',
           name: '详情页',
           components: Vue.component( 'detail', require( './views/Detail' ) ),
@@ -97,6 +102,12 @@ export default new VueRouter({
           path: 'publish',
           name: '发布文章',
           components: Vue.component( 'publish', require( './views/Publish' ) ),
+          beforeEnter: requireAuth,
+        },
+        {
+          path: 'profile',
+          name: '个人资料',
+          components: Vue.component( 'profile', require( './views/Profile' ) ),
           beforeEnter: requireAuth,
         },
         {

@@ -27,7 +27,7 @@ export default {
     return put( APP_CONFIG.API_URL + 'users' , {
       verification_key:data.verification_key,
       verification_code:data.verification_code,
-      nickname:data.nickname,
+      username:data.username,
       password:data.password
     });
   },
@@ -60,8 +60,7 @@ export default {
   updateProfile: function(data){
     return patch( APP_CONFIG.API_URL + 'users' , {
       username:data.username,
-      password:data.password,
-      password_origin:data.password_origin,
+      nickname:data.nickname,
       introduction: data.introduction
     });
   },

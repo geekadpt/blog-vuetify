@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Laravel8+Vuetify2项目模板</title>
+  <title>洛辛博客</title>
   <meta name="description" content="">
   <meta name="robots" content="all,follow">
   <!-- CSRF Token -->

@@ -31,7 +31,8 @@ class UserFactory extends Factory
             'https://cdn.learnku.com/uploads/images/201710/14/1/NDnzMutoxX.png',
         ];
         return [
-            'username' => $this->faker->name,
+            'username' => $this->faker->unique()->name,
+            'nickname' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),
             'password' => bcrypt('123456'), // password

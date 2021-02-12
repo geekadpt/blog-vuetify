@@ -180,12 +180,16 @@
     </v-container>
 </template>
 <script>
+    import { EventBus } from '../event-bus.js';
     export default {
+        name: "Publish",
         data: () => ({
             title:'',
+            excerpt: '',
             body: '',
             category: '软件开发',
             categories: ['Streaming', 'Eating'],
+
             messages: [
                 {
                     from: 'You',
@@ -290,42 +294,33 @@
                     .indexOf(query.toString().toLowerCase()) > -1
             },
             publish () {
-
                 this.loading_publish = true;
-                this.$store.dispatch('addArticle',{
-                    title:this.form.title,
-                    body:this.form.handbook,
-                    tags:this.form.tagDynamicTags,
-                    category_id:this.form.category_id,
-                    excerpt:this.form.excerpt,
-                    target: !this.form.public && target === 0 ? 2 : target
+                this.$store.dispatch('publishArticles',{
+                    title:this.title,
+                    body:this.body,
+                    tags:this.tags,
+                    category:this.category,
+                    excerpt:this.excerpt,
+                    target: 0
                 });
-                this.$watch(this.$store.getters.getArticleAddStatus, function () {
-                    if (this.$store.getters.getArticleAddStatus()  === 2) {
-                        this.loader.close();
-                        if(this.form.title.toString().length >  15){
-                            this.form.title = this.form.title.toString().substring(0,15)+'...  ';
-                        }
+                this.$watch(this.$store.getters.getArticlesPublishStatus, function () {
+                    if (this.$store.getters.getArticlesPublishStatus()  === 2) {
+                        this.loading_publish = false
                         EventBus.$emit('open-message', {
-                            notification: this.form.title + (target===0 ? ' 发布成功!' :' 已保存到草稿箱'),
+                            text: ' 发布成功!',
                             type: 'success'
                         });
-                        this.$store.dispatch('initArticleAddStatus');
-                        this.form.title = '';
-                        this.form.handbook = '';
-                        this.form.tagDynamicTags = '';
-                        this.form.excerpt= '';
-                        this.$router.push('/blog');
+                        this.$store.dispatch('initArticlesPublishStatus');
+                        this.$router.push('/index');
                     }
-                    if (this.$store.getters.getArticleAddStatus()  === 3) {
-                        this.loader.close();
+                    if (this.$store.getters.getArticlesPublishStatus()  === 3) {
+                        this.loading_publish = false
                         EventBus.$emit('open-message', {
-                            notification: this.$store.getters.getArticleAddResponseMessages(),
+                            text: this.$store.getters.getArticlesPublishErrors,
                             type: 'error'
                         });
                     }
                 });
-                setTimeout(() => (this.loading_publish = false), 3000)
             },
             save () {
                 this.loading_save = true;

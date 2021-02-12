@@ -6,37 +6,27 @@ class ArticleRequest extends FormRequest
 {
     public function rules()
     {
-        switch ($this->method){
-            case 'put':
+        switch($this->method()) {
+            case 'PUT':
                 return [
-                    'title' => 'required|string|max:50',
+                    'title' => 'required|string|max:100',
                     'body' => 'required|string',
-                    'tags' => 'nullable',
-                    'category_id' => 'required|numeric|exists:categories,id',
-                    'excerpt' => 'nullable|string|max:125',
+                    'tags' => 'nullable|array',
+                    'category' => 'required|string|max:20',
+                    'excerpt' => 'string|max:200',
                     'target' => 'required|numeric'
                 ];break;
-            default:break;
         }
-
     }
     public function attributes()
     {
         return [
             'title' => '文章标题',
             'body' => '文章内容',
-            'tags' => '标签',
-            'category_id' => '文章分类',
-            'excerpt' => '摘要',
+            'tags' => '文章标签',
+            'category' => '文章分类',
+            'excerpt' => '文章摘要',
             'target' => '发布形式',
-        ];
-    }
-    public function messages()
-    {
-        return [
-            'title.required' => ':attribute不能为空',
-            'body.required' => ':attribute不能为空',
-            'category_id.required' => ':attribute不能为空',
         ];
     }
 }

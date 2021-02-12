@@ -191,7 +191,7 @@
                     return;
                 if(this.$store.getters.getArticles.meta.current_page < this.$store.getters.getArticles.meta.last_page){
                     console.log(this.$store.getters.getArticles == '');
-                    this.$store.dispatch('loadArticles',{
+                    this.$store.dispatch('indexArticles',{
                         order:'hot',
                         page: this.$store.getters.getArticles.meta.current_page+1
                     });
@@ -213,7 +213,7 @@
             },
         },
         created() {
-            this.$store.dispatch('loadArticles',{
+            this.$store.dispatch('indexArticles',{
                 order:'hot',
                 page:1
             });

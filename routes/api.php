@@ -40,7 +40,6 @@ Route::prefix('v1')
             // 用户登录
             Route::post('authorizations', [AuthorizationsController::class, 'store'])->name('authorizations.store');
             //获取所有文章
-            // 用户登录
             Route::get('articles', [ArticlesController::class, 'index']) ->name('api.articles.index');
         });
         Route::middleware('throttle:' . config('api.rate_limits.sign'))
@@ -52,5 +51,7 @@ Route::prefix('v1')
                 Route::delete('authorizations/current', [AuthorizationsController::class, 'destroy'])->name('authorizations.destroy');
                 // 获取登录用户的信息
                 Route::get('users', [UsersController::class, 'me']) ->name('user.me');
+                //获取所有文章
+                Route::put('articles', [ArticlesController::class, 'store']) ->name('api.articles.store');
             });
     });

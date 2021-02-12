@@ -30,6 +30,6 @@ export default new Vuex.Store({
   modules: {
     app,
     users,
-    articles
+    articles,
   }
 });

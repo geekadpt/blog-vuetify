@@ -94,9 +94,9 @@ export default new VueRouter({
           components: Vue.component( 'detail', require( './views/Detail' ) ),
         },
         {
-          path: 'edit',
+          path: 'publish',
           name: '发布文章',
-          components: Vue.component( 'edit', require( './views/Edit' ) ),
+          components: Vue.component( 'publish', require( './views/Publish' ) ),
           beforeEnter: requireAuth,
         },
         {

@@ -89,6 +89,17 @@ export default new VueRouter({
           components: Vue.component( 'index', require( './views/Index' ) ),
         },
         {
+          path: 'detail',
+          name: '详情页',
+          components: Vue.component( 'detail', require( './views/Detail' ) ),
+        },
+        {
+          path: 'edit',
+          name: '发布文章',
+          components: Vue.component( 'edit', require( './views/Edit' ) ),
+          beforeEnter: requireAuth,
+        },
+        {
           path: 'console',
           name: '控制台',
           components: Vue.component( 'console', require( './views/Console' ) ),

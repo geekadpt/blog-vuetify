@@ -10,7 +10,7 @@ import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import '@mdi/font/css/materialdesignicons.css'
 import i18n from  './plugins/vue-i18n'
-
+import './md_editor'
 new Vue({
   //定义Vue绑定的根元素
   el: '#app',

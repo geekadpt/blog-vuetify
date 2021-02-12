@@ -11,9 +11,9 @@
                         align="center"
                         justify="center"
                     >
-                        <span  class="white--text mt-8">
+                        <h2 class="white--text mt-8">
                             {{article.title}}
-                        </span>
+                        </h2>
                     </v-row>
                     <v-row
                             class="white--text mt-8"
@@ -96,6 +96,8 @@
                     offset: 0,
                 });
             },
+        },destroyed() {
+            this.$store.dispatch('initArticleStatus');
         }
     }
 </script>

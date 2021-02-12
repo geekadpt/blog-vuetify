@@ -53,8 +53,8 @@
                     justify="center"
                 >
                     <v-col class="text-center">
-                        <h3 class="headline">{{ user.nickname }}</h3>
-                        <span class="grey--text text--lighten-1">{{ user.introduction }}</span>
+                        <h2 class="headline">{{ user.nickname }}</h2>
+                        <span class="text--lighten-1">{{ user.introduction }}</span>
                     </v-col>
                 </v-row>
             </v-row>
@@ -149,44 +149,68 @@
         methods: {
             updateMyInfo(){
                 this.isUpdating = true;
-                var formdata = new FormData();
-                formdata.append('file', this.profile.avatar[0]);
-                formdata.append('type', 'avatar');
-                this.$store.dispatch('uploadImage',formdata);
-                this.$watch(this.$store.getters.getUploadImageStatus, function () {
-                    if (this.$store.getters.getUploadImageStatus()  === 2) {
-                        this.$store.dispatch('updateMyInfo',{
-                            nickname:this.profile.nickname,
-                            introduction: this.profile.introduction,
-                            avatar:this.$store.getters.getUploadImage
-                        });
-                        this.$watch(this.$store.getters.getUpdateMyInfoStatus, function () {
-                            if (this.$store.getters.getUpdateMyInfoStatus() === 2) {
-                                EventBus.$emit('open-message', {
-                                    text: this.$t('m.profile.update_success')
-                                });
-                                this.$store.dispatch('getMyInfo');
-                                this.isUpdating = false;
-                            }
-                            if (this.$store.getters.getUpdateMyInfoStatus() === 3) {
-                                EventBus.$emit('open-message', {
-                                    text: this.$store.getters.getUpdateMyInfoErrors
-                                });
-                                this.isUpdating = false;
-                            }
-                        });
-                        this.$store.dispatch('initUploadImageStatus');
-                    }
-                    if (this.$store.getters.getUploadImageStatus()  === 3) {
-                        EventBus.$emit('open-message', {
-                            text: this.$store.getters.getUploadImageErrors,
-                            type: 'error'
-                        });
-                        this.profile.avatar = null;
-                        this.isUpdating = false;
-                        this.$store.dispatch('initArticlesPublishStatus');
-                    }
-                });
+                if(this.profile.avatar === null || this.profile.avatar.length === 0){
+                    this.$store.dispatch('updateMyInfo',{
+                        nickname:this.profile.nickname,
+                        introduction: this.profile.introduction,
+                        avatar:this.$store.getters.getUploadImage
+                    });
+                    this.$watch(this.$store.getters.getUpdateMyInfoStatus, function () {
+                        if (this.$store.getters.getUpdateMyInfoStatus() === 2) {
+                            EventBus.$emit('open-message', {
+                                text: this.$t('m.profile.update_success')
+                            });
+                            this.$store.dispatch('getMyInfo');
+                            this.isUpdating = false;
+                        }
+                        if (this.$store.getters.getUpdateMyInfoStatus() === 3) {
+                            EventBus.$emit('open-message', {
+                                text: this.$store.getters.getUpdateMyInfoErrors
+                            });
+                            this.isUpdating = false;
+                        }
+                    });
+                }else{
+                    var formdata = new FormData();
+                    formdata.append('file', this.profile.avatar[0]);
+                    formdata.append('type', 'avatar');
+                    this.$store.dispatch('uploadImage',formdata);
+                    this.$watch(this.$store.getters.getUploadImageStatus, function () {
+                        if (this.$store.getters.getUploadImageStatus()  === 2) {
+                            this.$store.dispatch('updateMyInfo',{
+                                nickname:this.profile.nickname,
+                                introduction: this.profile.introduction,
+                                avatar:this.$store.getters.getUploadImage
+                            });
+                            this.$watch(this.$store.getters.getUpdateMyInfoStatus, function () {
+                                if (this.$store.getters.getUpdateMyInfoStatus() === 2) {
+                                    EventBus.$emit('open-message', {
+                                        text: this.$t('m.profile.update_success')
+                                    });
+                                    this.$store.dispatch('getMyInfo');
+                                    this.isUpdating = false;
+                                }
+                                if (this.$store.getters.getUpdateMyInfoStatus() === 3) {
+                                    EventBus.$emit('open-message', {
+                                        text: this.$store.getters.getUpdateMyInfoErrors
+                                    });
+                                    this.isUpdating = false;
+                                }
+                            });
+                            this.$store.dispatch('initUploadImageStatus');
+                        }
+                        if (this.$store.getters.getUploadImageStatus()  === 3) {
+                            EventBus.$emit('open-message', {
+                                text: this.$store.getters.getUploadImageErrors,
+                                type: 'error'
+                            });
+                            this.profile.avatar = null;
+                            this.isUpdating = false;
+                            this.$store.dispatch('initArticlesPublishStatus');
+                        }
+                    });
+                }
+
 
 
             }

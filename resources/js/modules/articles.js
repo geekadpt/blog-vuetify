@@ -22,7 +22,9 @@ export const articles = {
         articlesPublishStatus:0,
         articlesPublishErrors:'',
 
-        article: '',
+        article: {
+          user:''
+        },
         articleLoadStatus:0,
 
         articleUpdateStatus:0,
@@ -91,6 +93,9 @@ export const articles = {
       initArticlesPublishStatus({commit}){
         commit('setInitArticlesPublishStatus');
       },
+      initArticleStatus({commit}){
+        commit('setInitArticleStatus');
+      },
       loadArticle({commit},data){
         commit('setArticleLoadStatus',1);
         ArticlesAPI.detailArticles(data)
@@ -118,6 +123,12 @@ export const articles = {
         },
         setInitArticlesPublishStatus(state){
           state.articlesPublishStatus = 0;
+        },
+        setInitArticleStatus(state){
+          state.article = {
+            user:''
+          };
+          state.articleLoadStatus = 0;
         },
         setArticleLoadStatus(state,status){
           state.articleLoadStatus = status;

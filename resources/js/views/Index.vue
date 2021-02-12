@@ -18,8 +18,8 @@
                                         cols="12"
                                         class="hidden-md-only col-md-4 ma-0 pa-0"
                                     >
-
-
+                                        <a>
+                                        <router-link tag="span" :to="{name:'文章详情',params: {id:item.id}}"   >
                                         <v-img
                                             :src="item.thumb+item.id"
                                             lazy-src="https://picsum.photos/10/6?image=20"
@@ -55,6 +55,8 @@
 <!--                                                </div>-->
 <!--                                            </v-card-title>-->
 <!--                                        </v-img>-->
+                                        </router-link>
+                                        </a>
                                     </v-col>
                                     <v-col
                                         cols="12"
@@ -216,10 +218,12 @@
             },
         },
         created() {
-            this.$store.dispatch('indexArticles',{
-                order:'hot',
-                page:1
-            });
+            if(!this.$store.getters.getArticles){
+                this.$store.dispatch('indexArticles',{
+                    order:'hot',
+                    page:1
+                });
+            }
             this.$watch(
                 function () { // 第一个函数就是处理你要监听的属性，只要将其return出去就行
                     return this.$store.getters.getArticlesLoadStatus();

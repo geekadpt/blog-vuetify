@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Article\ArticlesController;
+use App\Http\Controllers\Api\ImagesController;
 use App\Http\Controllers\Api\User\AuthorizationsController;
 use App\Http\Controllers\Api\User\CaptchasController;
 use App\Http\Controllers\Api\User\UsersController;
@@ -55,5 +56,8 @@ Route::prefix('v1')
                 Route::put('articles', [ArticlesController::class, 'store']) ->name('api.articles.store');
                 // 更新登录用户的信息
                 Route::patch('users', [UsersController::class, 'update']) ->name('users.update');
+                // 上传图片
+                Route::post('images', [ImagesController::class, 'store'])
+                    ->name('images.store');
             });
     });

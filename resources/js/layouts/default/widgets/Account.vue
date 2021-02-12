@@ -68,7 +68,7 @@
                 </template>
             </v-list>
         </v-menu>
-        <router-link :to="{ name:'登录' }" v-if="!user">
+        <router-link :to="{ name:'登录' }" v-if="!user || user ==''">
                 <v-btn
                     class="ml-2"
                     min-width="0"

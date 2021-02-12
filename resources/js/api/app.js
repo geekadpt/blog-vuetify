@@ -18,4 +18,7 @@ export default {
   app: function (data) {
     return post(APP_CONFIG.API_URL+'app');
   },
+  uploadImages: function (data) {
+    return post(APP_CONFIG.API_URL+'images',data);
+  },
 }

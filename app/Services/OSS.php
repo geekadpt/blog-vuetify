@@ -31,7 +31,7 @@ class OSS {
      */
     public function __construct($isInternal = false)
     {
-        
+
         $this-> city = config('aliyunoss.City');
         $this-> networkType = config('aliyunoss.NetworkType');
         $this-> AccessKeyId = config('aliyunoss.AccessKeyId');

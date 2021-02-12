@@ -8,4 +8,6 @@ return [
     'AccessKeySecret'=> env('ALIOSS_AccessKeySecret'),
     'City' => env('ALIOSS_City'),
     'NetworkType' => env('ALIOSS_NetworkType'),
+    'BucketName' => env('ALIOSS_BUCKET'),
+    'ALIOSS_URL' => env('ALIOSS_URL'),
 ];

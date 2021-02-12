@@ -71,6 +71,10 @@ export const app = {
       rtl: false,
     },
     beforeLoginRoute:null,
+
+    uploadImage:'',
+    uploadImageStatus:0,
+    uploadImageErrors:'',
   },
 
   /**
@@ -127,6 +131,21 @@ export const app = {
     beforeLoginRoute( { commit },data ){
       commit("setBeforeLoginRoute",data.path);
     },
+    uploadImage( { commit },data ){
+      commit("setUploadImageStatus",1);
+      AppApi.uploadImages(data).then( function( response ){
+        console.log(response);
+        commit("setUploadImage",response.src);
+        commit("setUploadImageStatus",2);
+      }).catch( function(error){
+        commit("setUploadImageStatus",3);
+        commit("setUploadImageErrors",error.message);
+      });
+    },
+
+    initUploadImageStatus( { commit }){
+      commit("setInitUploadImageStatus",0);
+    },
 
   },
   /**
@@ -162,7 +181,20 @@ export const app = {
     },
     setBeforeLoginRoute(state , data){
       state.beforeLoginRoute = data;
-    }
+    },
+
+    setUploadImage(state,data){
+      state.uploadImage = data;
+    },
+    setUploadImageStatus(state,status){
+      state.uploadImageStatus = status;
+    },
+    setUploadImageErrors(state,error){
+      state.uploadImageErrors = error;
+    },
+    setInitUploadImageStatus(state){
+      state.articlesPublishStatus = 0;
+    },
   },
   /**
    * Defines the getters used by the module
@@ -202,6 +234,17 @@ export const app = {
     },
     getBeforeLoginRoute(state){
       return state.beforeLoginRoute;
-    }
+    },
+    getUploadImage(state){
+      return state.uploadImage;
+    },
+    getUploadImageStatus(state){
+      return function () {
+        return state.uploadImageStatus;
+      }
+    },
+    getUploadImageErrors(state){
+      return state.uploadImageErrors;
+    },
   }
 };

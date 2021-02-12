@@ -257,17 +257,33 @@
         methods: {
             handleUploadImage(event, insertImage, files) {
                 // Get the files and upload them to the file server, then insert the corresponding content into the editor
-                console.log(files);
-
-                // Here is just an example
-                insertImage({
-                    url:
-                        'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1269952892,3525182336&fm=26&gp=0.jpg',
-                    desc: 'desc',
-                    // width: 'auto',
-                    // height: 'auto',
+                console.log(files[0]);
+                var formdata = new FormData();
+                formdata.append('file', files[0]);
+                formdata.append('type', 'article');
+                this.$store.dispatch('uploadImage',formdata);
+                this.$watch(this.$store.getters.getUploadImageStatus, function () {
+                    if (this.$store.getters.getUploadImageStatus()  === 2) {
+                        insertImage({
+                            url: this.$store.getters.getUploadImage,
+                            desc: 'desc',
+                            width: 'auto',
+                            height: 'auto',
+                        });
+                        EventBus.$emit('open-message', {
+                            text: ' 上传成功!',
+                            type: 'success'
+                        });
+                        this.$store.dispatch('initUploadImageStatus');
+                    }
+                    if (this.$store.getters.getUploadImageStatus()  === 3) {
+                        EventBus.$emit('open-message', {
+                            text: this.$store.getters.getUploadImageErrors,
+                            type: 'error'
+                        });
+                        this.$store.dispatch('initArticlesPublishStatus');
+                    }
                 });
-
             },
             remove (item) {
                 this.chips='';
@@ -319,6 +335,7 @@
                             text: this.$store.getters.getArticlesPublishErrors,
                             type: 'error'
                         });
+                        this.$store.dispatch('initArticlesPublishStatus');
                     }
                 });
             },

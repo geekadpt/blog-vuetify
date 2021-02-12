@@ -1,10 +1,11 @@
 <template>
-
-        <!-- Stack the columns on mobile by making one full-width and the other half-width -->
-        <v-row class="px-md-12" dense>
+        <v-row class="px-md-12"
+               dense
+        >
             <v-col
                 cols="12"
                 md="9"
+                class="scroll-anchor"
             >
                 <template>
                     <div v-for="(item, i) in articles"
@@ -144,23 +145,28 @@
 <script>
     export default {
         name:'Index',
-        data () {
-            return {
-                scroll:{},
-                loading: false,
-                infinite_box:{
-                    maxHeight:'',
-                    overflow: 'auto',
-                },
-                infinite_side:{
-                    maxHeight:'',
-                    overflow: 'auto',
-                },
-            }
+        data: () => ({
+            offsetTop: 0,
+        }),
+        methods: {
+            addArticles (entries, observer) {
+                // More information about these options
+                // is located here: https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
+                if(this.$store.getters.getArticles.meta.current_page < this.$store.getters.getArticles.meta.last_page){
+                    console.log(this.$store.getters.getArticles == '');
+                    this.$store.dispatch('loadArticles',{
+                        order:'hot',
+                        page: this.$store.getters.getArticles.meta.current_page+1
+                    });
+                }else{
+                    console.log('没有内容了！');
+                }
+
+            },
         },
         computed:{
             articles(){
-                return this.$store.getters.getArticles;
+                return this.$store.getters.getArticles.data;
             },
         },
         created() {
@@ -168,6 +174,22 @@
                 order:'hot',
                 page:1
             });
-        }
+        },
+        mounted(){
+            let _this = this;
+            window.onscroll = function(){
+                //变量scrollTop是滚动条滚动时，距离顶部的距离
+                var scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
+                //变量windowHeight是可视区的高度
+                var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+                //变量scrollHeight是滚动条的总高度
+                var scrollHeight = document.documentElement.scrollHeight||document.body.scrollHeight;
+                //滚动条到底部的条件
+                if(scrollTop+windowHeight == scrollHeight){
+                    //到了这个就可以进行业务逻辑加载后台数据了
+                    _this.addArticles();
+                }
+            }
+        },
     }
 </script>

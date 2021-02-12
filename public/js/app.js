@@ -2143,25 +2143,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Index',
   data: function data() {
     return {
-      scroll: {},
-      loading: false,
-      infinite_box: {
-        maxHeight: '',
-        overflow: 'auto'
-      },
-      infinite_side: {
-        maxHeight: '',
-        overflow: 'auto'
-      }
+      offsetTop: 0
     };
+  },
+  methods: {
+    addArticles: function addArticles(entries, observer) {
+      // More information about these options
+      // is located here: https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
+      if (this.$store.getters.getArticles.meta.current_page < this.$store.getters.getArticles.meta.last_page) {
+        console.log(this.$store.getters.getArticles == '');
+        this.$store.dispatch('loadArticles', {
+          order: 'hot',
+          page: this.$store.getters.getArticles.meta.current_page + 1
+        });
+      } else {
+        console.log('没有内容了！');
+      }
+    }
   },
   computed: {
     articles: function articles() {
-      return this.$store.getters.getArticles;
+      return this.$store.getters.getArticles.data;
     }
   },
   created: function created() {
@@ -2169,6 +2176,23 @@ __webpack_require__.r(__webpack_exports__);
       order: 'hot',
       page: 1
     });
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    window.onscroll = function () {
+      //变量scrollTop是滚动条滚动时，距离顶部的距离
+      var scrollTop = document.documentElement.scrollTop || document.body.scrollTop; //变量windowHeight是可视区的高度
+
+      var windowHeight = document.documentElement.clientHeight || document.body.clientHeight; //变量scrollHeight是滚动条的总高度
+
+      var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight; //滚动条到底部的条件
+
+      if (scrollTop + windowHeight == scrollHeight) {
+        //到了这个就可以进行业务逻辑加载后台数据了
+        _this.addArticles();
+      }
+    };
   }
 });
 
@@ -3852,13 +3876,27 @@ var articles = {
           state = _ref.state;
       commit('setArticlesLoadStatus', 1);
       _api_articles__WEBPACK_IMPORTED_MODULE_0__.default.getArticles(data).then(function (response) {
-        if (state.articles) {
-          var merge_articles = state.articles.concat(response.data);
-          commit('setArticles', merge_articles);
-        }
+        commit('setArticlesLoadStatus', 2); //console.log(state.articles);
 
-        commit('setArticles', response.data);
-        commit('setArticlesLoadStatus', 2);
+        if (state.articles) {
+          var original_articles = state.articles;
+          console.log(original_articles.data);
+          console.log(response.data); // for(var i = original_articles.data.length-1; i>=0 ; i--){
+          //   response.data.unshift(original_articles.data[i]);
+          // }
+
+          for (var i = 0; i < response.data.length; i++) {
+            original_articles.data.push(response.data[i]);
+          }
+
+          original_articles.meta = response.meta;
+          original_articles.links = response.links; //merge_articles.data.concat(response.data);
+
+          console.log(response.data);
+          commit('setArticles', original_articles);
+        } else {
+          commit('setArticles', response);
+        }
       })["catch"](function (error) {
         commit('setArticlesLoadStatus', 3);
       });
@@ -27019,7 +27057,7 @@ var render = function() {
     [
       _c(
         "v-col",
-        { attrs: { cols: "12", md: "9" } },
+        { staticClass: "scroll-anchor", attrs: { cols: "12", md: "9" } },
         [
           _vm._l(_vm.articles, function(item, i) {
             return _c(

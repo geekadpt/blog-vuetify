@@ -21,8 +21,8 @@ class CategoriesTableSeeder extends Seeder
         for($i=1;$i<=10;$i++){
             $user = Category::create([
                 'user_id' =>$i,
-                'name' => "默认目录",
-                'description' => "默认目录",
+                'name' => "默认分类",
+                'description' => "默认分类",
                 'post_count' => 0,
             ]);
 

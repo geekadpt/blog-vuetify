@@ -94,8 +94,8 @@ export default new VueRouter({
           components: Vue.component( 'index', require( './views/Blog' ) ),
         },
         {
-          path: 'detail',
-          name: '详情页',
+          path: 'detail/:id',
+          name: '文章详情',
           components: Vue.component( 'detail', require( './views/Detail' ) ),
         },
         {

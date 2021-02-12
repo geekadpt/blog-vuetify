@@ -51,8 +51,8 @@ class Article extends Model
                 $query->hot();
                 break;
         }
-        // 预加载防止 N+1 问题
-        return $query->with('user', 'category');
+//        // 预加载防止 N+1 问题
+//        return $query->with('user', 'category');
     }
 
     public function scopeRecentReplied($query)

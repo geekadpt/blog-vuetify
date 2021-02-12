@@ -24,8 +24,10 @@ class ArticleResource extends JsonResource
             "thumb" => $this->thumb,
             'created_at' => (string) $this->created_at->format('Y-m-d'),
             'updated_at' => (string) $this->created_at->format('Y-m-d'),
-            'user' => new UserResource($this->whenLoaded('user')),
-            'category' => new CategoryResource($this->whenLoaded('category')),
+//            'user' => new UserResource($this->whenLoaded('user')),
+//            'category' => new CategoryResource($this->whenLoaded('category')),
+            'user' => new UserResource($this->user),
+            'category' => new CategoryResource($this->category),
         ];
     }
 }

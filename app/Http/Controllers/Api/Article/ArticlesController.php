@@ -75,4 +75,8 @@ class ArticlesController extends Controller
 //        }
         return response()->json(['message' => '发布成功'], 201);
     }
+    public function show(ArticleRequest $request)
+    {
+        return new ArticleResource(Article::find($request->id));
+    }
 }

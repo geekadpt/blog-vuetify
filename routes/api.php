@@ -42,6 +42,8 @@ Route::prefix('v1')
             Route::post('authorizations', [AuthorizationsController::class, 'store'])->name('authorizations.store');
             //获取所有文章
             Route::get('articles', [ArticlesController::class, 'index']) ->name('api.articles.index');
+            //获取文章详情
+            Route::post('articles', [ArticlesController::class, 'show']) ->name('api.articles.show');
         });
         Route::middleware('throttle:' . config('api.rate_limits.sign'))
             ->middleware('token.refresh')

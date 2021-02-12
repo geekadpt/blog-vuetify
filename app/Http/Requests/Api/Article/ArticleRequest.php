@@ -16,6 +16,10 @@ class ArticleRequest extends FormRequest
                     'excerpt' => 'string|max:200',
                     'target' => 'required|numeric'
                 ];break;
+            case 'POST':
+                return [
+                    'id' => 'required|integer|exists:articles,id',
+                ];break;
         }
     }
     public function attributes()

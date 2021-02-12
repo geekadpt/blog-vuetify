@@ -18,6 +18,8 @@
                                         cols="12"
                                         class="hidden-md-only col-md-4 ma-0 pa-0"
                                     >
+
+
                                         <v-img
                                             :src="item.thumb+item.id"
                                             lazy-src="https://picsum.photos/10/6?image=20"
@@ -54,11 +56,11 @@
 <!--                                            </v-card-title>-->
 <!--                                        </v-img>-->
                                     </v-col>
-
                                     <v-col
                                         cols="12"
                                         class="col-md-8"
                                     >
+                                        <router-link tag="span" :to="{name:'文章详情',params: {id:item.id}}"   >
                                         <v-card-title>
                                             <v-icon
                                                 large
@@ -68,6 +70,7 @@
                                             </v-icon>
                                             <span class="title font-weight-light text-one-line">{{item.title}}</span>
                                         </v-card-title>
+
                                         <v-card-text>
                                             <div
                                             >
@@ -91,7 +94,7 @@
                                                 {{item.excerpt}}
                                             </div>
                                         </v-card-text>
-
+                                        </router-link>
                                         <v-card-actions>
                                             <v-list-item class="grow">
                                                 <v-list-item-avatar color="grey darken-3">
@@ -205,7 +208,7 @@
                     duration: 300,
                     offset: 0,
                 });
-            }
+            },
         },
         computed:{
             articles(){

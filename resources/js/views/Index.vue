@@ -1,6 +1,7 @@
 <template>
         <v-row class="px-md-12"
                dense
+               ref="index"
         >
             <v-col
                 cols="12"
@@ -159,6 +160,19 @@
                     .col-12 .col-md-3
                 </v-card>
             </v-col>
+            <v-fab-transition>
+                <v-btn
+                    color="pink"
+                    dark
+                    fixed
+                    bottom
+                    right
+                    fab
+                    @click="toTop()"
+                >
+                    <v-icon>mdi-chevron-up</v-icon>
+                </v-btn>
+            </v-fab-transition>
         </v-row>
 </template>
 <script>
@@ -186,6 +200,12 @@
                     this.nomore = true;
                 }
             },
+            toTop(){
+                this.$vuetify.goTo(this.$refs.index,{
+                    duration: 300,
+                    offset: 0,
+                });
+            }
         },
         computed:{
             articles(){

@@ -2163,6 +2163,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Index',
   data: function data() {
@@ -2188,6 +2202,12 @@ __webpack_require__.r(__webpack_exports__);
         console.log('没有内容了！');
         this.nomore = true;
       }
+    },
+    toTop: function toTop() {
+      this.$vuetify.goTo(this.$refs.index, {
+        duration: 300,
+        offset: 0
+      });
     }
   },
   computed: {
@@ -27087,7 +27107,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-row",
-    { staticClass: "px-md-12", attrs: { dense: "" } },
+    { ref: "index", staticClass: "px-md-12", attrs: { dense: "" } },
     [
       _c(
         "v-col",
@@ -27410,6 +27430,33 @@ var render = function() {
                 "\n                    .col-12 .col-md-3\n                "
               )
             ]
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-fab-transition",
+        [
+          _c(
+            "v-btn",
+            {
+              attrs: {
+                color: "pink",
+                dark: "",
+                fixed: "",
+                bottom: "",
+                right: "",
+                fab: ""
+              },
+              on: {
+                click: function($event) {
+                  return _vm.toTop()
+                }
+              }
+            },
+            [_c("v-icon", [_vm._v("mdi-chevron-up")])],
+            1
           )
         ],
         1

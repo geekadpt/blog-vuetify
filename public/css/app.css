@@ -13,4 +13,9 @@
   overflow: hidden;
   word-break: break-all;
 }
+#lateral .v-btn--example {
+  bottom: 20px;
+  position: fixed;
+  margin: 0 0 16px 16px;
+}
 

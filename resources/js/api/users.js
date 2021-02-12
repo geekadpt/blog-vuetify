@@ -59,9 +59,9 @@ export default {
    */
   updateProfile: function(data){
     return patch( APP_CONFIG.API_URL + 'users' , {
-      username:data.username,
       nickname:data.nickname,
-      introduction: data.introduction
+      introduction: data.introduction,
+      avatar:data.avatar
     });
   },
   /**

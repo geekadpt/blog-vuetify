@@ -17,9 +17,8 @@ class UserRequest extends FormRequest
                 break;
             case 'PATCH':
                 return [
-                    'username' => 'required|between:6,10|regex:/^[A-Za-z0-9\-\_]+$/',
-                    'nickname' => 'required|string|max:10',
-                    'introduction' => 'required|string|max:40',
+                    'nickname' => 'required|string|max:30',
+                    'introduction' => 'required|string|max:150',
                     'avatar' => 'nullable|string',
                 ];
                 break;

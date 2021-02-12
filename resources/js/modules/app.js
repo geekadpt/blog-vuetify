@@ -144,6 +144,7 @@ export const app = {
     },
 
     initUploadImageStatus( { commit }){
+      commit("setUploadImage",'');
       commit("setInitUploadImageStatus",0);
     },
 

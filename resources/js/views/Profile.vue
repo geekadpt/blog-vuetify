@@ -3,7 +3,7 @@
         color="blue-grey darken-1"
         dark
         :loading="isUpdating"
-        style="height: 100%"
+        :height="height"
     >
         <template v-slot:progress>
             <v-progress-linear
@@ -15,7 +15,7 @@
         </template>
         <v-img
             height="200"
-            src="https://cdn.vuetifyjs.com/images/cards/dark-beach.jpg"
+            src="https://api.vvhan.com/api/acgimg"
         >
             <v-row>
                 <v-col
@@ -38,7 +38,7 @@
                         <v-list>
                             <v-list-item @click="updateMyInfo">
                                 <v-list-item-action>
-                                    <v-icon>mdi-settings</v-icon>
+                                    <v-icon>mdi-folder-upload</v-icon>
                                 </v-list-item-action>
                                 <v-list-item-content>
                                     <v-list-item-title>{{$t('m.profile.update_button')}}</v-list-item-title>
@@ -66,17 +66,6 @@
                         cols="12"
                     >
                         <v-text-field
-                            v-model="profile.username"
-                            filled
-                            color="blue-grey lighten-2"
-                            :label="$t('m.profile.username_label')"
-                        >
-                        </v-text-field>
-                    </v-col>
-                    <v-col
-                        cols="12"
-                    >
-                        <v-text-field
                             v-model="profile.nickname"
                             filled
                             color="blue-grey lighten-2"
@@ -95,7 +84,26 @@
                         >
                         </v-text-field>
                     </v-col>
-
+                    <v-col
+                        cols="12"
+                    >
+                        <v-file-input
+                            v-model="profile.avatar"
+                            label="上传头像"
+                            multiple
+                            prepend-icon="mdi-image"
+                        >
+                            <template v-slot:selection="{ text }">
+                                <v-chip
+                                    small
+                                    label
+                                    color="primary"
+                                >
+                                    {{ text }}
+                                </v-chip>
+                            </template>
+                        </v-file-input>
+                    </v-col>
                 </v-row>
             </v-container>
         </v-form>
@@ -131,36 +139,56 @@
                 autoUpdate: true,
                 isUpdating: false,
                 profile:{
-                    username:'',
                     nickname:'',
                     introduction: '',
-                }
+                    avatar:null,
+                },
+                height:window.innerHeight-82,
             }
         },
         methods: {
             updateMyInfo(){
                 this.isUpdating = true;
-                console.log(this.profile.password_origin);
-                this.$store.dispatch('updateMyInfo',{
-                    username:this.profile.username,
-                    nickname:this.profile.nickname,
-                    introduction: this.profile.introduction
-                });
-                this.$watch(this.$store.getters.getUpdateMyInfoStatus, function () {
-                    if (this.$store.getters.getUpdateMyInfoStatus() === 2) {
-                        EventBus.$emit('open-message', {
-                            text: this.$t('m.profile.update_success')
+                var formdata = new FormData();
+                formdata.append('file', this.profile.avatar[0]);
+                formdata.append('type', 'avatar');
+                this.$store.dispatch('uploadImage',formdata);
+                this.$watch(this.$store.getters.getUploadImageStatus, function () {
+                    if (this.$store.getters.getUploadImageStatus()  === 2) {
+                        this.$store.dispatch('updateMyInfo',{
+                            nickname:this.profile.nickname,
+                            introduction: this.profile.introduction,
+                            avatar:this.$store.getters.getUploadImage
                         });
-                        this.$store.dispatch('getMyInfo');
-                        this.isUpdating = false;
-                    }
-                    if (this.$store.getters.getUpdateMyInfoStatus() === 3) {
-                        EventBus.$emit('open-message', {
-                            text: this.$store.getters.getUpdateMyInfoErrors
+                        this.$watch(this.$store.getters.getUpdateMyInfoStatus, function () {
+                            if (this.$store.getters.getUpdateMyInfoStatus() === 2) {
+                                EventBus.$emit('open-message', {
+                                    text: this.$t('m.profile.update_success')
+                                });
+                                this.$store.dispatch('getMyInfo');
+                                this.isUpdating = false;
+                            }
+                            if (this.$store.getters.getUpdateMyInfoStatus() === 3) {
+                                EventBus.$emit('open-message', {
+                                    text: this.$store.getters.getUpdateMyInfoErrors
+                                });
+                                this.isUpdating = false;
+                            }
                         });
+                        this.$store.dispatch('initUploadImageStatus');
+                    }
+                    if (this.$store.getters.getUploadImageStatus()  === 3) {
+                        EventBus.$emit('open-message', {
+                            text: this.$store.getters.getUploadImageErrors,
+                            type: 'error'
+                        });
+                        this.profile.avatar = null;
                         this.isUpdating = false;
+                        this.$store.dispatch('initArticlesPublishStatus');
                     }
                 });
+
+
             }
         },
         computed:{
@@ -171,7 +199,6 @@
         created() {
             var my_info = this.$store.getters.getMyInfo;
             this.profile.nickname = my_info.nickname;
-            this.profile.username = my_info.username;
             this.profile.introduction = my_info.introduction;
         }
     }

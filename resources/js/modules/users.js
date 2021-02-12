@@ -133,7 +133,7 @@ export const users = {
         })
         .catch( function(error){
           commit( 'setUpdateMyInfoStatus', 3 );
-          commit( 'setVerificationCodesSendErrors',error.message);
+          commit( 'setUpdateMyInfoErrors',error.message);
         });
     },
     logout( { commit }){

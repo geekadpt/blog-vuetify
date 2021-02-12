@@ -2144,17 +2144,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Index',
   data: function data() {
     return {
-      offsetTop: 0
+      offsetTop: 0,
+      nomore: false,
+      skeleton_loader: true
     };
   },
   methods: {
     addArticles: function addArticles(entries, observer) {
       // More information about these options
       // is located here: https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
+      if (this.$store.getters.getArticles == '') return;
+
       if (this.$store.getters.getArticles.meta.current_page < this.$store.getters.getArticles.meta.last_page) {
         console.log(this.$store.getters.getArticles == '');
         this.$store.dispatch('loadArticles', {
@@ -2163,6 +2186,7 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else {
         console.log('没有内容了！');
+        this.nomore = true;
       }
     }
   },
@@ -2175,6 +2199,16 @@ __webpack_require__.r(__webpack_exports__);
     this.$store.dispatch('loadArticles', {
       order: 'hot',
       page: 1
+    });
+    this.$watch(function () {
+      // 第一个函数就是处理你要监听的属性，只要将其return出去就行
+      return this.$store.getters.getArticlesLoadStatus();
+    }, function (old, valold) {
+      if (this.$store.getters.getArticlesLoadStatus() == 1) {
+        this.skeleton_loader = true;
+      } else {
+        this.skeleton_loader = false;
+      }
     });
   },
   mounted: function mounted() {
@@ -27059,258 +27093,307 @@ var render = function() {
         "v-col",
         { staticClass: "scroll-anchor", attrs: { cols: "12", md: "9" } },
         [
-          _vm._l(_vm.articles, function(item, i) {
-            return _c(
-              "div",
-              { key: i },
-              [
-                _c(
-                  "v-card",
-                  { staticClass: "my-4" },
-                  [
-                    _c(
-                      "v-row",
-                      { attrs: { dense: "" } },
-                      [
-                        _c(
-                          "v-col",
-                          {
-                            staticClass: "hidden-md-only col-md-4 ma-0 pa-0",
-                            attrs: { cols: "12" }
-                          },
-                          [
-                            _c(
-                              "v-img",
-                              {
-                                staticClass:
-                                  "grey lighten-2 align-end white--text",
-                                attrs: {
-                                  src: item.thumb + item.id,
-                                  "lazy-src":
-                                    "https://picsum.photos/10/6?image=20",
-                                  "aspect-ratio": "1",
-                                  "max-height": "250"
-                                },
-                                scopedSlots: _vm._u(
-                                  [
-                                    {
-                                      key: "placeholder",
-                                      fn: function() {
-                                        return [
-                                          _c(
-                                            "v-row",
-                                            {
-                                              staticClass: "fill-height ma-0",
-                                              attrs: {
-                                                align: "center",
-                                                justify: "center"
-                                              }
-                                            },
-                                            [
-                                              _c("v-progress-circular", {
+          [
+            _vm._l(_vm.articles, function(item, i) {
+              return _c(
+                "div",
+                { key: i },
+                [
+                  _c(
+                    "v-card",
+                    { staticClass: "my-4" },
+                    [
+                      _c(
+                        "v-row",
+                        { attrs: { dense: "" } },
+                        [
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "hidden-md-only col-md-4 ma-0 pa-0",
+                              attrs: { cols: "12" }
+                            },
+                            [
+                              _c(
+                                "v-img",
+                                {
+                                  staticClass:
+                                    "grey lighten-2 align-end white--text",
+                                  attrs: {
+                                    src: item.thumb + item.id,
+                                    "lazy-src":
+                                      "https://picsum.photos/10/6?image=20",
+                                    "aspect-ratio": "1",
+                                    "max-height": "250"
+                                  },
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "placeholder",
+                                        fn: function() {
+                                          return [
+                                            _c(
+                                              "v-row",
+                                              {
+                                                staticClass: "fill-height ma-0",
                                                 attrs: {
-                                                  indeterminate: "",
-                                                  color: "grey lighten-5"
+                                                  align: "center",
+                                                  justify: "center"
                                                 }
-                                              })
-                                            ],
-                                            1
+                                              },
+                                              [
+                                                _c("v-progress-circular", {
+                                                  attrs: {
+                                                    indeterminate: "",
+                                                    color: "grey lighten-5"
+                                                  }
+                                                })
+                                              ],
+                                              1
+                                            )
+                                          ]
+                                        },
+                                        proxy: true
+                                      }
+                                    ],
+                                    null,
+                                    true
+                                  )
+                                },
+                                [
+                                  _c(
+                                    "v-card-title",
+                                    { staticClass: "hidden-md-and-up" },
+                                    [
+                                      _c(
+                                        "div",
+                                        { staticClass: "text-one-line" },
+                                        [
+                                          _vm._v(
+                                            "\n                                                    " +
+                                              _vm._s(item.title) +
+                                              "\n                                                "
                                           )
                                         ]
-                                      },
-                                      proxy: true
-                                    }
-                                  ],
-                                  null,
-                                  true
-                                )
-                              },
-                              [
-                                _c(
-                                  "v-card-title",
-                                  { staticClass: "hidden-md-and-up" },
-                                  [
-                                    _c(
-                                      "div",
-                                      { staticClass: "text-one-line" },
-                                      [
-                                        _vm._v(
-                                          "\n                                                    " +
-                                            _vm._s(item.title) +
-                                            "\n                                                "
-                                        )
-                                      ]
-                                    )
-                                  ]
-                                )
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-col",
-                          { staticClass: "col-md-8", attrs: { cols: "12" } },
-                          [
-                            _c(
-                              "v-card-title",
-                              [
-                                _c(
-                                  "v-icon",
-                                  { attrs: { large: "", left: "" } },
-                                  [
-                                    _vm._v(
-                                      "\n                                                mdi-twitter\n                                            "
-                                    )
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "span",
-                                  {
-                                    staticClass:
-                                      "title font-weight-light text-one-line"
-                                  },
-                                  [_vm._v(_vm._s(item.title))]
-                                )
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c("v-card-text", [
-                              _c(
-                                "div",
-                                [
-                                  _c("v-icon", [_vm._v(" mdi-folder ")]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-chip",
-                                    {
-                                      staticClass: "ma-1",
-                                      attrs: { small: "" }
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                                                    " +
-                                          _vm._s(item.category.name) +
-                                          "\n                                                    "
-                                      )
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("span", { staticClass: "mr-1" }, [
-                                    _vm._v("·")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("v-icon", [_vm._v(" mdi-tag-multiple ")]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-chip",
-                                    {
-                                      staticClass: "ma-1",
-                                      attrs: { small: "" }
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                                                    small chip\n                                                "
                                       )
                                     ]
                                   )
                                 ],
                                 1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { staticClass: "col-md-8", attrs: { cols: "12" } },
+                            [
+                              _c(
+                                "v-card-title",
+                                [
+                                  _c(
+                                    "v-icon",
+                                    { attrs: { large: "", left: "" } },
+                                    [
+                                      _vm._v(
+                                        "\n                                                mdi-twitter\n                                            "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass:
+                                        "title font-weight-light text-one-line"
+                                    },
+                                    [_vm._v(_vm._s(item.title))]
+                                  )
+                                ],
+                                1
                               ),
                               _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "text-justify text-two-line mt-2"
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                                " +
-                                      _vm._s(item.excerpt) +
-                                      "\n                                            "
-                                  )
-                                ]
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "v-card-actions",
-                              [
+                              _c("v-card-text", [
                                 _c(
-                                  "v-list-item",
-                                  { staticClass: "grow" },
+                                  "div",
                                   [
-                                    _c(
-                                      "v-list-item-avatar",
-                                      { attrs: { color: "grey darken-3" } },
-                                      [
-                                        _c("v-img", {
-                                          staticClass: "elevation-6",
-                                          attrs: {
-                                            alt: "",
-                                            src: item.user.avatar
-                                          }
-                                        })
-                                      ],
-                                      1
-                                    ),
+                                    _c("v-icon", [_vm._v(" mdi-folder ")]),
                                     _vm._v(" "),
                                     _c(
-                                      "v-list-item-content",
-                                      [
-                                        _c("v-list-item-title", [
-                                          _vm._v(_vm._s(item.user.nickname))
-                                        ])
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-row",
+                                      "v-chip",
                                       {
-                                        attrs: {
-                                          align: "center",
-                                          justify: "end"
-                                        }
+                                        staticClass: "ma-1",
+                                        attrs: { small: "" }
                                       },
                                       [
-                                        _c("v-icon", { staticClass: "mr-1" }, [
-                                          _vm._v(
-                                            "\n                                                        mdi-clock\n                                                    "
-                                          )
-                                        ]),
-                                        _vm._v(" "),
-                                        _c(
-                                          "span",
-                                          { staticClass: "subheading mr-2" },
-                                          [_vm._v(_vm._s(item.created_at))]
+                                        _vm._v(
+                                          "\n                                                    " +
+                                            _vm._s(item.category.name) +
+                                            "\n                                                    "
                                         )
-                                      ],
-                                      1
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("span", { staticClass: "mr-1" }, [
+                                      _vm._v("·")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("v-icon", [
+                                      _vm._v(" mdi-tag-multiple ")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-chip",
+                                      {
+                                        staticClass: "ma-1",
+                                        attrs: { small: "" }
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                                    small chip\n                                                "
+                                        )
+                                      ]
                                     )
                                   ],
                                   1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "text-justify text-two-line mt-2"
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                                " +
+                                        _vm._s(item.excerpt) +
+                                        "\n                                            "
+                                    )
+                                  ]
                                 )
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-card-actions",
+                                [
+                                  _c(
+                                    "v-list-item",
+                                    { staticClass: "grow" },
+                                    [
+                                      _c(
+                                        "v-list-item-avatar",
+                                        { attrs: { color: "grey darken-3" } },
+                                        [
+                                          _c("v-img", {
+                                            staticClass: "elevation-6",
+                                            attrs: {
+                                              alt: "",
+                                              src: item.user.avatar
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list-item-content",
+                                        [
+                                          _c("v-list-item-title", [
+                                            _vm._v(_vm._s(item.user.nickname))
+                                          ])
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-row",
+                                        {
+                                          attrs: {
+                                            align: "center",
+                                            justify: "end"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { staticClass: "mr-1" },
+                                            [
+                                              _vm._v(
+                                                "\n                                                        mdi-clock\n                                                    "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "span",
+                                            { staticClass: "subheading mr-2" },
+                                            [_vm._v(_vm._s(item.created_at))]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            }),
+            _vm._v(" "),
+            _vm.nomore
+              ? _c(
+                  "div",
+                  { attrs: { align: "center", justify: "center" } },
+                  [
+                    _c("v-icon", { attrs: { large: "", left: "" } }, [
+                      _vm._v(
+                        "\n                                mdi-twitter\n                            "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      { staticClass: "title font-weight-light text-one-line" },
+                      [_vm._v("没有更多了!")]
                     )
                   ],
                   1
                 )
-              ],
-              1
-            )
-          })
+              : _vm._e(),
+            _vm._v(" "),
+            _vm._l(10, function(n) {
+              return _vm.skeleton_loader
+                ? _c(
+                    "v-card",
+                    [
+                      _c("v-skeleton-loader", {
+                        staticClass: "my-4",
+                        attrs: {
+                          "max-height": "300",
+                          type:
+                            "list-item-avatar, divider, list-item-three-line, card-heading, actions"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                : _vm._e()
+            })
+          ]
         ],
         2
       ),

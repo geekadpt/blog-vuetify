@@ -125,6 +125,25 @@
                             </v-row>
                     </v-card>
                     </div>
+                    <div
+                         v-if="nomore"
+                         align="center"
+                         justify="center"
+                    >
+                            <v-icon
+                                large
+                                left
+                            >
+                                mdi-twitter
+                            </v-icon>
+                            <span class="title font-weight-light text-one-line" >没有更多了!</span>
+                    </div>
+                    <v-card v-for="n in 10" v-if="skeleton_loader">
+                        <v-skeleton-loader
+                            class="my-4" max-height="300"
+                            type="list-item-avatar, divider, list-item-three-line, card-heading, actions"
+                        ></v-skeleton-loader>
+                    </v-card>
                 </template>
             </v-col>
 
@@ -147,11 +166,15 @@
         name:'Index',
         data: () => ({
             offsetTop: 0,
+            nomore:false,
+            skeleton_loader:true
         }),
         methods: {
             addArticles (entries, observer) {
                 // More information about these options
                 // is located here: https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
+                if(this.$store.getters.getArticles == '')
+                    return;
                 if(this.$store.getters.getArticles.meta.current_page < this.$store.getters.getArticles.meta.last_page){
                     console.log(this.$store.getters.getArticles == '');
                     this.$store.dispatch('loadArticles',{
@@ -160,8 +183,8 @@
                     });
                 }else{
                     console.log('没有内容了！');
+                    this.nomore = true;
                 }
-
             },
         },
         computed:{
@@ -174,6 +197,18 @@
                 order:'hot',
                 page:1
             });
+            this.$watch(
+                function () { // 第一个函数就是处理你要监听的属性，只要将其return出去就行
+                    return this.$store.getters.getArticlesLoadStatus();
+                },
+                function (old, valold) {
+                    if(this.$store.getters.getArticlesLoadStatus() == 1){
+                        this.skeleton_loader = true;
+                    }else{
+                        this.skeleton_loader = false;
+                    }
+                }
+            )
         },
         mounted(){
             let _this = this;

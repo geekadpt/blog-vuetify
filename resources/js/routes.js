@@ -86,7 +86,7 @@ export default new VueRouter({
         {
           path: 'index',
           name: '首页',
-          components: Vue.component( 'index', require( './views/Index' ) ),
+          components: Vue.component( 'index', require( './views/Blog' ) ),
         },
         {
           path: 'blog',

@@ -72,6 +72,7 @@
                                             </v-icon>
                                             <span class="title font-weight-light text-one-line">{{item.title}}</span>
                                         </v-card-title>
+                                        <v-divider></v-divider>
                                         </router-link>
                                         <v-card-text>
                                             <div
@@ -105,20 +106,111 @@
                                         </v-card-text>
                                         <v-card-actions>
                                             <v-list-item class="grow">
-                                                <v-list-item-avatar color="grey darken-3">
-                                                    <v-img
-                                                        class="elevation-6"
-                                                        :alt="item.user.nickname.substr(0,1)"
-                                                        :src="item.user.avatar"
-                                                        v-if="item.user.avatar"
-                                                    ></v-img>
-                                                    <span v-if="!item.user.avatar" class="text--darken-1 headline ">{{item.user.nickname.substr(0,1)}}</span>
-                                                </v-list-item-avatar>
+                                                    <template>
+                                                        <div>
+                                                            <v-menu
+                                                                transition="scale-transition"
+                                                                bottom
+                                                                open-on-hover
+                                                                :close-on-content-click="false"
+                                                                :nudge-width="200"
+                                                            >
+                                                                <template v-slot:activator="{ on, attrs }">
+                                                                    <v-list-item-avatar color="grey"  v-bind="attrs"
+                                                                                        v-on="on">
+                                                                        <span v-if="!item.user.avatar" class="text--darken-1 headline ">{{item.user.nickname.substr(0,1)}}</span>
+                                                                        <v-img
+                                                                            class="elevation-6"
+                                                                            :alt="item.user.nickname.substr(0,1)"
+                                                                            :src="item.user.avatar"
+                                                                            v-if="item.user.avatar"
+                                                                        ></v-img>
+                                                                    </v-list-item-avatar>
+                                                                </template>
+                                                                <v-card>
+                                                                    <v-list>
+                                                                        <v-list-item>
+                                                                            <v-list-item-avatar  color="grey">
+                                                                                <span v-if="!item.user.avatar" class="text--darken-1 headline ">{{item.user.nickname.substr(0,1)}}</span>
+                                                                                <v-img
+                                                                                    class="elevation-6"
+                                                                                    :alt="item.user.nickname.substr(0,1)"
+                                                                                    :src="item.user.avatar"
+                                                                                    v-if="item.user.avatar"
+                                                                                ></v-img>
+                                                                            </v-list-item-avatar>
 
+                                                                            <v-list-item-content>
+                                                                                <v-list-item-title>{{item.user.nickname}}</v-list-item-title>
+                                                                                <v-list-item-subtitle class="text-one-line">{{item.user.introduction}}</v-list-item-subtitle>
+                                                                            </v-list-item-content>
+
+                                                                            <v-list-item-action>
+                                                                                <v-btn
+                                                                                    :class="fav ? 'red--text' : ''"
+                                                                                    icon
+                                                                                    @click="fav = !fav"
+                                                                                >
+                                                                                    <v-icon>mdi-heart</v-icon>
+                                                                                </v-btn>
+                                                                            </v-list-item-action>
+                                                                        </v-list-item>
+                                                                    </v-list>
+
+                                                                    <v-divider></v-divider>
+                                                                    <v-rating v-model="rating" class="mx-3">
+                                                                        <template v-slot:item="props">
+                                                                            <v-icon
+                                                                                :color="props.isFilled ? genColor(props.index) : 'grey lighten-1'"
+                                                                                large
+                                                                                @click="props.click"
+                                                                            >
+                                                                                {{ props.isFilled ? 'mdi-star-circle' : 'mdi-star-circle-outline' }}
+                                                                            </v-icon>
+                                                                        </template>
+                                                                    </v-rating>
+<!--                                                                    <v-list>-->
+<!--                                                                        <v-list-item>-->
+<!--                                                                            <v-list-item-action>-->
+<!--                                                                                <v-switch-->
+<!--                                                                                    v-model="message"-->
+<!--                                                                                    color="purple"-->
+<!--                                                                                ></v-switch>-->
+<!--                                                                            </v-list-item-action>-->
+<!--                                                                            <v-list-item-title>Enable messages</v-list-item-title>-->
+<!--                                                                        </v-list-item>-->
+
+<!--                                                                        <v-list-item>-->
+<!--                                                                            <v-list-item-action>-->
+<!--                                                                                <v-switch-->
+<!--                                                                                    v-model="hints"-->
+<!--                                                                                    color="purple"-->
+<!--                                                                                ></v-switch>-->
+<!--                                                                            </v-list-item-action>-->
+<!--                                                                            <v-list-item-title>Enable hints</v-list-item-title>-->
+<!--                                                                        </v-list-item>-->
+<!--                                                                    </v-list>-->
+                                                                    <v-card-actions class="d-flex justify-space-between">
+                                                                        <v-btn
+                                                                            text
+                                                                        >
+                                                                            关注
+                                                                        </v-btn>
+                                                                        <v-btn
+                                                                            color="primary"
+                                                                            text
+                                                                            @click="menu = false"
+                                                                        >
+                                                                            查看主页
+                                                                        </v-btn>
+                                                                    </v-card-actions>
+                                                                </v-card>
+                                                            </v-menu>
+                                                        </div>
+                                                    </template>
                                                 <v-list-item-content>
                                                     <v-list-item-title>{{item.user.nickname}}</v-list-item-title>
                                                 </v-list-item-content>
-
                                                 <v-row
                                                     align="center"
                                                     justify="end"
@@ -213,9 +305,20 @@
         data: () => ({
             offsetTop: 0,
             nomore:false,
-            skeleton_loader:false
+            skeleton_loader:false,
+
+            fav: true,
+            menu: false,
+            message: false,
+            hints: true,
+
+            colors: ['green', 'purple', 'orange', 'indigo', 'red'],
+            rating: 4.5,
         }),
         methods: {
+            genColor (i) {
+                return this.colors[i]
+            },
             jumpTag(id){
                 this.$router.push({path:'/tags/'+id+'/blog'});
             },

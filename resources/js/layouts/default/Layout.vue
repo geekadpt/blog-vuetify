@@ -11,6 +11,8 @@
 <!--    <default-settings />-->
 
     <default-notification />
+
+    <default-router-guard />
   </v-app>
 </template>
 
@@ -40,9 +42,13 @@
         './View'
       ),
       DefaultNotification: () => import(
-          /* webpackChunkName: "default-view" */
+          /* webpackChunkName: "default-notification" */
         '../../components/Notification'
       ),
+        DefaultRouterGuard: () => import(
+            /* webpackChunkName: "default-router-guard" */
+            '../../components/RouterGuard'
+            ),
     },
       created() {
             //console.log(localStorage.getItem('Authorization'));

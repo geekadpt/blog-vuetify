@@ -31,13 +31,16 @@
                         </span>
 
                         <span class="mr-1">·</span>
-                        <v-icon>mdi-book-open-blank-variant  </v-icon>
-                        <span class="subheading mr-2">{{article.view_count}}</span>
+                        <v-icon right
+                                dark
+                        >mdi-book-open-blank-variant  </v-icon>
+                        <span class="subheading mr-2">本文共{{article.view_count}}次阅读</span>
 
 
 
                         <span class="mr-1">·</span>
-                        <v-icon class="mr-1">
+                        <v-icon right
+                                dark class="mr-1">
                             mdi-calendar-month
                         </v-icon>
                         <span class="subheading mr-2">{{article.created_at}}</span>

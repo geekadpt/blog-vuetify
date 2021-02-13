@@ -186,7 +186,7 @@
         data: () => ({
             offsetTop: 0,
             nomore:false,
-            skeleton_loader:true
+            skeleton_loader:false
         }),
         methods: {
             addArticles (entries, observer) {
@@ -223,6 +223,7 @@
                     order:'hot',
                     page:1
                 });
+                this.skeleton_loader = true;
             }
             this.$watch(
                 function () { // 第一个函数就是处理你要监听的属性，只要将其return出去就行

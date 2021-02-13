@@ -10,7 +10,8 @@ class CategoryResource extends JsonResource
 
     public function toArray($request)
     {
-        $data = parent::toArray($request);
-        return $data;
+//        $data = parent::toArray($request);
+//        return $data;
+        return (string)$this->name;
     }
 }

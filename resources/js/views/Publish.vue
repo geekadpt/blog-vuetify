@@ -61,24 +61,22 @@
                 </v-combobox>
             </template>
             <template>
+                <v-container fluid>
                     <v-combobox
-                        v-model="tags"
+                        v-model="model"
                         :filter="filter"
                         :hide-no-data="!search"
                         :items="items"
                         :search-input.sync="search"
                         hide-selected
-                        label="标签云"
+                        label="Search for an option"
                         multiple
                         small-chips
                         solo
-                        class="col-12"
-                        prepend-icon="mdi-tag-multiple"
-                        clearable
                     >
                         <template v-slot:no-data>
                             <v-list-item>
-                                <span class="subheading">新建</span>
+                                <span class="subheading">Create</span>
                                 <v-chip
                                     :color="`${colors[nonce - 1]} lighten-3`"
                                     label
@@ -104,7 +102,7 @@
                                     small
                                     @click="parent.selectItem(item)"
                                 >
-                                    mdi-close
+                                    close
                                 </v-icon>
                             </v-chip>
                         </template>
@@ -139,6 +137,7 @@
                             </v-list-item-action>
                         </template>
                     </v-combobox>
+                </v-container>
             </template>
             <template>
                 <div class="d-flex justify-space-between mb-6 col-12 pa-0">
@@ -187,8 +186,8 @@
             title:'',
             excerpt: '',
             body: '',
-            category: '软件开发',
-            categories: ['Streaming', 'Eating'],
+            category: '',
+            // categories: ['Streaming', 'Eating'],
 
             messages: [
                 {
@@ -217,22 +216,22 @@
             editing: null,
             editingIndex: -1,
             items: [
-                { header: '选择或者新建一个标签' },
+                { header: 'Select an option or create one' },
                 {
-                    text: 'Vue',
-                    color: 'green',
+                    text: 'Foo',
+                    color: 'blue',
                 },
                 {
-                    text: 'Laravel',
+                    text: 'Bar',
                     color: 'red',
                 },
             ],
             nonce: 1,
             menu: false,
-            tags: [
+            model: [
                 {
-                    text: 'Vue',
-                    color: 'green',
+                    text: 'Foo',
+                    color: 'blue',
                 },
             ],
             x: 0,
@@ -264,8 +263,9 @@
                 this.$store.dispatch('uploadImage',formdata);
                 this.$watch(this.$store.getters.getUploadImageStatus, function () {
                     if (this.$store.getters.getUploadImageStatus()  === 2) {
+                        var temp = this.$store.getters.getUploadImage;
                         insertImage({
-                            url: this.$store.getters.getUploadImage,
+                            url: temp,
                             desc: 'desc',
                             width: 'auto',
                             height: 'auto',
@@ -286,7 +286,7 @@
                 });
             },
             remove (item) {
-                this.chips='';
+                this.category ='';
             },
             edit (index, item) {
                 if (!this.editing) {
@@ -371,6 +371,9 @@
         },
         watch: {
             model (val, prev) {
+
+                if(prev.length>=3) return
+
                 if (val.length === prev.length) return
 
                 this.model = val.map(v => {
@@ -389,5 +392,13 @@
                 })
             },
         },
+        created() {
+            this.$store.dispatch('indexCategories');
+        },
+        computed:{
+            categories(){
+                return this.$store.getters.getCategories
+            }
+        }
     }
 </script>

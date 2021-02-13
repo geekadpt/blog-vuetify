@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Article\ArticlesController;
+use App\Http\Controllers\Api\Category\CategoriesController;
 use App\Http\Controllers\Api\ImagesController;
 use App\Http\Controllers\Api\User\AuthorizationsController;
 use App\Http\Controllers\Api\User\CaptchasController;
@@ -61,5 +62,7 @@ Route::prefix('v1')
                 // 上传图片
                 Route::post('images', [ImagesController::class, 'store'])
                     ->name('images.store');
+                Route::get('categories', [CategoriesController::class, 'index'])
+                    ->name('categories.index');
             });
     });

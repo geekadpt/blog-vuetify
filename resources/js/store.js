@@ -18,6 +18,7 @@ import Vuex from 'vuex'
 import {app} from "./modules/app";
 import {users} from "./modules/users";
 import {articles} from "./modules/articles";
+import {categories} from "./modules/categories";
 /**
  * Initializes Vuex on Vue.
  */
@@ -31,5 +32,6 @@ export default new Vuex.Store({
     app,
     users,
     articles,
+    categories
   }
 });

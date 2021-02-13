@@ -59,13 +59,13 @@ export default {
         search:data.search,
       })
     },
-    //根据我的分类获取文章
+    //根据分类获取文章
     categoryArticles: function(data){
-      return get(APP_CONFIG.API_URL + 'articles/categories',{
+      return get(APP_CONFIG.API_URL + 'categories/articles',{
         category:data.category
       });
     },
-    //根据分类获取文章
+    //根据标签获取文章
     tagArticles: function(data){
       return get(APP_CONFIG.API_URL + 'tags/articles',{
         tag:data.tag

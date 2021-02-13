@@ -139,6 +139,35 @@ export const articles = {
             commit('setArticlesLoadStatus', 3);
           });
       },
+      indexCategoryArticles({commit,state},data ){
+        commit('setArticlesLoadStatus',1);
+        ArticlesAPI.categoryArticles(data)
+          .then(function (response) {
+            commit('setArticlesLoadStatus', 2);
+            //console.log(state.articles);
+            if(state.articles){
+              const original_articles = state.articles;
+              console.log(original_articles.data);
+              console.log(response.data);
+              // for(var i = original_articles.data.length-1; i>=0 ; i--){
+              //   response.data.unshift(original_articles.data[i]);
+              // }
+              for(var i = 0; i < response.data.length ; i++){
+                original_articles.data.push(response.data[i]);
+              }
+              original_articles.meta = response.meta;
+              original_articles.links = response.links;
+              //merge_articles.data.concat(response.data);
+              console.log(response.data);
+              commit('setArticles',original_articles);
+            }else{
+              commit('setArticles',response);
+            }
+          })
+          .catch(function (error){
+            commit('setArticlesLoadStatus', 3);
+          });
+      },
     },
     mutations:{
         setArticlesLoadStatus(state,status){

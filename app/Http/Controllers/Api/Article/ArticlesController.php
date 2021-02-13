@@ -83,7 +83,6 @@ class ArticlesController extends Controller
     }
     public function show(ArticleRequest $request)
     {
-        return new ArticleResource(Article::
-        find($request->id));
+        return new ArticleResource(Article::find($request->id));
     }
 }

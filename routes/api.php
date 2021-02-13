@@ -50,8 +50,11 @@ Route::prefix('v1')
             Route::get('tags', [TagsController::class, 'index'])
                 ->name('tags.index');
 
-            //获取所有文章
+            //获取标签下所有文章
             Route::get('tags/articles', [TagsController::class, 'indexArticles']) ->name('api.tags.articles.index');
+
+            //获取分类下所有文章
+            Route::get('categories/articles', [CategoriesController::class, 'indexArticles']) ->name('api.categories.articles.index');
         });
         Route::middleware('throttle:' . config('api.rate_limits.sign'))
             ->middleware('token.refresh')

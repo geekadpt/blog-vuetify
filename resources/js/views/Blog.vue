@@ -80,6 +80,7 @@
                                                     <v-chip
                                                         class="ma-1"
                                                         small
+                                                        @click="jumpCategory(item.category_id)"
                                                     >
                                                     {{item.category[0]}}
                                                     </v-chip>
@@ -107,9 +108,11 @@
                                                 <v-list-item-avatar color="grey darken-3">
                                                     <v-img
                                                         class="elevation-6"
-                                                        alt=""
+                                                        :alt="item.user.nickname.substr(0,1)"
                                                         :src="item.user.avatar"
+                                                        v-if="item.user.avatar"
                                                     ></v-img>
+                                                    <span v-if="!item.user.avatar" class="text--darken-1 headline ">{{item.user.nickname.substr(0,1)}}</span>
                                                 </v-list-item-avatar>
 
                                                 <v-list-item-content>
@@ -216,6 +219,9 @@
             jumpTag(id){
                 this.$router.push({path:'/tags/'+id+'/blog'});
             },
+            jumpCategory(id){
+                this.$router.push({path:'/categories/'+id+'/blog'});
+            },
             addArticles (entries, observer) {
                 // More information about these options
                 // is located here: https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
@@ -225,6 +231,12 @@
                     if(this.$route.params.tag_id){
                         this.$store.dispatch('indexTagArticles',{
                             tag:this.$route.params.tag_id,
+                            order:'hot',
+                            page: this.$store.getters.getArticles.meta.current_page+1
+                        });
+                    }else if(this.$route.params.category_id){
+                        this.$store.dispatch('indexCategoryArticles',{
+                            category : this.$route.params.category_id,
                             order:'hot',
                             page: this.$store.getters.getArticles.meta.current_page+1
                         });
@@ -259,7 +271,14 @@
                     order:'hot',
                     page:1
                 });
-            }else{
+            }else if(this.$route.params.category_id){
+                this.$store.dispatch('indexCategoryArticles',{
+                    category : this.$route.params.category_id,
+                    order:'hot',
+                    page:1
+                });
+            }
+            else{
                 console.log('this.$store.getters.getArticles');
                 this.$store.dispatch('indexArticles',{
                     order:'hot',

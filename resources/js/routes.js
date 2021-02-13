@@ -96,12 +96,12 @@ export default new VueRouter({
         {
           path: 'tags/:tag_id/blog',
           name: '标签下的博客',
-          components: Vue.component( 'index', require( './views/Blog' ) ),
+          components: Vue.component( 'tags_blog', require( './views/Blog' ) ),
         },
         {
           path: 'categories/:category_id/blog',
-          name: '标签下的博客',
-          components: Vue.component( 'index', require( './views/Blog' ) ),
+          name: '分类下的博客',
+          components: Vue.component( 'categories_blog', require( './views/Blog' ) ),
         },
         {
           path: 'detail/:id',

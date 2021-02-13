@@ -23,7 +23,7 @@ class TagsController extends Controller
         $tag = Tag::find($request->tag);
         $articles = Article::whereIn('id', ArticleMapTag::where('tag_id',$tag->id)->pluck('article_id')->toArray())
             ->where('target','0')
-            ->paginate($this->perpage);;
+            ->paginate($this->perpage);
         return ArticleResource::collection($articles);
     }
 }

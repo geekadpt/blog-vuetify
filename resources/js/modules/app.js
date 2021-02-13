@@ -75,6 +75,8 @@ export const app = {
     uploadImage:'',
     uploadImageStatus:0,
     uploadImageErrors:'',
+
+    routerGuardStatus:false,
   },
 
   /**
@@ -148,6 +150,13 @@ export const app = {
       commit("setInitUploadImageStatus",0);
     },
 
+    openRouterGuard( { commit }){
+      commit("setRouterGuardStatus",true);
+    },
+    closeRouterGuard( { commit }){
+      commit("setRouterGuardStatus",false);
+    },
+
   },
   /**
    * Defines the mutations used
@@ -196,6 +205,10 @@ export const app = {
     setInitUploadImageStatus(state){
       state.articlesPublishStatus = 0;
     },
+    setRouterGuardStatus(state,status){
+      state.routerGuardStatus = status;
+    },
+
   },
   /**
    * Defines the getters used by the module
@@ -246,6 +259,9 @@ export const app = {
     },
     getUploadImageErrors(state){
       return state.uploadImageErrors;
+    },
+    getRouterGuardStatus(state){
+      return state.routerGuardStatus;
     },
   }
 };

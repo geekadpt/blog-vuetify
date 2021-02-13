@@ -4,18 +4,23 @@ namespace App\Http\Controllers\Api\Article;
 
 use App\Http\Requests\Api\Article\ArticleRequest;
 use App\Http\Resources\ArticleResource;
+use App\Models\Archive;
 use App\Models\Article;
 
+use App\Models\ArticleMapTag;
 use App\Models\Category;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class ArticlesController extends Controller
 {
+    protected $perpage = 4;
+    protected $tagMaxLength = 10;
+
     public function index(Request $request)
     {
         $order = '';
-        $perpage = '10';
-        $articles = Article::where('target','0')->withOrder($order)->paginate($perpage);
+        $articles = Article::where('target','0')->withOrder($order)->paginate($this->perpage);
         return ArticleResource::collection($articles);
     }
     public function store(ArticleRequest $request)
@@ -40,43 +45,45 @@ class ArticlesController extends Controller
         $article-> user_id = $user->id;
         $article->category_id = $category->id;
         $article-> save();
-//        if($article->target == 0) {
-//            //发布归档
-//            $archieve = new Archive();
-//            $archieve->user_id = $this->user()->id;
-//            $archieve->article_id = $article->id;
-//            $archieve->title = $article->title;
-//            $archieve->save();
-//            //发布标签和标签文章对照表
-//            if ($request->tags) {
-//                foreach ($request->tags as $v) {
-//                    if(strlen($v) > $this->tagMaxLength){
-//                        continue;
-//                    }
-//                    if (Tag::where([['name', $v], ['user_id', $this->user()->id]])->first() != null) {
-//                        $tag = Tag::where([
-//                            ['name', $v],
-//                            ['user_id', $this->user()->id]
-//                        ])->first();
-//                        $tag->num = $tag->num + 1;
-//                    } else {
-//                        $tag = new Tag();
-//                        $tag->user_id = $this->user()->id;
-//                        $tag->name = $v;
-//                        $tag->num = 1;
-//                    }
-//                    $tag->save();
-//                    $article_map_tag = new ArticleMapTag();
-//                    $article_map_tag->tag_id = $tag->id;
-//                    $article_map_tag->article_id = $article->id;
-//                    $article_map_tag->save();
-//                }
-//            }
-//        }
+        if($article->target == 0) {
+            //发布归档
+            $archieve = new Archive();
+            $archieve->user_id = $user->id;
+            $archieve->article_id = $article->id;
+            $archieve->title = $article->title;
+            $archieve->save();
+            //发布标签和标签文章对照表
+            if ($request->tags) {
+                foreach ($request->tags as $v) {
+                    if(strlen($v['text']) > $this->tagMaxLength){
+                        continue;
+                    }
+                    if (Tag::where([['name', $v['text']], ['user_id', $user->id]])->first() != null) {
+                        $tag = Tag::where([
+                            ['name',$v['text']],
+                            ['user_id', $user->id]
+                        ])->first();
+                        $tag->num = $tag->num + 1;
+                    } else {
+                        $tag = new Tag();
+                        $tag->user_id = $user->id;
+                        $tag->name = $v['text'];
+                        $tag->color = $v['color'];
+                        $tag->num = 1;
+                    }
+                    $tag->save();
+                    $article_map_tag = new ArticleMapTag();
+                    $article_map_tag->tag_id = $tag->id;
+                    $article_map_tag->article_id = $article->id;
+                    $article_map_tag->save();
+                }
+            }
+        }
         return response()->json(['message' => '发布成功'], 201);
     }
     public function show(ArticleRequest $request)
     {
-        return new ArticleResource(Article::find($request->id));
+        return new ArticleResource(Article::
+        find($request->id));
     }
 }

@@ -1,134 +1,138 @@
 <template>
-    <v-card
-        color="blue-grey darken-1"
-        dark
-        :loading="isUpdating"
-        :height="height"
-    >
-        <template v-slot:progress>
-            <v-progress-linear
-                absolute
-                color="green lighten-3"
-                height="4"
-                indeterminate
-            ></v-progress-linear>
-        </template>
-        <v-img
-            height="200"
-            src="https://api.vvhan.com/api/acgimg"
-        >
-            <v-row>
-                <v-col
-                    class="text-right"
-                    cols="12"
-                >
-                    <v-menu
-                        bottom
-                        left
-                        transition="slide-y-transition"
-                    >
-                        <template v-slot:activator="{ on }">
-                            <v-btn
-                                icon
-                                v-on="on"
-                            >
-                                <v-icon>mdi-dots-vertical</v-icon>
-                            </v-btn>
-                        </template>
-                        <v-list>
-                            <v-list-item @click="updateMyInfo">
-                                <v-list-item-action>
-                                    <v-icon>mdi-folder-upload</v-icon>
-                                </v-list-item-action>
-                                <v-list-item-content>
-                                    <v-list-item-title>{{$t('m.profile.update_button')}}</v-list-item-title>
-                                </v-list-item-content>
-                            </v-list-item>
-                        </v-list>
-                    </v-menu>
-                </v-col>
-                <v-row
-                    class="pa-4"
-                    align="center"
-                    justify="center"
-                >
-                    <v-col class="text-center">
-                        <h2 class="headline">{{ user.nickname }}</h2>
-                        <span class="text--lighten-1">{{ user.introduction }}</span>
-                    </v-col>
-                </v-row>
-            </v-row>
-        </v-img>
-        <v-form>
-            <v-container>
-                <v-row>
-                    <v-col
-                        cols="12"
-                    >
-                        <v-text-field
-                            v-model="profile.nickname"
-                            filled
-                            color="blue-grey lighten-2"
-                            :label="$t('m.profile.nickname_label')"
-                        >
-                        </v-text-field>
-                    </v-col>
-                    <v-col
-                        cols="12"
-                    >
-                        <v-text-field
-                            v-model="profile.introduction"
-                            filled
-                            color="blue-grey lighten-2"
-                            :label="$t('m.profile.introduction_label')"
-                        >
-                        </v-text-field>
-                    </v-col>
-                    <v-col
-                        cols="12"
-                    >
-                        <v-file-input
-                            v-model="profile.avatar"
-                            label="上传头像"
-                            multiple
-                            prepend-icon="mdi-image"
-                        >
-                            <template v-slot:selection="{ text }">
-                                <v-chip
-                                    small
-                                    label
-                                    color="primary"
-                                >
-                                    {{ text }}
-                                </v-chip>
-                            </template>
-                        </v-file-input>
-                    </v-col>
-                </v-row>
-            </v-container>
-        </v-form>
-        <v-divider></v-divider>
-        <v-card-actions>
-            <v-switch
-                v-model="autoUpdate"
-                disabled
-                class="mt-0"
-                color="green lighten-2"
-                hide-details
-                label="Auto Update"
-            ></v-switch>
-            <v-spacer></v-spacer>
-            <v-btn
+    <v-row>
+        <v-col cols="12">
+            <v-card
+                color="blue-grey darken-1"
+                dark
                 :loading="isUpdating"
-                color="blue-grey darken-3"
-                depressed
-                @click="updateMyInfo"
+                :height="height"
             >
-                <v-icon left>mdi-update</v-icon>
-                {{$t('m.profile.update_button')}}
-            </v-btn>
-        </v-card-actions>
-    </v-card>
+                <template v-slot:progress>
+                    <v-progress-linear
+                        absolute
+                        color="green lighten-3"
+                        height="4"
+                        indeterminate
+                    ></v-progress-linear>
+                </template>
+                <v-img
+                    height="200"
+                    src="https://api.vvhan.com/api/acgimg"
+                >
+                    <v-row>
+                        <v-col
+                            class="text-right"
+                            cols="12"
+                        >
+                            <v-menu
+                                bottom
+                                left
+                                transition="slide-y-transition"
+                            >
+                                <template v-slot:activator="{ on }">
+                                    <v-btn
+                                        icon
+                                        v-on="on"
+                                    >
+                                        <v-icon>mdi-dots-vertical</v-icon>
+                                    </v-btn>
+                                </template>
+                                <v-list>
+                                    <v-list-item @click="updateMyInfo">
+                                        <v-list-item-action>
+                                            <v-icon>mdi-folder-upload</v-icon>
+                                        </v-list-item-action>
+                                        <v-list-item-content>
+                                            <v-list-item-title>{{$t('m.profile.update_button')}}</v-list-item-title>
+                                        </v-list-item-content>
+                                    </v-list-item>
+                                </v-list>
+                            </v-menu>
+                        </v-col>
+                        <v-row
+                            class="pa-4"
+                            align="center"
+                            justify="center"
+                        >
+                            <v-col class="text-center">
+                                <h2 class="headline">{{ user.nickname }}</h2>
+                                <span class="text--lighten-1">{{ user.introduction }}</span>
+                            </v-col>
+                        </v-row>
+                    </v-row>
+                </v-img>
+                <v-form>
+                    <v-container>
+                        <v-row>
+                            <v-col
+                                cols="12"
+                            >
+                                <v-text-field
+                                    v-model="profile.nickname"
+                                    filled
+                                    color="blue-grey lighten-2"
+                                    :label="$t('m.profile.nickname_label')"
+                                >
+                                </v-text-field>
+                            </v-col>
+                            <v-col
+                                cols="12"
+                            >
+                                <v-text-field
+                                    v-model="profile.introduction"
+                                    filled
+                                    color="blue-grey lighten-2"
+                                    :label="$t('m.profile.introduction_label')"
+                                >
+                                </v-text-field>
+                            </v-col>
+                            <v-col
+                                cols="12"
+                            >
+                                <v-file-input
+                                    v-model="profile.avatar"
+                                    label="上传头像"
+                                    multiple
+                                    prepend-icon="mdi-image"
+                                >
+                                    <template v-slot:selection="{ text }">
+                                        <v-chip
+                                            small
+                                            label
+                                            color="primary"
+                                        >
+                                            {{ text }}
+                                        </v-chip>
+                                    </template>
+                                </v-file-input>
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                </v-form>
+                <v-divider></v-divider>
+                <v-card-actions>
+                    <v-switch
+                        v-model="autoUpdate"
+                        disabled
+                        class="mt-0"
+                        color="green lighten-2"
+                        hide-details
+                        label="Auto Update"
+                    ></v-switch>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        :loading="isUpdating"
+                        color="blue-grey darken-3"
+                        depressed
+                        @click="updateMyInfo"
+                    >
+                        <v-icon left>mdi-update</v-icon>
+                        {{$t('m.profile.update_button')}}
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-col>
+    </v-row>
 </template>
 
 <script>

@@ -311,10 +311,11 @@
             },
             publish () {
                 this.loading_publish = true;
+                console.log(this.model);
                 this.$store.dispatch('publishArticles',{
                     title:this.title,
                     body:this.body,
-                    tags:this.tags,
+                    tags:this.model,
                     category:this.category,
                     excerpt:this.excerpt,
                     target: 0

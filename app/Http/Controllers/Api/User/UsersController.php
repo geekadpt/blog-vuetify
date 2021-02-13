@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -37,7 +38,7 @@ class UsersController extends Controller
     }
     public function me(Request $request)
     {
-        return (new UserResource($request->user()))->showSensitiveFields();
+        return (new UserResource(Auth::guard('api')->user()))->showSensitiveFields();
     }
 
     public function update(UserRequest $request)

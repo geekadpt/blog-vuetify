@@ -11,7 +11,7 @@ class ArticleRequest extends FormRequest
                 return [
                     'title' => 'required|string|max:100',
                     'body' => 'required|string',
-                    'tags' => 'nullable|array',
+                    'tags' => 'nullable|array|max:3',
                     'category' => 'required|string|max:20',
                     'excerpt' => 'string|max:200',
                     'target' => 'required|numeric'

@@ -1,7 +1,7 @@
 <template>
     <v-row justify="center">
         <v-dialog
-            v-model="dialog"
+            v-model="routerGuard"
             max-width="290"
         >
             <v-card>
@@ -19,7 +19,7 @@
                     <v-btn
                         color="green darken-1"
                         text
-                        @click="dialog = false"
+                        @click="close"
                     >
                         关闭
                     </v-btn>
@@ -41,20 +41,17 @@
     import { EventBus } from '../event-bus';
     export default {
         name: "RouterGuard",
-        data () {
-            return {
-                dialog: false,
-            }
-        },
         methods:{
             jump(){
                 this.$router.push({path:'/login'});
+            },
+            close(){
+                this.$store.dispatch('closeRouterGuard')
             }
-        },
-        mounted() {
-            EventBus.$on('open-router-guard', function (data) {
-                this.dialog = true;
-            }.bind(this));
+        },computed:{
+            routerGuard(){
+                return this.$store.getters.getRouterGuardStatus
+            }
         }
     }
 </script>

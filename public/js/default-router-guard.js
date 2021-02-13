@@ -54,22 +54,20 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "RouterGuard",
-  data: function data() {
-    return {
-      dialog: false
-    };
-  },
   methods: {
     jump: function jump() {
       this.$router.push({
         path: '/login'
       });
+    },
+    close: function close() {
+      this.$store.dispatch('closeRouterGuard');
     }
   },
-  mounted: function mounted() {
-    _event_bus__WEBPACK_IMPORTED_MODULE_0__.EventBus.$on('open-router-guard', function (data) {
-      this.dialog = true;
-    }.bind(this));
+  computed: {
+    routerGuard: function routerGuard() {
+      return this.$store.getters.getRouterGuardStatus;
+    }
   }
 });
 
@@ -172,11 +170,11 @@ var render = function() {
         {
           attrs: { "max-width": "290" },
           model: {
-            value: _vm.dialog,
+            value: _vm.routerGuard,
             callback: function($$v) {
-              _vm.dialog = $$v
+              _vm.routerGuard = $$v
             },
-            expression: "dialog"
+            expression: "routerGuard"
           }
         },
         [
@@ -202,11 +200,7 @@ var render = function() {
                     "v-btn",
                     {
                       attrs: { color: "green darken-1", text: "" },
-                      on: {
-                        click: function($event) {
-                          _vm.dialog = false
-                        }
-                      }
+                      on: { click: _vm.close }
                     },
                     [_vm._v("\n                    关闭\n                ")]
                   ),

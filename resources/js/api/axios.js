@@ -41,7 +41,7 @@ httpService.interceptors.response.use(
     if (token) {
       console.log(token);
       //把新的token更新保存到cookie中
-      localStorage.setItem('Authorization', 'Bearer ' + token);
+      localStorage.setItem('Authorization', token);
     }
     // if (response.status !== 200) { // 需自定义
     //   // 返回异常
@@ -58,7 +58,8 @@ httpService.interceptors.response.use(
   error => {
     if(error.response.status === 401){
         store.dispatch('clearLoginStatus');
-        EventBus.$emit('open-router-guard');
+        console.log('身份过期');
+        store.dispatch('openRouterGuard');
     }
     if(error && error.response && typeof error.response.data.errors === "undefined" && typeof error.response.data.message !== "undefined"){
       error.message = error.response.data.message;

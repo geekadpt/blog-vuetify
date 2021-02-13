@@ -81,7 +81,7 @@
                                                         class="ma-1"
                                                         small
                                                     >
-                                                    {{item.category.name}}
+                                                    {{item.category[0]}}
                                                     </v-chip>
                                                 <span class="mr-1">·</span>
                                                 <v-icon> mdi-tag-multiple </v-icon>
@@ -157,12 +157,20 @@
                 cols="12"
                 md="3"
             >
+<!--                <v-card-->
+<!--                    class="my-4"-->
+<!--                    outlined-->
+<!--                    tile-->
+<!--                >-->
+<!--                    <default-tag-cloud/>-->
+<!--                </v-card>-->
                 <v-card
                     class="my-4"
                     outlined
                     tile
+                    height="350"
                 >
-                    .col-12 .col-md-3
+                    <default-tag-cloud-all/>
                 </v-card>
             </v-col>
             <v-fab-transition>
@@ -183,6 +191,17 @@
 <script>
     export default {
         name:'Blog',
+        components: {
+            DefaultTagCloud: () => import(
+                /* webpackChunkName: "default-tag-cloud" */
+                './widgets/TagCloud'
+                ),
+            DefaultTagCloudAll: () => import(
+                /* webpackChunkName: "default-tag-clouds" */
+                './widgets/TagCloudAll'
+                ),
+        },
+
         data: () => ({
             offsetTop: 0,
             nomore:false,

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Article\ArticlesController;
 use App\Http\Controllers\Api\Category\CategoriesController;
 use App\Http\Controllers\Api\ImagesController;
+use App\Http\Controllers\Api\Tag\TagsController;
 use App\Http\Controllers\Api\User\AuthorizationsController;
 use App\Http\Controllers\Api\User\CaptchasController;
 use App\Http\Controllers\Api\User\UsersController;
@@ -45,6 +46,8 @@ Route::prefix('v1')
             Route::get('articles', [ArticlesController::class, 'index']) ->name('api.articles.index');
             //获取文章详情
             Route::post('articles', [ArticlesController::class, 'show']) ->name('api.articles.show');
+            Route::get('tags', [TagsController::class, 'index'])
+                ->name('tags.index');
         });
         Route::middleware('throttle:' . config('api.rate_limits.sign'))
             ->middleware('token.refresh')

@@ -20,14 +20,17 @@
                             align="center"
                             justify="center"
                         >
-                            <v-avatar size="30">
-                                <img
-                                    alt="user"
+                            <v-avatar size="30" color="grey">
+                                <span v-if="!article.user.avatar" class="text--darken-1 headline ">{{article.user.username.substr(0,1)}}</span>
+                                <v-img
+                                    class="elevation-6"
+                                    :alt="article.user.username.substr(0,1)"
                                     :src="article.user.avatar"
-                                >
+                                    v-if="article.user.avatar"
+                                ></v-img>
                             </v-avatar>
                             <span class="mx-3">
-                            {{article.user.nickname}}
+                            {{article.user.username}}
                         </span>
 
                             <span class="mr-1">·</span>

@@ -11,6 +11,7 @@ use App\Models\ArticleMapTag;
 use App\Models\Category;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ArticlesController extends Controller
 {
@@ -25,7 +26,7 @@ class ArticlesController extends Controller
     }
     public function store(ArticleRequest $request)
     {
-        $user = $request->user();
+        $user = Auth::guard('api')->user();
         //检测是否是新的文章分类
         $category_name = $request->category;
         if(Category::where('name',$category_name)->exists()){

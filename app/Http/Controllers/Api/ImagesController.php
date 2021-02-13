@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Handlers\ImageUploadHandler;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Http\Requests\Api\ImageRequest;
 
@@ -11,7 +12,7 @@ class ImagesController extends Controller
 {
     public function store(ImageRequest $request, ImageUploadHandler $uploader)
     {
-        $user = $request->user();
+        $user = Auth::guard('api')->user();
         $prefix = !empty($user) ? $user-> id : 'mobile';
         $type = $request->type;
 

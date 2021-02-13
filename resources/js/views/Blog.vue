@@ -21,7 +21,7 @@
                                         <a>
                                         <router-link tag="span" :to="{name:'文章详情',params: {id:item.id}}"   >
                                         <v-img
-                                            :src="item.thumb+item.id"
+                                            :src="item.thumb+'?'+item.id"
                                             lazy-src="https://picsum.photos/10/6?image=20"
                                             aspect-ratio="1"
                                             class="grey lighten-2 align-end white--text"
@@ -131,10 +131,10 @@
                                                                     <v-list>
                                                                         <v-list-item>
                                                                             <v-list-item-avatar  color="grey">
-                                                                                <span v-if="!item.user.avatar" class="text--darken-1 headline ">{{item.user.nickname.substr(0,1)}}</span>
+                                                                                <span v-if="!item.user.avatar" class="text--darken-1 headline ">{{item.user.username.substr(0,1)}}</span>
                                                                                 <v-img
                                                                                     class="elevation-6"
-                                                                                    :alt="item.user.nickname.substr(0,1)"
+                                                                                    :alt="item.user.username.substr(0,1)"
                                                                                     :src="item.user.avatar"
                                                                                     v-if="item.user.avatar"
                                                                                 ></v-img>

@@ -43,7 +43,7 @@ class UsersController extends Controller
 
     public function update(UserRequest $request)
     {
-        $user = $request->user();
+        $user = Auth::guard('api')->user();
         $attributes = $request->only(['nickname', 'introduction']);
 
         if ($request->avatar) {

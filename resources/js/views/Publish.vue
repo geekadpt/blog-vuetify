@@ -61,7 +61,6 @@
                 </v-combobox>
             </template>
             <template>
-                <v-container fluid>
                     <v-combobox
                         v-model="model"
                         :filter="filter"
@@ -69,10 +68,12 @@
                         :items="items"
                         :search-input.sync="search"
                         hide-selected
-                        label="Search for an option"
                         multiple
                         small-chips
                         solo
+                        clearable
+                        label="文章标签"
+                        prepend-icon="mdi-tag-multiple"
                     >
                         <template v-slot:no-data>
                             <v-list-item>
@@ -137,7 +138,6 @@
                             </v-list-item-action>
                         </template>
                     </v-combobox>
-                </v-container>
             </template>
             <template>
                 <div class="d-flex justify-space-between mb-6 col-12 pa-0">
@@ -148,7 +148,7 @@
                     class="ma-0 white--text"
                     @click="save()"
                 >
-                    Save
+                    保存
                     <v-icon
                         right
                         dark
@@ -164,7 +164,7 @@
                     class="ma-0 white--text"
                     @click="publish()"
                 >
-                    Publish
+                    发布
                     <v-icon
                         right
                         dark
@@ -216,22 +216,22 @@
             editing: null,
             editingIndex: -1,
             items: [
-                { header: 'Select an option or create one' },
+                { header: '选择或者创建一个标签' },
                 {
-                    text: 'Foo',
-                    color: 'blue',
+                    text: 'Laravel',
+                    color: 'red',
                 },
                 {
-                    text: 'Bar',
-                    color: 'red',
+                    text: 'Vue',
+                    color: 'green',
                 },
             ],
             nonce: 1,
             menu: false,
             model: [
                 {
-                    text: 'Foo',
-                    color: 'blue',
+                    text: 'Vue',
+                    color: 'green',
                 },
             ],
             x: 0,

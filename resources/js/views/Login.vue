@@ -76,6 +76,7 @@
 <script>
     import { EventBus } from '../event-bus.js';
     import Notification from "../components/Notification";
+    import store from "../store";
 
     export default {
         components: {Notification},
@@ -96,7 +97,7 @@
                         this.$store.dispatch('getMyInfo');
                         this.$watch(this.$store.getters.getMyInfoStatus, function () {
                             if (this.$store.getters.getMyInfoStatus() === 2) {
-                                console.log(this.$route);
+                                store.dispatch('closeRouterGuard');
                                 if(this.$route.path == '/login'){
                                     this.$router.push({path:'/'});
                                 }else{

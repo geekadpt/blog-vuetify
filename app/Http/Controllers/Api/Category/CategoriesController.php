@@ -7,13 +7,14 @@ use App\Http\Resources\ArticleResource;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoriesController extends Controller
 {
     protected $perpage = 10;
     public function index(Request $request)
     {
-        $categories = $request->user()->category;
+        $categories = Auth::guard('api')->user()->category;
         return CategoryResource::collection($categories);
     }
     public function indexArticles(CategoryArticlesRequest $request)

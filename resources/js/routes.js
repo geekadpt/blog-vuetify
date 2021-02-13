@@ -94,6 +94,16 @@ export default new VueRouter({
           components: Vue.component( 'index', require( './views/Blog' ) ),
         },
         {
+          path: 'tags/:tag_id/blog',
+          name: '标签下的博客',
+          components: Vue.component( 'index', require( './views/Blog' ) ),
+        },
+        {
+          path: 'categories/:category_id/blog',
+          name: '标签下的博客',
+          components: Vue.component( 'index', require( './views/Blog' ) ),
+        },
+        {
           path: 'detail/:id',
           name: '文章详情',
           components: Vue.component( 'detail', require( './views/Detail' ) ),

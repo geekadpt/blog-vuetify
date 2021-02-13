@@ -72,7 +72,7 @@
                                             </v-icon>
                                             <span class="title font-weight-light text-one-line">{{item.title}}</span>
                                         </v-card-title>
-
+                                        </router-link>
                                         <v-card-text>
                                             <div
                                             >
@@ -85,18 +85,23 @@
                                                     </v-chip>
                                                 <span class="mr-1">·</span>
                                                 <v-icon> mdi-tag-multiple </v-icon>
-                                                <v-chip
-                                                    class="ma-1"
-                                                    small
+                                                <span
+                                                    v-for="tag in item.tag"
                                                 >
-                                                    small chip
-                                                </v-chip>
+                                                    <v-chip
+                                                        class="ma-1"
+                                                        small
+                                                        :color="tag.color"
+                                                        @click="jumpTag(tag.id)"
+                                                    >
+                                                        {{tag.name}}
+                                                    </v-chip>
+                                                </span>
                                             </div>
                                             <div class="text-justify text-two-line mt-2" >
                                                 {{item.excerpt}}
                                             </div>
                                         </v-card-text>
-                                        </router-link>
                                         <v-card-actions>
                                             <v-list-item class="grow">
                                                 <v-list-item-avatar color="grey darken-3">
@@ -208,17 +213,27 @@
             skeleton_loader:false
         }),
         methods: {
+            jumpTag(id){
+                this.$router.push({path:'/tags/'+id+'/blog'});
+            },
             addArticles (entries, observer) {
                 // More information about these options
                 // is located here: https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
                 if(this.$store.getters.getArticles == '')
                     return;
                 if(this.$store.getters.getArticles.meta.current_page < this.$store.getters.getArticles.meta.last_page){
-                    console.log(this.$store.getters.getArticles == '');
-                    this.$store.dispatch('indexArticles',{
-                        order:'hot',
-                        page: this.$store.getters.getArticles.meta.current_page+1
-                    });
+                    if(this.$route.params.tag_id){
+                        this.$store.dispatch('indexTagArticles',{
+                            tag:this.$route.params.tag_id,
+                            order:'hot',
+                            page: this.$store.getters.getArticles.meta.current_page+1
+                        });
+                    }else{
+                        this.$store.dispatch('indexArticles',{
+                            order:'hot',
+                            page: this.$store.getters.getArticles.meta.current_page+1
+                        });
+                    }
                 }else{
                     console.log('没有内容了！');
                     this.nomore = true;
@@ -237,12 +252,19 @@
             },
         },
         created() {
-            if(!this.$store.getters.getArticles){
+            this.$store.dispatch('initArticlesStatus');
+            if(this.$route.params.tag_id){
+                this.$store.dispatch('indexTagArticles',{
+                    tag:this.$route.params.tag_id,
+                    order:'hot',
+                    page:1
+                });
+            }else{
+                console.log('this.$store.getters.getArticles');
                 this.$store.dispatch('indexArticles',{
                     order:'hot',
                     page:1
                 });
-                this.skeleton_loader = true;
             }
             this.$watch(
                 function () { // 第一个函数就是处理你要监听的属性，只要将其return出去就行

@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 
 class ArticlesController extends Controller
 {
-    protected $perpage = 4;
+    protected $perpage = 10;
     protected $tagMaxLength = 10;
 
     public function index(Request $request)

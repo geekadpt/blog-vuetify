@@ -67,7 +67,7 @@
         },
         methods: {
             jump(id){
-                this.$router.push({path:'/tags/'+id+'/articles'});
+                this.$router.push({path:'/tags/'+id+'/blog'});
             },
             // 生成随机数
             getRandomNum() {
@@ -284,7 +284,7 @@
                     return this.$store.getters.getTagsLoadStatus();
                 },
                 function (old, valold) {
-                    if(this.$store.getters.getArticlesLoadStatus() == 2){
+                    if(this.$store.getters.getTagsLoadStatus() === 2){
                         this.onReady();
                     }
                 }

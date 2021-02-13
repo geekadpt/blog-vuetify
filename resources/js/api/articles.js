@@ -17,12 +17,6 @@ export default {
     privateArticles: function(data){
       return post(APP_CONFIG.API_URL + 'articles/private');
     },
-    //根据我的分类获取文章
-    categoryArticles: function(data){
-      return post(APP_CONFIG.API_URL + 'articles/categories',{
-        category:data.category
-      });
-    },
     //获取文章详情
     detailArticles: function(data){
       return post(APP_CONFIG.API_URL + 'articles',{
@@ -64,5 +58,17 @@ export default {
       return post(APP_CONFIG.API_URL + 'articles/search',{
         search:data.search,
       })
-    }
+    },
+    //根据我的分类获取文章
+    categoryArticles: function(data){
+      return get(APP_CONFIG.API_URL + 'articles/categories',{
+        category:data.category
+      });
+    },
+    //根据分类获取文章
+    tagArticles: function(data){
+      return get(APP_CONFIG.API_URL + 'tags/articles',{
+        tag:data.tag
+      });
+    },
 }

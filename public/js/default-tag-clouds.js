@@ -80,7 +80,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     jump: function jump(id) {
       this.$router.push({
-        path: '/tags/' + id + '/articles'
+        path: '/tags/' + id + '/blog'
       });
     },
     // 生成随机数
@@ -395,7 +395,7 @@ __webpack_require__.r(__webpack_exports__);
       // 第一个函数就是处理你要监听的属性，只要将其return出去就行
       return this.$store.getters.getTagsLoadStatus();
     }, function (old, valold) {
-      if (this.$store.getters.getArticlesLoadStatus() == 2) {
+      if (this.$store.getters.getTagsLoadStatus() === 2) {
         this.onReady();
       }
     });

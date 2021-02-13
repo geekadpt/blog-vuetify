@@ -28,6 +28,7 @@ class ArticleResource extends JsonResource
 //            'category' => new CategoryResource($this->whenLoaded('category')),
             'user' => new UserResource($this->user),
             'category' => new CategoryResource($this->category),
+            'tag' => TagResource::collection($this->Tag()),
         ];
     }
 }

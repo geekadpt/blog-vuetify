@@ -46,8 +46,12 @@ Route::prefix('v1')
             Route::get('articles', [ArticlesController::class, 'index']) ->name('api.articles.index');
             //获取文章详情
             Route::post('articles', [ArticlesController::class, 'show']) ->name('api.articles.show');
+
             Route::get('tags', [TagsController::class, 'index'])
                 ->name('tags.index');
+
+            //获取所有文章
+            Route::get('tags/articles', [TagsController::class, 'indexArticles']) ->name('api.tags.articles.index');
         });
         Route::middleware('throttle:' . config('api.rate_limits.sign'))
             ->middleware('token.refresh')

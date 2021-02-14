@@ -49,6 +49,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "tagcloud",
   data: function data() {
@@ -571,27 +578,42 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      { ref: "tagcloudall", staticClass: "tagcloud-all" },
-      _vm._l(_vm.tagList, function(item) {
-        return _c(
-          "a",
-          {
-            style: "color:" + item.color + ";top: 0;left: 0;filter:none;",
-            on: {
-              click: function($event) {
-                return _vm.jump(item.id)
-              }
-            }
-          },
-          [_vm._v(_vm._s(item.name))]
-        )
-      }),
-      0
-    )
-  ])
+  return _c(
+    "v-container",
+    [
+      _c(
+        "v-card",
+        { attrs: { outlined: "", tile: "", height: "350" } },
+        [
+          _c("v-card-title", [_vm._v("标签云")]),
+          _vm._v(" "),
+          _c("v-divider", { staticClass: "mx-4" }),
+          _vm._v(" "),
+          _c(
+            "div",
+            { ref: "tagcloudall", staticClass: "tagcloud-all" },
+            _vm._l(_vm.tagList, function(item) {
+              return _c(
+                "a",
+                {
+                  style: "color:" + item.color + ";top: 0;left: 0;filter:none;",
+                  on: {
+                    click: function($event) {
+                      return _vm.jump(item.id)
+                    }
+                  }
+                },
+                [_vm._v(_vm._s(item.name))]
+              )
+            }),
+            0
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

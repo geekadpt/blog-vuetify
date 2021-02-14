@@ -275,15 +275,9 @@
 <!--                >-->
 <!--                    <default-tag-cloud/>-->
 <!--                </v-card>-->
-                <v-container>
-                    <v-card
-                        outlined
-                        tile
-                        height="350"
-                    >
-                        <default-tag-cloud-all/>
-                    </v-card>
-                </v-container>
+                <default-app></default-app>
+                <default-tag-cloud-all/>
+                <default-log/>
             </v-col>
             <v-fab-transition>
                 <v-btn
@@ -312,6 +306,14 @@
             DefaultTagCloudAll: () => import(
                 /* webpackChunkName: "default-tag-clouds" */
                 './widgets/TagCloudAll'
+                ),
+            DefaultApp: () => import(
+                /* webpackChunkName: "default-app" */
+                './widgets/App'
+                ),
+            DefaultLog: () => import(
+                /* webpackChunkName: "default-app" */
+                './widgets/Log'
                 ),
         },
 

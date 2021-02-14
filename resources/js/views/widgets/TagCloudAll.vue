@@ -26,15 +26,22 @@
     }
 </style>
 <template>
-    <div>
-        <div class="tagcloud-all"
-             ref="tagcloudall"
+    <v-container>
+        <v-card
+            outlined
+            tile
+            height="350"
         >
-<!--            :href="item.url"-->
-            <a v-for="item in tagList" @click="jump(item.id)" :style="'color:' + item.color + ';top: 0;left: 0;filter:none;'">{{item.name}}</a>
-        </div>
-
-    </div>
+            <v-card-title>标签云</v-card-title>
+            <v-divider class="mx-4"></v-divider>
+            <div class="tagcloud-all"
+                 ref="tagcloudall"
+            >
+                <!--            :href="item.url"-->
+                <a v-for="item in tagList" @click="jump(item.id)" :style="'color:' + item.color + ';top: 0;left: 0;filter:none;'">{{item.name}}</a>
+            </div>
+        </v-card>
+    </v-container>
 </template>
 <script>
     export default {

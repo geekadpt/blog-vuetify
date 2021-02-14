@@ -1,11 +1,12 @@
 {
-    "/js/app.js": "/js/app.js?id=ea120ada19953129f496",
+    "/js/app.js": "/js/app.js?id=f9ac16822c61fe33afb6",
     "/js/default-app-bar.js": "/js/default-app-bar.js?id=5d009430a5abe69e27f6",
     "/js/default-drawer.js": "/js/default-drawer.js?id=a54db001bac6cee6b900",
     "/js/default-footer.js": "/js/default-footer.js?id=2474412f8441835422c9",
     "/js/default-view.js": "/js/default-view.js?id=f49c45f6d075d9c825df",
     "/js/default-router-guard.js": "/js/default-router-guard.js?id=d2ced62a0f6e85dc68da",
     "/js/default-tag-cloud.js": "/js/default-tag-cloud.js?id=6e4180cdedce99093cfb",
+    "/js/default-tag-clouds.js": "/js/default-tag-clouds.js?id=8953e195f18af2dddbbc",
     "/js/default-account.js": "/js/default-account.js?id=4e00c28fc55a8f7caed0",
     "/js/default-drawer-toggle.js": "/js/default-drawer-toggle.js?id=96ed166dc025c2077964",
     "/js/default-go-home.js": "/js/default-go-home.js?id=cf683d78a6edbb9a6af5",
@@ -13,7 +14,5 @@
     "/js/default-search.js": "/js/default-search.js?id=fbb2b5f1db4a2b222218",
     "/js/default-drawer-header.js": "/js/default-drawer-header.js?id=4460f0a20b92a29f9b7b",
     "/js/default-list.js": "/js/default-list.js?id=a46b30ae13304f28eb6b",
-    "/css/app.css": "/css/app.css?id=61bfbdec9334a150d685",
-    "/js/default-tag-s.js": "/js/default-tag-s.js?id=6520a006e2c6d680ea1f",
-    "/js/default-tag-clouds.js": "/js/default-tag-clouds.js?id=8953e195f18af2dddbbc"
+    "/css/app.css": "/css/app.css?id=61bfbdec9334a150d685"
 }

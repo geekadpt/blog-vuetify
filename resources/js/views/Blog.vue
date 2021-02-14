@@ -1,68 +1,81 @@
 <template>
-        <v-row class="px-md-12"
-               dense
-               ref="index"
-        >
+    <v-container>
+        <v-row ref="index">
             <v-col
                 cols="12"
                 md="9"
-                class="scroll-anchor"
             >
                 <template>
-                    <div v-for="(item, i) in articles"
-                         :key="i"
-                    >
-                    <v-card  class="my-4">
-                            <v-row dense>
-                                    <v-col
-                                        cols="12"
-                                        class="hidden-md-only col-md-4 ma-0 pa-0"
-                                    >
-                                        <a>
-                                        <router-link tag="span" :to="{name:'文章详情',params: {id:item.id}}"   >
-                                        <v-img
-                                            :src="item.thumb+'?'+item.id"
-                                            lazy-src="https://picsum.photos/10/6?image=20"
-                                            aspect-ratio="1"
-                                            class="grey lighten-2 align-end white--text"
-                                            max-height="250"
-                                        >
-                                            <v-card-title class="hidden-md-and-up">
-                                                <div class="text-one-line">
-                                                    {{item.title}}
-                                                </div>
-                                            </v-card-title>
-                                            <template v-slot:placeholder>
-                                                <v-row
-                                                    class="fill-height ma-0"
-                                                    align="center"
-                                                    justify="center"
+                    <v-container>
+                        <v-row v-for="(item, i) in articles"
+                               :key="i">
+                            <v-col
+                                cols="12"
+                                class="hidden-md-only col-md-4 px-0"
+                            >
+                                <template>
+                                    <v-hover>
+                                        <template v-slot:default="{ hover }">
+                                            <v-card
+                                                class="ma-0 pa-0"
+                                            >
+                                                <v-img
+                                                    :src="item.thumb+'?'+item.id"
+                                                    lazy-src="https://picsum.photos/10/6?image=20"
+                                                    aspect-ratio="1"
+                                                    class="grey lighten-2 align-end white--text"
+                                                    height="245"
                                                 >
-                                                    <v-progress-circular
-                                                        indeterminate
-                                                        color="grey lighten-5"
-                                                    ></v-progress-circular>
-                                                </v-row>
-                                            </template>
-                                        </v-img>
-<!--                                        <v-img-->
-<!--                                            class="white&#45;&#45;text align-end"-->
-<!--                                            src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"-->
-<!--                                        >-->
-<!--                                            <v-card-title class="hidden-md-and-up">-->
-<!--                                                <div class="text-one-line">-->
-<!--                                                    Top 10 Australian beaches-->
-<!--                                                </div>-->
-<!--                                            </v-card-title>-->
-<!--                                        </v-img>-->
-                                        </router-link>
-                                        </a>
-                                    </v-col>
-                                    <v-col
-                                        cols="12"
-                                        class="col-md-8"
-                                    >
-                                        <router-link tag="span" :to="{name:'文章详情',params: {id:item.id}}"   >
+                                                    <v-card-title class="hidden-md-and-up">
+                                                        <div class="text-one-line">
+                                                            {{item.title}}
+                                                        </div>
+                                                    </v-card-title>
+                                                    <template v-slot:placeholder>
+                                                        <v-row
+                                                            class="fill-height ma-0"
+                                                            align="center"
+                                                            justify="center"
+                                                        >
+                                                            <v-progress-circular
+                                                                indeterminate
+                                                                color="grey lighten-5"
+                                                            ></v-progress-circular>
+                                                        </v-row>>
+                                                    </template>
+                                                </v-img>
+                                                <v-fade-transition>
+                                                    <v-overlay
+                                                        v-if="hover"
+                                                        absolute
+                                                        color="#036358"
+                                                    >
+                                                        <router-link tag="span" :to="{name:'文章详情',params: {id:item.id}}"   >
+                                                            <v-btn>查看文章</v-btn>
+                                                        </router-link>
+                                                    </v-overlay>
+                                                </v-fade-transition>
+                                            </v-card>
+                                        </template>
+                                    </v-hover>
+                                </template>
+                                <!--                                        <v-img-->
+                                <!--                                            class="white&#45;&#45;text align-end"-->
+                                <!--                                            src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"-->
+                                <!--                                        >-->
+                                <!--                                            <v-card-title class="hidden-md-and-up">-->
+                                <!--                                                <div class="text-one-line">-->
+                                <!--                                                    Top 10 Australian beaches-->
+                                <!--                                                </div>-->
+                                <!--                                            </v-card-title>-->
+                                <!--                                        </v-img>-->
+                            </v-col>
+                            <v-col
+                                cols="12"
+                                class="col-md-8 px-0"
+                            >
+                                <v-card  class="pa-0 ma-0" height="245">
+                                    <router-link tag="span" :to="{name:'文章详情',params: {id:item.id}}"   >
                                         <v-card-title>
                                             <v-icon
                                                 large
@@ -73,164 +86,163 @@
                                             <span class="title font-weight-light text-one-line">{{item.title}}</span>
                                         </v-card-title>
                                         <v-divider></v-divider>
-                                        </router-link>
-                                        <v-card-text>
-                                            <div
+                                    </router-link>
+                                    <v-card-text>
+                                        <div
+                                        >
+                                            <v-icon> mdi-folder-multiple </v-icon>
+                                            <v-chip
+                                                class="ma-1"
+                                                small
+                                                @click="jumpCategory(item.category_id)"
                                             >
-                                                <v-icon> mdi-folder </v-icon>
-                                                    <v-chip
-                                                        class="ma-1"
-                                                        small
-                                                        @click="jumpCategory(item.category_id)"
+                                                {{item.category[0]}}
+                                            </v-chip>
+                                            <span class="mr-1">·</span>
+                                            <v-icon> mdi-tag-multiple </v-icon>
+                                            <span
+                                                v-for="tag in item.tag"
+                                            >
+                                                        <v-chip
+                                                            class="ma-1"
+                                                            small
+                                                            :color="tag.color"
+                                                            @click="jumpTag(tag.id)"
+                                                        >
+                                                            {{tag.name}}
+                                                        </v-chip>
+                                                    </span>
+                                        </div>
+                                        <div class="text-justify text-two-line mt-2" >
+                                            {{item.excerpt}}
+                                        </div>
+                                    </v-card-text>
+                                    <v-spacer></v-spacer>
+                                    <v-card-actions>
+                                        <v-list-item class="grow px-2">
+                                            <template>
+                                                <div>
+                                                    <v-menu
+                                                        transition="scale-transition"
+                                                        bottom
+                                                        open-on-hover
+                                                        :close-on-content-click="false"
+                                                        :nudge-width="200"
                                                     >
-                                                    {{item.category[0]}}
-                                                    </v-chip>
-                                                <span class="mr-1">·</span>
-                                                <v-icon> mdi-tag-multiple </v-icon>
-                                                <span
-                                                    v-for="tag in item.tag"
-                                                >
-                                                    <v-chip
-                                                        class="ma-1"
-                                                        small
-                                                        :color="tag.color"
-                                                        @click="jumpTag(tag.id)"
-                                                    >
-                                                        {{tag.name}}
-                                                    </v-chip>
-                                                </span>
-                                            </div>
-                                            <div class="text-justify text-two-line mt-2" >
-                                                {{item.excerpt}}
-                                            </div>
-                                        </v-card-text>
-                                        <v-card-actions>
-                                            <v-list-item class="grow">
-                                                    <template>
-                                                        <div>
-                                                            <v-menu
-                                                                transition="scale-transition"
-                                                                bottom
-                                                                open-on-hover
-                                                                :close-on-content-click="false"
-                                                                :nudge-width="200"
-                                                            >
-                                                                <template v-slot:activator="{ on, attrs }">
-                                                                    <v-list-item-avatar color="grey"  v-bind="attrs"
-                                                                                        v-on="on">
-                                                                        <span v-if="!item.user.avatar" class="text--darken-1 headline ">{{item.user.nickname.substr(0,1)}}</span>
+                                                        <template v-slot:activator="{ on, attrs }">
+                                                            <v-list-item-avatar color="grey"  v-bind="attrs"
+                                                                                v-on="on">
+                                                                <span v-if="!item.user.avatar" class="text--darken-1 headline ">{{item.user.nickname.substr(0,1)}}</span>
+                                                                <v-img
+                                                                    class="elevation-6"
+                                                                    :alt="item.user.nickname.substr(0,1)"
+                                                                    :src="item.user.avatar"
+                                                                    v-if="item.user.avatar"
+                                                                ></v-img>
+                                                            </v-list-item-avatar>
+                                                        </template>
+                                                        <v-card>
+                                                            <v-list>
+                                                                <v-list-item>
+                                                                    <v-list-item-avatar  color="grey">
+                                                                        <span v-if="!item.user.avatar" class="text--darken-1 headline ">{{item.user.username.substr(0,1)}}</span>
                                                                         <v-img
                                                                             class="elevation-6"
-                                                                            :alt="item.user.nickname.substr(0,1)"
+                                                                            :alt="item.user.username.substr(0,1)"
                                                                             :src="item.user.avatar"
                                                                             v-if="item.user.avatar"
                                                                         ></v-img>
                                                                     </v-list-item-avatar>
+
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title>{{item.user.nickname}}</v-list-item-title>
+                                                                        <v-list-item-subtitle class="text-one-line">{{item.user.introduction}}</v-list-item-subtitle>
+                                                                    </v-list-item-content>
+
+                                                                    <v-list-item-action>
+                                                                        <v-btn
+                                                                            :class="fav ? 'red--text' : ''"
+                                                                            icon
+                                                                            @click="fav = !fav"
+                                                                        >
+                                                                            <v-icon>mdi-heart</v-icon>
+                                                                        </v-btn>
+                                                                    </v-list-item-action>
+                                                                </v-list-item>
+                                                            </v-list>
+
+                                                            <v-divider></v-divider>
+                                                            <v-rating v-model="rating" class="mx-3">
+                                                                <template v-slot:item="props">
+                                                                    <v-icon
+                                                                        :color="props.isFilled ? genColor(props.index) : 'grey lighten-1'"
+                                                                        large
+                                                                        @click="props.click"
+                                                                    >
+                                                                        {{ props.isFilled ? 'mdi-star-circle' : 'mdi-star-circle-outline' }}
+                                                                    </v-icon>
                                                                 </template>
-                                                                <v-card>
-                                                                    <v-list>
-                                                                        <v-list-item>
-                                                                            <v-list-item-avatar  color="grey">
-                                                                                <span v-if="!item.user.avatar" class="text--darken-1 headline ">{{item.user.username.substr(0,1)}}</span>
-                                                                                <v-img
-                                                                                    class="elevation-6"
-                                                                                    :alt="item.user.username.substr(0,1)"
-                                                                                    :src="item.user.avatar"
-                                                                                    v-if="item.user.avatar"
-                                                                                ></v-img>
-                                                                            </v-list-item-avatar>
+                                                            </v-rating>
+                                                            <!--                                                                    <v-list>-->
+                                                            <!--                                                                        <v-list-item>-->
+                                                            <!--                                                                            <v-list-item-action>-->
+                                                            <!--                                                                                <v-switch-->
+                                                            <!--                                                                                    v-model="message"-->
+                                                            <!--                                                                                    color="purple"-->
+                                                            <!--                                                                                ></v-switch>-->
+                                                            <!--                                                                            </v-list-item-action>-->
+                                                            <!--                                                                            <v-list-item-title>Enable messages</v-list-item-title>-->
+                                                            <!--                                                                        </v-list-item>-->
 
-                                                                            <v-list-item-content>
-                                                                                <v-list-item-title>{{item.user.nickname}}</v-list-item-title>
-                                                                                <v-list-item-subtitle class="text-one-line">{{item.user.introduction}}</v-list-item-subtitle>
-                                                                            </v-list-item-content>
-
-                                                                            <v-list-item-action>
-                                                                                <v-btn
-                                                                                    :class="fav ? 'red--text' : ''"
-                                                                                    icon
-                                                                                    @click="fav = !fav"
-                                                                                >
-                                                                                    <v-icon>mdi-heart</v-icon>
-                                                                                </v-btn>
-                                                                            </v-list-item-action>
-                                                                        </v-list-item>
-                                                                    </v-list>
-
-                                                                    <v-divider></v-divider>
-                                                                    <v-rating v-model="rating" class="mx-3">
-                                                                        <template v-slot:item="props">
-                                                                            <v-icon
-                                                                                :color="props.isFilled ? genColor(props.index) : 'grey lighten-1'"
-                                                                                large
-                                                                                @click="props.click"
-                                                                            >
-                                                                                {{ props.isFilled ? 'mdi-star-circle' : 'mdi-star-circle-outline' }}
-                                                                            </v-icon>
-                                                                        </template>
-                                                                    </v-rating>
-<!--                                                                    <v-list>-->
-<!--                                                                        <v-list-item>-->
-<!--                                                                            <v-list-item-action>-->
-<!--                                                                                <v-switch-->
-<!--                                                                                    v-model="message"-->
-<!--                                                                                    color="purple"-->
-<!--                                                                                ></v-switch>-->
-<!--                                                                            </v-list-item-action>-->
-<!--                                                                            <v-list-item-title>Enable messages</v-list-item-title>-->
-<!--                                                                        </v-list-item>-->
-
-<!--                                                                        <v-list-item>-->
-<!--                                                                            <v-list-item-action>-->
-<!--                                                                                <v-switch-->
-<!--                                                                                    v-model="hints"-->
-<!--                                                                                    color="purple"-->
-<!--                                                                                ></v-switch>-->
-<!--                                                                            </v-list-item-action>-->
-<!--                                                                            <v-list-item-title>Enable hints</v-list-item-title>-->
-<!--                                                                        </v-list-item>-->
-<!--                                                                    </v-list>-->
-                                                                    <v-card-actions class="d-flex justify-space-between">
-                                                                        <v-btn
-                                                                            text
-                                                                        >
-                                                                            关注
-                                                                        </v-btn>
-                                                                        <v-btn
-                                                                            color="primary"
-                                                                            text
-                                                                            @click="menu = false"
-                                                                        >
-                                                                            查看主页
-                                                                        </v-btn>
-                                                                    </v-card-actions>
-                                                                </v-card>
-                                                            </v-menu>
-                                                        </div>
-                                                    </template>
-                                                <v-list-item-content>
-                                                    <v-list-item-title>{{item.user.nickname}}</v-list-item-title>
-                                                </v-list-item-content>
-                                                <v-row
-                                                    align="center"
-                                                    justify="end"
-                                                >
-                                                    <v-icon class="mr-1">
-                                                        mdi-clock
-                                                    </v-icon>
-                                                    <span class="subheading mr-2">{{item.created_at}}</span>
-<!--                                                    <span class="mr-1">·</span>-->
-<!--                                                    <v-icon class="mr-1">-->
-<!--                                                        mdi-share-variant-->
-<!--                                                    </v-icon>-->
-<!--                                                    <span class="subheading">45</span>-->
-                                                </v-row>
-                                            </v-list-item>
-                                        </v-card-actions>
-                                    </v-col>
-                            </v-row>
-                    </v-card>
-                    </div>
+                                                            <!--                                                                        <v-list-item>-->
+                                                            <!--                                                                            <v-list-item-action>-->
+                                                            <!--                                                                                <v-switch-->
+                                                            <!--                                                                                    v-model="hints"-->
+                                                            <!--                                                                                    color="purple"-->
+                                                            <!--                                                                                ></v-switch>-->
+                                                            <!--                                                                            </v-list-item-action>-->
+                                                            <!--                                                                            <v-list-item-title>Enable hints</v-list-item-title>-->
+                                                            <!--                                                                        </v-list-item>-->
+                                                            <!--                                                                    </v-list>-->
+                                                            <v-card-actions class="d-flex justify-space-between">
+                                                                <v-btn
+                                                                    text
+                                                                >
+                                                                    关注
+                                                                </v-btn>
+                                                                <v-btn
+                                                                    color="primary"
+                                                                    text
+                                                                    @click="menu = false"
+                                                                >
+                                                                    查看主页
+                                                                </v-btn>
+                                                            </v-card-actions>
+                                                        </v-card>
+                                                    </v-menu>
+                                                </div>
+                                            </template>
+                                            <v-list-item-content>
+                                                <v-list-item-title>{{item.user.nickname}}</v-list-item-title>
+                                            </v-list-item-content>
+                                            <v-spacer></v-spacer>
+                                            <div style="position: absolute;right: 0">
+                                                <v-icon class="mr-1">
+                                                    mdi-clock
+                                                </v-icon>
+                                                <span class="subheading mr-2">{{item.created_at}}</span>
+                                                <!--                                                    <span class="mr-1">·</span>-->
+                                                <!--                                                    <v-icon class="mr-1">-->
+                                                <!--                                                        mdi-share-variant-->
+                                                <!--                                                    </v-icon>-->
+                                                <!--                                                    <span class="subheading">45</span>-->
+                                            </div>
+                                        </v-list-item>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-col>
+                        </v-row>
+                    </v-container>
                     <div
                          v-if="nomore"
                          align="center"
@@ -252,7 +264,6 @@
                     </v-card>
                 </template>
             </v-col>
-
             <v-col
                 cols="12"
                 md="3"
@@ -264,14 +275,15 @@
 <!--                >-->
 <!--                    <default-tag-cloud/>-->
 <!--                </v-card>-->
-                <v-card
-                    class="my-4"
-                    outlined
-                    tile
-                    height="350"
-                >
-                    <default-tag-cloud-all/>
-                </v-card>
+                <v-container>
+                    <v-card
+                        outlined
+                        tile
+                        height="350"
+                    >
+                        <default-tag-cloud-all/>
+                    </v-card>
+                </v-container>
             </v-col>
             <v-fab-transition>
                 <v-btn
@@ -287,6 +299,7 @@
                 </v-btn>
             </v-fab-transition>
         </v-row>
+    </v-container>
 </template>
 <script>
     export default {

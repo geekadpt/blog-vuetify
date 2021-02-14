@@ -1,4 +1,5 @@
 <template>
+    <v-container>
         <v-row ref="detail" >
             <v-col cols="12">
                 <v-card>
@@ -76,6 +77,7 @@
                 </v-fab-transition>
             </v-col>
         </v-row>
+    </v-container>
 </template>
 <script>
     export default {

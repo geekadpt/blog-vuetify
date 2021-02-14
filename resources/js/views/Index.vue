@@ -1,6 +1,6 @@
 <template>
         <v-row class="px-md-12"
-               dense
+
                ref="index"
         >
             <v-col
@@ -13,7 +13,7 @@
                          :key="i"
                     >
                     <v-card  class="my-4">
-                            <v-row dense>
+                            <v-row >
                                     <v-col
                                         cols="12"
                                         class="hidden-md-only col-md-4 ma-0 pa-0"

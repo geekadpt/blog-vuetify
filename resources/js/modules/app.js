@@ -29,32 +29,32 @@ export const app = {
         },
         {
           title: '博客',
-          icon: 'mdi-account',
+          icon: 'mdi-post-outline',
           to: '/blog',
         },
         {
           title: '学院',
-          icon: 'mdi-clipboard-outline',
+          icon: 'mdi-school-outline',
           to: '/edu',
         },
         {
           title: '下载',
-          icon: 'mdi-format-font',
+          icon: 'mdi-download',
           to: '/download',
         },
         {
           title: '论坛',
-          icon: 'mdi-chart-bubble',
+          icon: 'mdi-forum',
           to: '/bbs',
         },
         {
           title: '直播',
-          icon: 'mdi-map-marker',
+          icon: 'mdi-cellphone',
           to: '/live',
         },
         {
           title: '电子书',
-          icon: 'mdi-bell',
+          icon: 'mdi-book',
           to: '/book',
         },
       ],

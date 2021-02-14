@@ -12,7 +12,7 @@ class CreatearticlesTable extends Migration
             $table->bigIncrements('id');
             $table->string('title')->index();
             $table->text('body');
-            $table->string('thumb')->default("https://api.vvhan.com/api/acgimg");
+            $table->string('thumb')->default("https://unsplash.it/1600/900?random");
             $table->bigInteger('user_id')->unsigned()->index();
             $table->bigInteger('category_id')->unsigned()->index();
             $table->integer('reply_count')->unsigned()->default(0);

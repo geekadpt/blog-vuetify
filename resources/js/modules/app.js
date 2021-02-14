@@ -12,6 +12,29 @@ export const app = {
   state: {
     app:{
         title:'Blog-Vuetify',
+        description:'Blog-Vuetify是由 Larave8 + Vue2 + Vuetify2 开发的前后端分离的单页面博客类 Web 应用。',
+        img_api:'https://unsplash.it/1600/900?random',
+        img_lazy_api:'https://cdn.vuetifyjs.com/images/parallax/material.jpg',
+        logs: [
+          {
+            from: '洛辛',
+            message: '新增日志卡片部件',
+            time: '5:42pm',
+            color: 'blue lighten-1',
+          },
+          {
+            from: '洛寻',
+            message: '新增网站介绍卡片部件',
+            time: '3:07pm',
+            color: 'green',
+          },
+          {
+            from: 'Locyin',
+            message: '完成博客搜索功能',
+            time: '9:47am',
+            color: 'deep-purple lighten-1',
+          },
+        ],
     },
     appStatus:0,
     version:null,
@@ -77,6 +100,8 @@ export const app = {
     uploadImageErrors:'',
 
     routerGuardStatus:false,
+
+    overlayStatus:false,
   },
 
   /**
@@ -157,6 +182,12 @@ export const app = {
       commit("setRouterGuardStatus",false);
     },
 
+    openOverlay( { commit }){
+      commit("setOverlayStatus",true);
+    },
+    closeOverlay( { commit }){
+      commit("setOverlayStatus",false);
+    },
   },
   /**
    * Defines the mutations used
@@ -207,6 +238,9 @@ export const app = {
     },
     setRouterGuardStatus(state,status){
       state.routerGuardStatus = status;
+    },
+    setOverlayStatus(state,status){
+      state.overlayStatus = status;
     },
 
   },
@@ -262,6 +296,9 @@ export const app = {
     },
     getRouterGuardStatus(state){
       return state.routerGuardStatus;
+    },
+    getOverlayStatus(state){
+      return state.overlayStatus;
     },
   }
 };

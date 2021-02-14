@@ -1,5 +1,5 @@
 <template>
-    <v-app>
+    <v-app :style="{backgroundImage: 'url('+ app_config.img_api +')', backgroundSize: 'cover',backgroundRepeat:'no-repeat'}">
         <v-main>
             <v-container
                 class="fill-height"
@@ -119,6 +119,10 @@
                     }
                 });
             }
+        },computed:{
+            app_config(){
+                return this.$store.getters.getApp;
+            },
         }
     }
 </script>

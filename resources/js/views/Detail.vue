@@ -5,7 +5,8 @@
                 <v-card>
                     <v-img
                         height="250px"
-                        :src="article.thumb"
+                        :src="app_config.img_api"
+                        :lazy-src="app_config.img_lazy_api"
                     >
                         <v-row
                             class=" ma-0"
@@ -84,6 +85,20 @@
         data: () => ({
         }),
         created() {
+            this.$store.dispatch('openOverlay');
+            this.$watch(
+                function () { // 第一个函数就是处理你要监听的属性，只要将其return出去就行
+                    return this.$store.getters.getArticleLoadStatus();
+                },
+                function (old, valold) {
+                    if(this.$store.getters.getArticleLoadStatus() == 2 ){
+                        this.$nextTick(function(){
+                            /*现在数据已经渲染完毕*/
+                            this.$store.dispatch('closeOverlay');
+                        })
+                    }
+                }
+            )
             this.$store.dispatch('loadArticle',{
                 id : this.$route.params.id
             });
@@ -91,6 +106,9 @@
         computed:{
             article(){
                 return this.$store.getters.getArticle;
+            },
+            app_config(){
+                return this.$store.getters.getApp;
             },
         },
         methods:{

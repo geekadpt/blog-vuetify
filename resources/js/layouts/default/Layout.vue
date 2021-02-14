@@ -13,6 +13,8 @@
     <default-notification />
 
     <default-router-guard />
+
+    <default-overlay />
   </v-app>
 </template>
 
@@ -45,10 +47,14 @@
           /* webpackChunkName: "default-notification" */
         '../../components/Notification'
       ),
-        DefaultRouterGuard: () => import(
-            /* webpackChunkName: "default-router-guard" */
-            '../../components/RouterGuard'
-            ),
+      DefaultRouterGuard: () => import(
+         /* webpackChunkName: "default-router-guard" */
+         '../../components/RouterGuard'
+      ),
+      DefaultOverlay: () => import(
+         /* webpackChunkName: "default-router-guard" */
+         '../../components/Overlay'
+      ),
     },
       created() {
             //console.log(localStorage.getItem('Authorization'));

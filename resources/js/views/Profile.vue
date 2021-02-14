@@ -4,6 +4,7 @@
         <v-col cols="12">
             <v-card
                 color="blue-grey darken-1"
+                :style="{backgroundImage: 'url('+ app_config.img_api +')', backgroundSize: 'cover',backgroundRepeat:'no-repeat'}"
                 dark
                 :loading="isUpdating"
                 :height="height"
@@ -11,19 +12,22 @@
                 <template v-slot:progress>
                     <v-progress-linear
                         absolute
-                        color="green lighten-3"
+                        color="transparent"
                         height="4"
                         indeterminate
                     ></v-progress-linear>
                 </template>
-                <v-img
-                    height="200"
-                    src="https://api.vvhan.com/api/acgimg"
-                >
-                    <v-row>
+<!--                <v-img-->
+<!--                    height="200"-->
+<!--                    :src="app_config.img_api"-->
+<!--                    :lazy-src="app_config.img_lazy_api"-->
+<!--                >-->
+                    <v-row
+                    >
                         <v-col
                             class="text-right"
                             cols="12"
+
                         >
                             <v-menu
                                 bottom
@@ -61,7 +65,6 @@
                             </v-col>
                         </v-row>
                     </v-row>
-                </v-img>
                 <v-form>
                     <v-container>
                         <v-row>
@@ -225,11 +228,30 @@
             user(){
                 return this.$store.getters.getMyInfo;
             },
+            app_config(){
+                return this.$store.getters.getApp;
+            },
         },
         created() {
+            this.$store.dispatch('openOverlay');
+            this.$watch(
+                function () { // 第一个函数就是处理你要监听的属性，只要将其return出去就行
+                    return this.$store.getters.getMyInfoStatus();
+                },
+                function (old, valold) {
+                    if(this.$store.getters.getMyInfoStatus() == 2 ){
+                        this.$nextTick(function(){
+                            /*现在数据已经渲染完毕*/
+                            this.$store.dispatch('closeOverlay');
+                        })
+                    }
+                }
+            )
             var my_info = this.$store.getters.getMyInfo;
             this.profile.nickname = my_info.nickname;
             this.profile.introduction = my_info.introduction;
+        },mounted() {
+            this.$store.dispatch('closeOverlay');
         }
     }
 </script>

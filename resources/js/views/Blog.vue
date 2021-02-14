@@ -11,7 +11,7 @@
                                :key="i">
                             <v-col
                                 cols="12"
-                                class="hidden-md-only col-md-4 px-0"
+                                class="col-md-4 px-0"
                             >
                                 <template>
                                     <v-hover>
@@ -21,7 +21,7 @@
                                             >
                                                 <v-img
                                                     :src="item.thumb+'?'+item.id"
-                                                    lazy-src="https://picsum.photos/10/6?image=20"
+                                                    :lazy-src="app_config.img_lazy_api"
                                                     aspect-ratio="1"
                                                     class="grey lighten-2 align-end white--text"
                                                     height="245"
@@ -245,16 +245,16 @@
                     </v-container>
                     <div
                          v-if="nomore"
-                         align="center"
-                         justify="center"
                     >
-                            <v-icon
-                                large
-                                left
-                            >
-                                mdi-twitter
-                            </v-icon>
-                            <span class="title font-weight-light text-one-line" >没有更多了!</span>
+                        <v-alert
+                            color="cyan"
+                            border="left"
+                            elevation="2"
+                            colored-border
+                            icon="mdi-twitter"
+                        >
+                            很高兴你翻到这里，但是真的没有了...
+                        </v-alert>
                     </div>
                     <v-card v-for="n in 10" v-if="skeleton_loader">
                         <v-skeleton-loader
@@ -275,7 +275,7 @@
 <!--                >-->
 <!--                    <default-tag-cloud/>-->
 <!--                </v-card>-->
-                <default-app></default-app>
+                <default-description/>
                 <default-tag-cloud-all/>
                 <default-log/>
             </v-col>
@@ -307,9 +307,9 @@
                 /* webpackChunkName: "default-tag-clouds" */
                 './widgets/TagCloudAll'
                 ),
-            DefaultApp: () => import(
+            DefaultDescription: () => import(
                 /* webpackChunkName: "default-app" */
-                './widgets/App'
+                './widgets/Description'
                 ),
             DefaultLog: () => import(
                 /* webpackChunkName: "default-app" */
@@ -319,7 +319,6 @@
 
         data: () => ({
             offsetTop: 0,
-            nomore:false,
             skeleton_loader:false,
 
             fav: true,
@@ -340,12 +339,14 @@
             jumpCategory(id){
                 this.$router.push({path:'/categories/'+id+'/blog'});
             },
-            addArticles (entries, observer) {
-                // More information about these options
-                // is located here: https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
-                if(this.$store.getters.getArticles == '')
+            addArticles () {
+                this.skeleton_loader = true;
+                if(this.$store.getters.getArticles == ''){
+                    this.skeleton_loader = false;
                     return;
+                }
                 if(this.$store.getters.getArticles.meta.current_page < this.$store.getters.getArticles.meta.last_page){
+                    console.log(this.skeleton_loader);
                     if(this.$route.params.tag_id){
                         this.$store.dispatch('indexTagArticles',{
                             tag:this.$route.params.tag_id,
@@ -372,8 +373,8 @@
                     }
                 }else{
                     console.log('没有内容了！');
-                    this.nomore = true;
                 }
+                this.skeleton_loader = false;
             },
             toTop(){
                 this.$vuetify.goTo(this.$refs.index,{
@@ -383,11 +384,37 @@
             },
         },
         computed:{
+            nomore(){
+                if(this.$store.getters.getArticles){
+                    return (!(this.$store.getters.getArticles.meta.current_page < this.$store.getters.getArticles.meta.last_page));
+                }else{
+                    return true;
+                }
+            },
             articles(){
                 return this.$store.getters.getArticles.data;
             },
+            app_config(){
+                return this.$store.getters.getApp;
+            }
         },
         created() {
+            this.$store.dispatch('openOverlay');
+            this.skeleton_loader = true;
+            this.$watch(
+                function () { // 第一个函数就是处理你要监听的属性，只要将其return出去就行
+                    return this.$store.getters.getArticlesLoadStatus();
+                },
+                function (old, valold) {
+                    if(this.$store.getters.getArticlesLoadStatus() == 2){
+                        this.$nextTick(function(){
+                            this.skeleton_loader = false;
+                            /*现在数据已经渲染完毕*/
+                            this.$store.dispatch('closeOverlay');
+                        })
+                    }
+                }
+            )
             this.$store.dispatch('initArticlesStatus');
             if(this.$route.params.tag_id){
                 this.$store.dispatch('indexTagArticles',{
@@ -414,18 +441,6 @@
                     page:1
                 });
             }
-            this.$watch(
-                function () { // 第一个函数就是处理你要监听的属性，只要将其return出去就行
-                    return this.$store.getters.getArticlesLoadStatus();
-                },
-                function (old, valold) {
-                    if(this.$store.getters.getArticlesLoadStatus() == 1){
-                        this.skeleton_loader = true;
-                    }else{
-                        this.skeleton_loader = false;
-                    }
-                }
-            )
         },
         mounted(){
             let _this = this;

@@ -38,7 +38,7 @@
                             <v-icon right
                                     dark
                             >mdi-book-open-blank-variant  </v-icon>
-                            <span class="subheading mr-2">本文共{{article.view_count++}}次阅读</span>
+                            <span class="subheading mr-2">本文共{{article.view_count?article.view_count++:0}}次阅读</span>
 
 
 
@@ -84,9 +84,6 @@
         data: () => ({
         }),
         created() {
-            this.$store.dispatch('patchUpdateViewCount',{
-                id:this.$route.params.id
-            });
             this.$store.dispatch('loadArticle',{
                 id : this.$route.params.id
             });
@@ -105,6 +102,10 @@
             },
         },destroyed() {
             this.$store.dispatch('initArticleStatus');
+        },mounted() {
+            this.$store.dispatch('patchUpdateViewCount',{
+                id:this.$route.params.id
+            });
         }
     }
 </script>

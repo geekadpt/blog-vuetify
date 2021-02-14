@@ -5,6 +5,8 @@
     color="secondary"
     hide-details
     style="max-width: 220px"
+    v-model="content"
+    @keyup.enter.native="search"
   >
     <template
       v-if="$vuetify.breakpoint.mdAndUp"
@@ -17,6 +19,7 @@
         elevation="2"
         height="44"
         width="44"
+        @click="search"
       >
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
@@ -25,7 +28,19 @@
 </template>
 
 <script>
+  import { EventBus } from '../../../event-bus.js';
   export default {
-    name: 'DefaultSearch',
+      name: 'DefaultSearch',
+      data: () => ({
+          content:'',
+      }),
+      methods:{
+          search(){
+              console.log(this.content)
+              if(this.content) {
+                  this.$router.push({path: '/blog/search/' + this.content});
+              }
+          }
+      }
   }
 </script>

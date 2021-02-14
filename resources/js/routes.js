@@ -104,6 +104,11 @@ export default new VueRouter({
           components: Vue.component( 'categories_blog', require( './views/Blog' ) ),
         },
         {
+          path: 'blog/search/:blog_search',
+          name: '搜索博客',
+          components: Vue.component( 'blog.search', require( './views/Blog' ) ),
+        },
+        {
           path: 'detail/:id',
           name: '文章详情',
           components: Vue.component( 'detail', require( './views/Detail' ) ),

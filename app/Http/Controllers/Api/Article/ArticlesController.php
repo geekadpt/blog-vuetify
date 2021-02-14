@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Article;
 
 use App\Http\Requests\Api\Article\ArticleRequest;
+use App\Http\Requests\Api\Article\ArticleSearchRequest;
 use App\Http\Requests\Api\Article\ArticleViewCountRequest;
 use App\Http\Resources\ArticleResource;
 use App\Models\Archive;
@@ -93,5 +94,37 @@ class ArticlesController extends Controller
         $article = Article::find($request->id);
         $article->view_count++;
         $article->save();
+    }
+    public function searchIndex(ArticleSearchRequest $request)
+    {
+        // 创建一个查询构造器
+        $builder = Article::query()->where('target', 0);
+        // 判断是否有提交 search 参数，如果有就赋值给 $search 变量
+        // search 参数用来模糊搜索商品
+        if ($search = $request->search) {
+            $like = '%'.$search.'%';
+            // 模糊搜索商品标题、商品详情、SKU 标题、SKU描述
+            $builder->where(function ($query) use ($like) {
+                $query->where('title', 'like', $like)
+                    ->orWhere('excerpt', 'like', $like);
+            });
+        }
+
+        // 是否有提交 order 参数，如果有就赋值给 $order 变量
+        // order 参数用来控制商品的排序规则
+//        if ($order = $request->input('order', '')) {
+//            // 是否是以 _asc 或者 _desc 结尾
+//            if (preg_match('/^(.+)_(asc|desc)$/', $order, $m)) {
+//                // 如果字符串的开头是这 3 个字符串之一，说明是一个合法的排序值
+//                if (in_array($m[1], ['reply_count', 'view_count'])) {
+//                    // 根据传入的排序值来构造排序参数
+//                    $builder->orderBy($m[1], $m[2]);
+//                }
+//            }
+//        }
+        $order = '';
+        $articles = $builder->withOrder($order)->paginate(10);
+
+        return ArticleResource::collection($articles);
     }
 }

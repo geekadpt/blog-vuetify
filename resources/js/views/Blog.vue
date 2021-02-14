@@ -356,7 +356,13 @@
                             order:'hot',
                             page: this.$store.getters.getArticles.meta.current_page+1
                         });
-                    }else{
+                    }else if(this.$route.params.blog_search){
+                        this.$store.dispatch('indexCategoryArticles',{
+                            search : this.$route.params.blog_search,
+                            page: this.$store.getters.getArticles.meta.current_page+1
+                        });
+                    }
+                    else{
                         this.$store.dispatch('indexArticles',{
                             order:'hot',
                             page: this.$store.getters.getArticles.meta.current_page+1
@@ -392,6 +398,11 @@
                     category : this.$route.params.category_id,
                     order:'hot',
                     page:1
+                });
+            }
+            else if(this.$route.params.blog_search){
+                this.$store.dispatch('searchArticles',{
+                    search : this.$route.params.blog_search,
                 });
             }
             else{

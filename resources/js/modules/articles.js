@@ -169,15 +169,60 @@ export const articles = {
           });
       },
       patchUpdateViewCount({commit},data){
-        commit('setUpdateViewCountStatus',1);
+        commit('setArticleUpdateStatus',1);
         ArticlesAPI.patchArticleViewCount(data)
           .then(function (response){
-            commit('setUpdateViewCountStatus',2);
+            commit('setArticleUpdateStatus',2);
           })
           .catch(function(error){
-            commit('setUpdateViewCountStatus',3);
+            commit('setArticleUpdateStatus',3);
           });
       },
+      searchArticles({commit,state},data ){
+        commit('setArticlesLoadStatus',1);
+        ArticlesAPI.searchArticles(data)
+          .then(function (response) {
+            commit('setArticlesLoadStatus', 2);
+            //console.log(state.articles);
+            if(state.articles){
+              const original_articles = state.articles;
+              console.log(original_articles.data);
+              console.log(response.data);
+              // for(var i = original_articles.data.length-1; i>=0 ; i--){
+              //   response.data.unshift(original_articles.data[i]);
+              // }
+              for(var i = 0; i < response.data.length ; i++){
+                original_articles.data.push(response.data[i]);
+              }
+              original_articles.meta = response.meta;
+              original_articles.links = response.links;
+              //merge_articles.data.concat(response.data);
+              console.log(response.data);
+              commit('setArticles',original_articles);
+            }else{
+              commit('setArticles',response);
+            }
+          })
+          .catch(function (error){
+            commit('setArticlesLoadStatus', 3);
+          });
+      },
+      // searchArticles({commit,state},data){
+      //   commit('setArticlesSearchStatus',1);
+      //   ArticlesAPI.searchArticles(data)
+      //     .then(function (response) {
+      //       if(state.articles.data !== undefined){
+      //         var merge_data = state.articles.data.concat(response.data.data);
+      //         response.data.data = merge_data;
+      //         commit('setArticles',response.data);
+      //       }
+      //       commit('setArticles',response.data);
+      //       commit('setArticlesSearchStatus',2);
+      //     })
+      //     .catch(function (error){
+      //       commit('setArticlesSearchStatus', 3);
+      //     });
+      // },
     },
     mutations:{
         setArticlesLoadStatus(state,status){
@@ -245,5 +290,10 @@ export const articles = {
             return state.articleUpdateStatus;
           }
         },
+        getArticlesSearchStatus(state){
+          return function () {
+            return state.articleSearchStatus;
+          }
+        }
     }
 };

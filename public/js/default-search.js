@@ -11,6 +11,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _event_bus_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../event-bus.js */ "./resources/js/event-bus.js");
 //
 //
 //
@@ -37,8 +38,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'DefaultSearch'
+  name: 'DefaultSearch',
+  data: function data() {
+    return {
+      content: ''
+    };
+  },
+  methods: {
+    search: function search() {
+      console.log(this.content);
+
+      if (this.content) {
+        this.$router.push({
+          path: '/blog/search/' + this.content
+        });
+      }
+    }
+  }
 });
 
 /***/ }),
@@ -135,6 +156,17 @@ var render = function() {
     staticClass: "mr-16",
     staticStyle: { "max-width": "220px" },
     attrs: { placeholder: "Search", color: "secondary", "hide-details": "" },
+    nativeOn: {
+      keyup: function($event) {
+        if (
+          !$event.type.indexOf("key") &&
+          _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+        ) {
+          return null
+        }
+        return _vm.search($event)
+      }
+    },
     scopedSlots: _vm._u(
       [
         _vm.$vuetify.breakpoint.mdAndUp
@@ -152,7 +184,8 @@ var render = function() {
                         elevation: "2",
                         height: "44",
                         width: "44"
-                      }
+                      },
+                      on: { click: _vm.search }
                     },
                     [_c("v-icon", [_vm._v("mdi-magnify")])],
                     1
@@ -165,7 +198,14 @@ var render = function() {
       ],
       null,
       true
-    )
+    ),
+    model: {
+      value: _vm.content,
+      callback: function($$v) {
+        _vm.content = $$v
+      },
+      expression: "content"
+    }
   })
 }
 var staticRenderFns = []

@@ -71,4 +71,9 @@ export default {
         tag:data.tag
       });
     },
+    patchArticleViewCount: function (data) {
+      return patch(APP_CONFIG.API_URL + 'articles/view_count',{
+          id:data.id,
+      });
+    },
 }

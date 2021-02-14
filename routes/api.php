@@ -47,6 +47,9 @@ Route::prefix('v1')
             //获取文章详情
             Route::post('articles', [ArticlesController::class, 'show']) ->name('api.articles.show');
 
+            //获取文章详情
+            Route::patch('articles/view_count', [ArticlesController::class, 'updateViewCount']) ->name('api.articles.update_view_count');
+
             Route::get('tags', [TagsController::class, 'index'])
                 ->name('tags.index');
 

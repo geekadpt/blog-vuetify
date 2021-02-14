@@ -168,6 +168,16 @@ export const articles = {
             commit('setArticlesLoadStatus', 3);
           });
       },
+      patchUpdateViewCount({commit},data){
+        commit('setUpdateViewCountStatus',1);
+        ArticlesAPI.patchArticleViewCount(data)
+          .then(function (response){
+            commit('setUpdateViewCountStatus',2);
+          })
+          .catch(function(error){
+            commit('setUpdateViewCountStatus',3);
+          });
+      },
     },
     mutations:{
         setArticlesLoadStatus(state,status){
@@ -201,6 +211,9 @@ export const articles = {
         setArticle(state,article){
           state.article = article;
         },
+        setArticleUpdateStatus(state,status){
+          state.articleUpdateStatus = status;
+        },
     },
     getters:{
         getArticles(state){
@@ -225,6 +238,11 @@ export const articles = {
         getArticleLoadStatus(state){
           return function(){
             return state.articleLoadStatus;
+          }
+        },
+        getArticleUpdateStatus(state){
+          return function() {
+            return state.articleUpdateStatus;
           }
         },
     }

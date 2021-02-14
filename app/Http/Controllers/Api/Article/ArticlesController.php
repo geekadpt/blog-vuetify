@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Article;
 
 use App\Http\Requests\Api\Article\ArticleRequest;
+use App\Http\Requests\Api\Article\ArticleViewCountRequest;
 use App\Http\Resources\ArticleResource;
 use App\Models\Archive;
 use App\Models\Article;
@@ -85,5 +86,12 @@ class ArticlesController extends Controller
     public function show(ArticleRequest $request)
     {
         return new ArticleResource(Article::find($request->id));
+    }
+
+    public function updateViewCount(ArticleViewCountRequest $request)
+    {
+        $article = Article::find($request->id);
+        $article->view_count++;
+        $article->save();
     }
 }

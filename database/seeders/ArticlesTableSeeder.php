@@ -15,6 +15,6 @@ class ArticlesTableSeeder extends Seeder
     public function run()
     {
         //
-        Article::factory()->count(30)->create();
+        Article::factory()->count(60)->create();
     }
 }

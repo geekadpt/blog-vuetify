@@ -5,7 +5,7 @@
                 <v-card>
                     <v-img
                         height="250px"
-                        :src="app_config.img_api"
+                        :src="app_config.img_api+'?'+article.id"
                         :lazy-src="app_config.img_lazy_api"
                     >
                         <v-row

@@ -11,9 +11,17 @@
                 >
                     <template>
                         <v-card
-                            class="col-md-4 col-12"
+                            class="col-md-4 col-12 ma-0 pa-0"
                             max-width="500"
-                        >
+                            :loading="loading"
+                        > <template v-slot:progress>
+                            <v-progress-linear
+                                absolute
+                                color="blue lighten-1"
+                                height="4"
+                                indeterminate
+                            ></v-progress-linear>
+                        </template>
                             <v-card-title class="title font-weight-regular justify-space-between">
                                 <span>{{$t('m.login.title')}}</span>
                                 <v-avatar
@@ -61,6 +69,7 @@
                                     color="primary"
                                     depressed
                                     @click="login"
+                                    :loading="loading"
                                 >
                                     {{$t('m.login.login')}}
                                 </v-btn>
@@ -84,10 +93,12 @@
             loginForm:{
                 username:'',
                 password:'',
-            }
+            },
+            loading:false,
         }),
         methods:{
             login(){
+                this.loading = true;
                 this.$store.dispatch('login', {
                     username: this.loginForm.username,
                     password: this.loginForm.password,
@@ -103,19 +114,21 @@
                                 }else{
                                     this.$router.push({path:this.$store.getters.getBeforeLoginRoute});
                                 }
+                                this.loading = false;
                             }
                             if (this.$store.getters.getMyInfoStatus() === 3) {
                                 EventBus.$emit('open-message', {
                                     text: this.$store.getters.getLoginErrors
                                 });
+                                this.loading = false;
                             }
                         });
-
                     }
                     if (this.$store.getters.getLoginStatus() === 3) {
                         EventBus.$emit('open-message', {
                             text: this.$store.getters.getLoginErrors
                         });
+                        this.loading = false;
                     }
                 });
             }

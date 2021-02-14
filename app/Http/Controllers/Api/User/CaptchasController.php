@@ -21,7 +21,6 @@ class CaptchasController extends Controller
 
         $result = [
             'captcha_key' => $key,
-            'code' => $code,
             'expired_at' => $expiredAt->toDateTimeString(),
             'captcha_image_content' => $captcha->inline()
         ];

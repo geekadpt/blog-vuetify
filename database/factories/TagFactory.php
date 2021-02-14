@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\ArticleMapTag;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TagFactory extends Factory
@@ -21,13 +23,12 @@ class TagFactory extends Factory
      */
     public function definition()
     {
-        $colors = ['green', 'purple', 'indigo', 'cyan', 'teal', 'orange'];
         return [
-            'user_id' =>$this->faker->randomElement([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
-            'color' =>$this->faker->randomElement($colors),
-            'name' => $this->faker->colorName,
+            'user_id' =>'',
+            'color' =>'',
+            'name' => '',
             'num' => 0,
-            'href' => config("app.APP_URL").'/'.$this->faker->randomElement([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).'/articles',
+            'href' => '',
         ];
     }
 }

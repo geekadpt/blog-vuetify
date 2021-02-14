@@ -56,10 +56,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "tagcloud",
   data: function data() {
     return {
+      conTop: {
+        backgroundImage: 'url(' + this.$store.getters.getApp.img_tags_cosmic + ')',
+        //backgroundRepeat: 'repeat-y',
+        backgroundSize: '100% 85%',
+        backgroundPosition: 'left 0 top 64px'
+      },
       // tagList: [],
       radius: 120,
       dtr: Math.PI / 180,
@@ -415,6 +422,9 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     tagList: function tagList() {
       return this.$store.getters.getTags;
+    },
+    app_config: function app_config() {
+      return this.$store.getters.getApp;
     }
   }
 });
@@ -583,7 +593,7 @@ var render = function() {
     [
       _c(
         "v-card",
-        { attrs: { outlined: "", tile: "", height: "350" } },
+        { style: _vm.conTop, attrs: { outlined: "", tile: "", height: "400" } },
         [
           _c("v-card-title", [_vm._v("标签云")]),
           _vm._v(" "),

@@ -30,7 +30,8 @@
         <v-card
             outlined
             tile
-            height="350"
+            height="400"
+            :style="conTop"
         >
             <v-card-title>标签云</v-card-title>
             <v-divider class="mx-4"></v-divider>
@@ -48,6 +49,12 @@
         name: "tagcloud",
         data() {
             return {
+                conTop: {
+                    backgroundImage: 'url('+ this.$store.getters.getApp.img_tags_cosmic +')',
+                    //backgroundRepeat: 'repeat-y',
+                    backgroundSize:'100% 85%',
+                    backgroundPosition:'left 0 top 64px'
+                },
                 // tagList: [],
                 radius: 120,
                 dtr: Math.PI / 180,
@@ -304,6 +311,9 @@
         computed:{
             tagList(){
                 return this.$store.getters.getTags
+            },
+            app_config(){
+                return this.$store.getters.getApp;
             },
         }
     }

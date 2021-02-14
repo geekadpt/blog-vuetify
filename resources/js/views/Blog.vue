@@ -20,7 +20,7 @@
                                                 class="ma-0 pa-0"
                                             >
                                                 <v-img
-                                                    :src="item.thumb+'?'+item.id"
+                                                    :src="app_config.img_api+'?'+item.id"
                                                     :lazy-src="app_config.img_lazy_api"
                                                     aspect-ratio="1"
                                                     class="grey lighten-2 align-end white--text"
@@ -346,7 +346,6 @@
                     return;
                 }
                 if(this.$store.getters.getArticles.meta.current_page < this.$store.getters.getArticles.meta.last_page){
-                    console.log(this.skeleton_loader);
                     if(this.$route.params.tag_id){
                         this.$store.dispatch('indexTagArticles',{
                             tag:this.$route.params.tag_id,
@@ -372,9 +371,9 @@
                         });
                     }
                 }else{
+                    this.skeleton_loader = false;
                     console.log('没有内容了！');
                 }
-                this.skeleton_loader = false;
             },
             toTop(){
                 this.$vuetify.goTo(this.$refs.index,{

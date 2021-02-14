@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -31,8 +32,8 @@ class UserFactory extends Factory
             'https://cdn.learnku.com/uploads/images/201710/14/1/NDnzMutoxX.png',
         ];
         return [
-            'username' => $this->faker->unique()->name,
-            'nickname' => $this->faker->name,
+            'username' => $this->faker->unique()->firstName,
+            'nickname' => $this->faker->firstName,
             'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),
             'password' => bcrypt('123456'), // password

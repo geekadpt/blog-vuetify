@@ -12,7 +12,7 @@
                 <template v-slot:progress>
                     <v-progress-linear
                         absolute
-                        color="transparent"
+                        color="blue lighten-1"
                         height="4"
                         indeterminate
                     ></v-progress-linear>
@@ -219,9 +219,6 @@
                         }
                     });
                 }
-
-
-
             }
         },
         computed:{

@@ -15,24 +15,31 @@ export const app = {
         description:'Blog-Vuetify是由 Larave8 + Vue2 + Vuetify2 开发的前后端分离的单页面博客类 Web 应用。',
         img_api:'https://unsplash.it/1600/900?random',
         img_lazy_api:'https://cdn.vuetifyjs.com/images/parallax/material.jpg',
+        img_tags_cosmic:'https://blog-vuetify.oss-cn-beijing.aliyuncs.com/app/images/tag_cloud_bg/cosmic'+Math.floor(Math.random()*5)+'.gif',
         logs: [
           {
             from: '洛辛',
-            message: '新增日志卡片部件',
+            message: 'App配置背景图片Api',
             time: '5:42pm',
             color: 'blue lighten-1',
           },
           {
-            from: '洛寻',
-            message: '新增网站介绍卡片部件',
+            from: '吴淰',
+            message: '3D球形标签云',
             time: '3:07pm',
             color: 'green',
           },
           {
-            from: 'Locyin',
-            message: '完成博客搜索功能',
+            from: '天眼',
+            message: '安装配置v-md-editor',
             time: '9:47am',
             color: 'deep-purple lighten-1',
+          },
+          {
+            from: '饭团',
+            message: '骨架装载器',
+            time: '6:47am',
+            color: 'cyan lighten-1',
           },
         ],
     },
@@ -89,7 +96,7 @@ export const app = {
       gradients:
         'rgba(0, 0, 0, .7), rgba(0, 0, 0, .7)',
       images:
-        'https://demos.creative-tim.com/material-dashboard-pro/assets/img/sidebar-3.jpg',
+        'https://unsplash.it/800/1600?random',
       notifications: [],
       rtl: false,
     },

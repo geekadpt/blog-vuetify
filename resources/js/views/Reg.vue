@@ -11,9 +11,17 @@
                 >
                     <template>
                         <v-card
-                            class="col-md-4 col-12"
+                            class="col-md-4 col-12 ma-0 pa-0"
                             max-width="500"
-                        >
+                            :loading="loading"
+                        > <template v-slot:progress>
+                            <v-progress-linear
+                                absolute
+                                color="blue lighten-1"
+                                height="4"
+                                indeterminate
+                            ></v-progress-linear>
+                        </template>
                             <v-card-title class="title font-weight-regular justify-space-between">
                                 <span>{{ currentTitle }}</span>
                                 <v-avatar
@@ -44,6 +52,7 @@
                                             max-height="50"
                                             max-width="150"
                                             :src="captcha"
+                                            @click="refreshCaptcha"
                                         ></v-img>
                                         <v-text-field
                                             :label="$t('m.register.captcha')"
@@ -121,6 +130,7 @@
                                     color="primary"
                                     depressed
                                     @click="next"
+                                    :loading="loading"
                                 >
                                     {{$t('m.register.next')}}
                                 </v-btn>
@@ -129,6 +139,7 @@
                                         v-show = "step === 4"
                                         color="primary"
                                         depressed
+                                        :loading="loading"
                                     >
                                         {{$t('m.register.login')}}
                                     </v-btn>
@@ -157,7 +168,8 @@
                 verificationCode: '',
                 username:'',
                 password:''
-            }
+            },
+            loading:false
         }),
 
         computed: {
@@ -181,6 +193,7 @@
         },
         methods:{
             next(){
+                this.loading = true;
                 switch (this.step) {
                     case 1:
                         this.$store.dispatch('sendCaptchas',{
@@ -191,11 +204,13 @@
                                 if(this.step === 1){
                                     ++this.step;
                                 }
+                                this.loading = false;
                             }
                             if (this.$store.getters.getCaptchasSendStatus() === 3) {
                                 EventBus.$emit('open-message', {
                                     text: this.$store.getters.getCaptchasSendErrors
                                 });
+                                this.loading = false;
                             }
                         });
                         break;
@@ -212,11 +227,16 @@
                                 if(this.step === 2){
                                     ++this.step;
                                 }
+                                this.loading = false;
                             }
                             if (this.$store.getters.getVerificationCodesSendStatus() === 3) {
+                                this.$store.dispatch('sendCaptchas',{
+                                    phone: this.registerForm.phone,
+                                });
                                 EventBus.$emit('open-message', {
                                     text: this.$store.getters.getVerificationCodesSendErrors
                                 });
+                                this.loading = false;
                             }
                         });
                         break;
@@ -232,11 +252,13 @@
                                 if(this.step === 3){
                                     ++this.step;
                                 }
+                                this.loading = false;
                             }
                             if (this.$store.getters.getRegisterStatus() === 3) {
                                 EventBus.$emit('open-message', {
                                     text: this.$store.getters.getRegisterErrors
                                 });
+                                this.loading = false;
                             }
                         });
                         break;
@@ -245,6 +267,11 @@
                     default:
                         break;
                 }
+            }
+            ,refreshCaptcha(){
+                this.$store.dispatch('sendCaptchas',{
+                    phone: this.registerForm.phone,
+                });
             }
         }
     }

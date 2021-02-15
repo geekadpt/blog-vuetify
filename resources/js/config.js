@@ -3,9 +3,9 @@ var app_url = '';
 var cdn_url = '';
 switch( process.env.NODE_ENV ){
   case 'development':
-    api_url = 'http://blog.locyin.com/api/v1/';
-    app_url = 'http://blog.locyin.com/';
-    cdn_url = 'http://blog.locyin.com/';
+    api_url = 'http://blog.luoxun.com/api/v1/';
+    app_url = 'http://blog.luoxun.com/';
+    cdn_url = 'http://blog.luoxun.com/';
     break;
   case 'production':
     api_url = 'https://blog.locyin.com/api/v1/';

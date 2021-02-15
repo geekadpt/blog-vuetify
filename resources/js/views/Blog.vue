@@ -37,10 +37,10 @@
                                                             align="center"
                                                             justify="center"
                                                         >
-                                                            <v-progress-circular
-                                                                indeterminate
-                                                                color="grey lighten-5"
-                                                            ></v-progress-circular>
+<!--                                                            <v-progress-circular-->
+<!--                                                                indeterminate-->
+<!--                                                                color="grey lighten-5"-->
+<!--                                                            ></v-progress-circular>-->
                                                         </v-row>>
                                                     </template>
                                                 </v-img>

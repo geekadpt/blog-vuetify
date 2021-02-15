@@ -18,4 +18,7 @@
   position: fixed;
   margin: 0 0 16px 16px;
 }
+.v-image__image--preload{
+  filter:none!important;
+}
 

@@ -8,10 +8,11 @@
                 <template>
                     <v-container>
                         <v-row v-for="(item, i) in articles"
-                               :key="i">
+                               :key="i"
+                               >
                             <v-col
                                 cols="12"
-                                class="col-md-4 px-0"
+                                class="col-md-4 pa-0 mb-0 mb-sm-2 mb-md-2 mb-lg-2"
                             >
                                 <template>
                                     <v-hover>
@@ -72,11 +73,11 @@
                             </v-col>
                             <v-col
                                 cols="12"
-                                class="col-md-8 px-0"
+                                class="col-md-8 pa-0 mb-2"
                             >
                                 <v-card  class="pa-0 ma-0" height="245">
                                     <router-link tag="span" :to="{name:'文章详情',params: {id:item.id}}"   >
-                                        <v-card-title>
+                                        <v-card-title class="hidden-sm-and-down">
                                             <v-icon
                                                 large
                                                 left

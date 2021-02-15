@@ -39,7 +39,7 @@
                             <v-icon right
                                     dark
                             >mdi-book-open-blank-variant  </v-icon>
-                            <span class="subheading mr-2">本文共{{article.view_count?article.view_count++:0}}次阅读</span>
+                            <span class="subheading mr-2">本文共{{article.view_count}}次阅读</span>
 
 
 
@@ -82,8 +82,7 @@
 </template>
 <script>
     export default {
-        data: () => ({
-        }),
+        name:'Detail',
         created() {
             this.$store.dispatch('openOverlay');
             this.$watch(

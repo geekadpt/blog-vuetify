@@ -23,7 +23,11 @@ export const articles = {
         articlesPublishErrors:'',
 
         article: {
-          user:''
+          user: {
+            username:'',
+            avatar:'',
+          },
+          view_count:0,
         },
         articleLoadStatus:0,
 

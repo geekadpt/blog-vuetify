@@ -14,7 +14,7 @@ export const app = {
         title:'Blog-Vuetify',
         description:'Blog-Vuetify是由 Larave8 + Vue2 + Vuetify2 开发的前后端分离的单页面博客类 Web 应用。',
         img_api:'https://unsplash.it/1600/900?random',
-        img_lazy_api:'https://cdn.vuetifyjs.com/images/parallax/material.jpg',
+        img_lazy_api:'https://blog-vuetify.oss-cn-beijing.aliyuncs.com/app/images/app/orange.progress-bar-stripe-loader.svg',
         img_tags_cosmic:'https://blog-vuetify.oss-cn-beijing.aliyuncs.com/app/images/tag_cloud_bg/cosmic'+Math.floor(Math.random()*5)+'.gif',
         logs: [
           {

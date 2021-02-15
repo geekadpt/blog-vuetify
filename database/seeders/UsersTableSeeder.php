@@ -24,7 +24,7 @@ class UsersTableSeeder extends Seeder
         $user->email = 'locyin@163.com';
         $user->phone = '18404300662';
         $user->username = 'locyin';
-        $user->avatar = 'http://blog.locyin.com//images/vmd.svg';
+        $user->avatar = 'https://blog-vuetify.oss-cn-beijing.aliyuncs.com/app/images/app/vmd.svg';
         $user->save();
     }
 }

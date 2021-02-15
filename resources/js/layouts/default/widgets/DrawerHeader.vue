@@ -25,7 +25,7 @@
       data () {
           return {
               //src: APP_CONFIG.CDN_URL + 'images/vmd.svg'
-              src:APP_CONFIG.CDN_URL + require('../../../assets/vmd.svg').default
+              src:"https://blog-vuetify.oss-cn-beijing.aliyuncs.com/app/images/app/vmd.svg"
           }
       },
     computed: {
@@ -36,8 +36,5 @@
             return this.$store.getters.getApp;
         }
     },
-      created() {
-        console.log(require('../../../assets/vmd.svg').default);
-      }
   }
 </script>

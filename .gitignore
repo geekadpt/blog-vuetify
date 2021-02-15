@@ -13,3 +13,8 @@ npm-debug.log
 yarn-error.log
 .idea
 .user.ini
+package-lock.json
+public/.well-known/
+public/js/*.js
+public/js/app.js.LICENSE.txt
+

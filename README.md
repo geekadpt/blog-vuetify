@@ -1,12 +1,14 @@
 
 ## 关于 Blog-Vuetify-v1.0
 
-Blog-Vuetify是由 Larave8 + Vue2 + Vuetify2 开发的前后端分离的单页面博客类 Web 应用。
+Blog-Vuetify 是由 Laravel8 + Vue2 + Vuetify2 开发的前后端分离的单页面博客类 Web 应用。
 
 
 ## 特性
- - 3D标签云
+
+- 3D标签云
 - v-md-editor Markdown 编辑器
+- 无限懒加载
 - 骨架装载器
 - 全屏背景图片
 - 阿里云短信
@@ -17,6 +19,7 @@ Blog-Vuetify是由 Larave8 + Vue2 + Vuetify2 开发的前后端分离的单页�
 - vue-i18n 国际化
 
 ## 截图
+
 ![首页视图](https://img-blog.csdnimg.cn/20210215163951988.png)
 
 ![个人资料](https://img-blog.csdnimg.cn/20210215162957278.png)
@@ -24,11 +27,13 @@ Blog-Vuetify是由 Larave8 + Vue2 + Vuetify2 开发的前后端分离的单页�
 ![登录视图](https://img-blog.csdnimg.cn/2021021516291229.png)
 ![v-md-editor](https://img-blog.csdnimg.cn/20210215164310779.png)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/img_convert/15b5fe3c1c6beb4b65a0b308c698f298.gif#pic_center)
+
 ## Demo
 
  - [blog.locyin.com](https://blog.locyin.com)
 
 ## 安装
+
  - composer install
  - npm install
  - vim resources/js/config.js 
@@ -41,6 +46,7 @@ Blog-Vuetify是由 Larave8 + Vue2 + Vuetify2 开发的前后端分离的单页�
  - php artisan up
 
 ## 项目结构
+
 - app
   - Console/Kernel.php ------------------------------------------------------包含应用所有自定义的 Artisan 命令
   - app/Exceptions   ----------------------------------------------------------自定义异常处理
@@ -80,6 +86,7 @@ Blog-Vuetify是由 Larave8 + Vue2 + Vuetify2 开发的前后端分离的单页�
       - md_editor.js-------------------------------------------------- v-md-editor 配置文件
   - views
       - app.blade.php -------------------------------------------------- 客户端挂载视图
+
 想了解更多 [Laravel 文件夹结构？](https://learnku.com/docs/laravel/8.x/structure/9356)请看[ Laravel 8 中文文档](https://learnku.com/docs/laravel/8.x)
 
 ## License
